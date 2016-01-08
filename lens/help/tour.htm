@@ -1,0 +1,199 @@
+<html>
+<head>
+<title>phpLens manual: A Quick Tour</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000">
+<p align=center><font size=2><a href=index.htm>Table of Contents</a></font></p>
+<h2>A Quick Tour</h2>
+<h3>About phpLens</h3>
+PhpLens is all about working smart and reusing your code. 
+It makes database stuff that was hard to do in PHP easy. 
+We can prototype and design from the Web browser using the Grid Builder, 
+then generate the final PHP code.<p>
+On our Web site, the <a href=http://phplens.com/lens/faq/faq.php>FAQ system</a>
+ is built on MySQL phpLens; we did it from scratch in 5 minutes. Our 
+ <a href=http://phplens.com/lens/lensforum/topics.php?id=1&name=Technical+Support>support
+ forum</a> is a set of phpLens objects. Our 
+ <a href=http://phplens.com/lens/lensman/propall.htm>documentation system</a> is actually
+ a phpLens system. We have built e-commerce sites where all the data entry systems 
+ and the shopping cart was just phpLens and glue code.<p>
+<h3>Scripting</h3>
+<p>Here is the simplest phpLens script: (which we will explain in the <a href="script1.htm">Your 
+  First phpLens Script</a> section).</p>
+<pre>01:  &lt;?php
+02:  include('<font color="#0033CC">./phplens.inc.php</font>');
+03:  session_start();
+04:  $<font color="#990099">lens</font> = PHPLensPConnect('<font color="#0033CC">prodLens</font>', '<font color="#0033CC">select * from Products</font>',
+05:                        '<font color="#0033CC">mysql</font>', '<font color="#0033CC">localhost</font>', '<font color="#0033CC">userid</font>', '<font color="#0033CC">password</font>', '<font color="#0033CC">database</font>');
+06:  $<font color="#990099">lens</font>-&gt;Render();
+07:  $<font color="#990099">lens</font>-&gt;Close();
+08:  ?&gt;</pre>
+<p>This produces the following result:</p>
+<p>:<img src="img/prod.gif" width="594" height="298"></p>
+
+<h3>Dynamic Editing using Your Browser</h3>
+<p>One of the things that we all hate to do is uploading our files to the Web server.<p>
+PhpLens shortcuts the upload process. Dynamic editing allows you to edit your database in your Web browser. 
+The red <img src="img/editbtn.gif" width="14" height="13"> 
+<a href="tablesettings.htm">Edit phpLens Settings</a> icon allows you to configure 
+  global phpLens settings and <a href=gencode.htm>Generate PHP Code</a>.
+<p>
+You can also click the gray <img src="img/editcol.gif" width="14" height="13"> 
+  <a href="columnsettings.htm">Edit Column Settings</a> icons to configure settings 
+  specific to that column such as formating, charting (if the field is numeric), 
+  and cell colors. 
+<p>
+The two green <img src="img/edittab.gif" width="14" height="13"> 
+  <a href="visiblecolumns.htm">Edit Visible Columns</a> icons determine what columns 
+  are visible for the Grid and Details tables. Later in <a href="security.htm">Security</a> 
+  you will learn how to hide the Dynamic Edit icons to prevent visitors from modifying 
+  the settings.</p>
+ 
+<p>If you change any of the dynamic settings, you can regenerate your PHP code quickly
+by using the <a href=gencode.htm>Generate PHP Code</a> feature.
+  
+<h3>Grid Builder</h3>
+This builds your grids with a few mouse-clicks. No coding is required to use phpLens with
+the Grid Builder.<p>
+<img src=img/gridbuilder.gif>
+<p>
+  Just select your database and table from the top menu, and a data grid is created for the selected
+   table. You can dynamically edit the settings, then click on <b>Generate PHP Code </b>, create a new
+  .php file, and copy &amp; paste the generated code.<p> A real time saver because no typing
+  (except the .php file name) is required.
+  
+<h3>Parts of phpLens</h3>
+<p>Let's make sure you understand the terminology we are going to use for the 
+  rest of the manual. We can divide the above screen into the following areas:</p>
+<table width="400" border="1" cellspacing="2" cellpadding="2">
+  <tr> 
+    <td bgcolor="#666666"><font color="#FFFFFF">Top Caption</font></td>
+    <td bgcolor="#CCCCCC">Navigation Bar</td>
+  </tr>
+  <tr> 
+    <td colspan="2"> 
+      <table width="100%" border="1" cellspacing="2" cellpadding="2" height="100%">
+        <tr> 
+          <td bgcolor="#FFFFCC">
+            <div align="center">
+              <p>&nbsp;</p>
+              <p><b>phpLens Grid</b></p>
+              <p>&nbsp;</p>
+            </div>
+          </td>
+          <td width="24%">
+            <div align="center">
+              <p><b>Details</b></p>
+              </div>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td bgcolor="#666666"><font color="#FFFFFF">Bottom Caption</font></td>
+    <td bgcolor="#CCCCCC">Navigation Bar</td>
+  </tr>
+</table>
+<p>The Grid is the left table. Each record in the Grid is assigned a Record Number 
+  (RecNo is the short form). In the above picture, one of the records has been selected (RecNo 2), and 
+  the remaining fields of the selected record are shown in the Detail Table.</p>
+<table width="400" border="1" cellspacing="2" cellpadding="2">
+  <tr> 
+    <td bgcolor="#666666"><font color="#FFFFFF">Top Caption</font></td>
+    <td bgcolor="#CCCCCC">Navigation Bar</td>
+  </tr>
+  <tr> 
+    <td colspan="2">
+      <table width="100%" border="1" cellspacing="2" cellpadding="2" height="100%">
+        <tr> 
+          <td width="18%" bgcolor="#FFFFCC">RecNo</td>
+          <td width="34%" bgcolor="#FFFFCC">Column 1</td>
+          <td width="24%" bgcolor="#FFFFCC">Column 2</td>
+          <td rowspan="6" width="24%"><b>Details </b>for selected row (RecNo=2)</td>
+        </tr>
+        <tr> 
+          <td width="18%" bgcolor="beige" height="22">1</td>
+          <td width="34%" bgcolor="beige" height="22">&nbsp;</td>
+          <td width="24%" bgcolor="beige" height="22">&nbsp;</td>
+        </tr>
+        <tr> 
+          <td width="18%" bgcolor="#FFFF00" bordercolor="#000000"> 
+            <p>2 </p>
+            </td>
+          <td bgcolor="#FFFFFF"> 
+            <div align="center">(selected row)</div>
+          </td>
+          <td bgcolor="#FFFFFF">&nbsp;</td>
+        </tr>
+        <tr> 
+          <td width="18%" bgcolor="beige">3</td>
+          <td bgcolor="beige">&nbsp;</td>
+          <td bgcolor="beige">&nbsp;</td>
+        </tr>
+        <tr> 
+          <td width="18%" bgcolor="#FFFFFF">4</td>
+          <td width="34%" bgcolor="#FFFFFF">&nbsp;</td>
+          <td width="24%" bgcolor="#FFFFFF">&nbsp;</td>
+        </tr>
+        <tr> 
+          <td width="18%" bgcolor="beige">5</td>
+          <td width="34%" bgcolor="beige">&nbsp;</td>
+          <td width="24%" bgcolor="beige">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td bgcolor="#666666"><font color="#FFFFFF">Bottom Caption</font></td>
+    <td bgcolor="#CCCCCC">Navigation Bar</td>
+  </tr>
+</table>
+<p>You can scroll the data with the navigation bar, which provides:</p>
+<table width="100%" border="1" cellspacing="2" cellpadding="2">
+  <tr> 
+    <td width="5%" align="center"><img src="img/editbtn.gif" width="14" height="13"></td>
+    <td width="95%">Edit Table Settings. This allows you to modify settings such 
+      as colors and the SQL statement used to generate the data. A picture of 
+      a Table settings screen can be seen <a href="img/editcolors.gif">here</a>.</td>
+  </tr>
+  <tr> 
+    <td width="5%" align="center"><img src="img/begin.gif" width="20" height="20"></td>
+    <td width="95%">Scroll to beginning of records</td>
+  </tr>
+  <tr> 
+    <td width="5%" align="center"><img src="img/prev.gif" width="20" height="20"></td>
+    <td width="95%">Move to previous screen of records</td>
+  </tr>
+  <tr> 
+    <td width="5%" align="center"><img src="img/next.gif" width="20" height="20"></td>
+    <td width="95%">Move to next screen of records</td>
+  </tr>
+  <tr> 
+    <td width="5%" align="center"><img src="img/end.gif" width="20" height="20"></td>
+    <td width="95%">Scroll to end of records</td>
+  </tr>
+  <tr> 
+    <td width="5%" align="center"><img src="img/new.gif" width="21" height="20"></td>
+    <td width="95%">Create new record (only for Pro or better)</td>
+  </tr>
+  <tr> 
+    <td width="5%" align="center"><img src="img/filter.gif" width="20" height="20"></td>
+    <td width="95%">Filter or search for records. A picture of a filter screen 
+      can be seen <a href="img/search.gif">here</a>.</td>
+  </tr>
+  <tr>
+    <td width="5%" align="center"><img src="img/filterreset.gif" width="20" height="18"></td>
+    <td width="95%">Cancels a filter which prevents you from viewing all the records. 
+      Requires a filter to have been performed previously.</td>
+  </tr>
+</table>
+<h3>Terminology</h3>
+<p>We use the terms <i>columns</i> and <i>fields</i> interchangeably to mean table fields.
+ The terms search and filter are also interchangeable.</p>
+
+ 
+</body>
+</html>

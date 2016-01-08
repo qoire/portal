@@ -1,0 +1,9 @@
+RewriteEngine on
+Options +FollowSymlinks
+RewriteBase /
+RewriteRule index.html index.php
+RewriteRule crawler.html index.php?list=all
+
+# This rule conceals ?s in Article URLs
+RewriteRule	n(.*).html$ narr.php?id=$1
+

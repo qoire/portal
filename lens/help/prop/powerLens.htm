@@ -1,0 +1,82 @@
+<div align=center><a href=javascript:history.back(1)>Back</a></div>
+<html><head><title> powerLens</title></head>
+<body bgcolor=white>
+
+<table bgcolor=#C0C0C0 align=center border=0 cellspacing=0 cellpadding=1>
+<tr>
+
+
+<td valign=top>
+<TABLE COLS=1 width="100%"  BORDER=1 cellspacing=0 cellpadding=2 >
+<TR><TD colspan=1 bgcolor=black><font color=#F0F0F0 size=2>Table Cell formating</b></font></td></tr><TR bgcolor=white valign=top><TD><font size=2>
+<table border=0 cellspacing=0 width=100%>
+<tr><td bgcolor=papayawhip><font color=black size=+1><b>powerLens</b></font></td></tr>
+<tr><td bgcolor=white>Dynamicly change contents of cell<hr>You can reformat a field's data before displaying it in a HTML grid cell using powerLens. For example, if you have 2 columns, say firstname and surname you can combine them using:<br>
+<br>
+<code><font size=3>{firstname} {surname}</font></code><br>
+<br>
+If you want to have the surname first, with the firstname in italics:<br>
+<br>
+<code><font size=3>{surname}, <i>{firstname}</i></font></code><br>
+<br>
+If you want the surname in uppercase you can do so by executing PHP code.<br>
+<br>
+To execute PHP code, set the first character to an equals (=). This will treat all following text as PHP code. <br>
+<br>
+<code><font size=3>=strtoupper({surname}) . ", <i>" .{firstname} . "</i>"</font></code><br>
+<br>
+You can access also global variables using the $GLOBALS[] array, or  call PHP functions.<br>
+<br>
+<b>Empty Fields and NBSP</b><br>
+Sometimes you want to check if a field is empty/null. You cannot check by using <code><font size=3>if empty({column})</font></code> because all empty columns are set to   for display purposes. Nor can you compare <code><font size=3>if empty({column} == ' ')</font></code> because semi-colon <code>;</code> is used to separate column settings. <br>
+<br>
+We have defined a variable {NBSP} to represent  . So you can check if a field is empty using <code><font size=3>if ({column} == {NBSP})</font></code>. <br>
+<br>
+Similarly for formatting, when you want to add additional spaces between words: <br>
+<code><font size=3>Name: {NBSP} {Name}</font></code><br>
+<br>
+Lastly if you need to display an ISO entity, for example the bullet symbol (&#8226;) &#8226; you can use the {SEMICOLON} variable:<br>
+   "&#8226;{SEMICOLON}";<br>
+<br>
+If the field you are accessing is numeric, we automatically format the number with the thousand's separator. So if you have a column called {kg} and you want the raw unformated data, the raw data is available in the $_flds array. Note that the _flds array might be indexed by number, not by field name (depends on the database).<br>
+<br>
+<b>More Examples</b><br>
+<table width="95%" border="1">  <tr>  <td>     </td> <td><b>Description</b></td>  <td nowrap><b>PowerLens Code</b></td> </tr><tr valign="top">  <td>1</td> <td>Show column {c} as bold</td><td nowrap><code><b>{c}</b></code></td></tr><tr valign="top">  <td>2</td> <td>Capitalize first character of each word in column {c} using the PHP <i>ucwords</i>   function</td> <td nowrap><code>=ucwords({c})</code></td> </tr><tr valign="top"> <td>3</td><td>Combine 3 columns in one: {book}, {chapter}, {verse} so it will appear as <br>
+              [<b>Genesis</b> 2:3]</td>  <td nowrap><code>[<b>{book}</b> {chapter} : {verse}]</code></td>  </tr><tr valign="top">  <td>4</td><td>Create a hyperlink</td> <td nowrap><code><a href={linkpage}>{linktext}</a></code></td>  </tr></table><br>
+<b>Global Variables</b><br>
+The $GLOBALS[] array and $PHP_SELF are also accessible from a powerLens. See powerPrefix property.<br>
+<br>
+<b>Record Numbers </b><br>
+This is new to phpLens 1.2. Each row is assigned a record number and this can be obtained using the special {_RECNO_} variable. Useful for switching detail grids dynamically.  The currently selected row number is stored in {_HILITE_RECNO_}. <br>
+<br>
+<b>Complete List of Macro Variables</b><br>
+{NBSP} = '&nbsp;'<br>
+{SEMICOLON} = ';'	<br>
+{_HILITE_RECNO_} = current record number<br>
+{_LENSID_} = the phpLens object's id<br>
+{_ODDC_} = the odd row color<br>
+{_EVENC_} = the even row color<br>
+{_SELECTC_} = the hilite color for the current line<br>
+{_HASDETAILS_} = whether the detail grid is visible<br>
+<br>
+<b>See Also</b><br>
+See also <a href=colorLens.htm>colorLens</a>. The main difference between colorLens and powerLens is that powerLens can access any column in a record. ColorLens can only access the column being modified.<br>
+<br>
+Also see the <a href=inputTypeLens.htm>inputTypeLens</a> property to change the input type to checkbox, radio or submit buttons.<p><b>Syntax</b><br><code><font size=2># modify the firstname column to show both surname and firstname<br>
+$lens->powerLens = "FIRSTNAME^{surname}, {firstname}";<br>
+<br>
+# modifies firstname to show the surname in uppercase<br>
+$lens->powerLens = "FIRSTNAME^=strtoupper({surname})", <i>".{firstname}."</i>";</font></code><P> &nbsp;<font color=#C0C0C0>Free:No </font> &nbsp;<font color=#C04040><b>Basic:Yes</b></font> &nbsp;<font color=#C04040><b>Pro:Yes</b></font> &nbsp;<font color=#C04040><b>Advanced/Enterprise:Yes</b></font> &nbsp;<font color=#40A040><b>DynamicEdit:Yes</b></font>&nbsp;&nbsp; <font size=2 color=#808080>[Version 1.0]</font></p>
+</td></tr></table></font></TD></TR>
+
+</TABLE>
+
+</td>
+
+</tr>
+</table>
+</body>
+<!--
+  (c)2000-2001 Remistech Sdn Bhd. All rights reserved.
+  Generated: 2001-10-16 11:10
+-->

@@ -1,0 +1,45 @@
+<div align=center><a href=javascript:history.back(1)>Back</a></div>
+<html><head><title> sql</title></head>
+<body bgcolor=white>
+
+<table bgcolor=#C0C0C0 align=center border=0 cellspacing=0 cellpadding=1>
+<tr>
+
+
+<td valign=top>
+<TABLE COLS=1 width="100%"  BORDER=1 cellspacing=0 cellpadding=2 >
+<TR><TD colspan=1 bgcolor=black><font color=#F0F0F0 size=2>Essential</b></font></td></tr><TR bgcolor=white valign=top><TD><font size=2>
+<table border=0 cellspacing=0 width=100%>
+<tr><td bgcolor=papayawhip><font color=black size=+1><b>sql</b></font></td></tr>
+<tr><td bgcolor=white>Holds the SQL string sent to the database<hr>This property is also the 3rd parameter in the phpLens constructor. <br>
+<br>
+This SQL statement can be a SELECT statement or stored procedure.<br>
+<br>
+<b>Don't do this</b>: currently avoid using SELECT UNION statements, and do not place a limit on the rows returned yourself with SELECT TOP nrows from TABLE or SELECT * FROM TABLE LIMIT nrows.<br>
+<br>
+If you need to limit the number of rows returned, look in the phplens.inc.php file and you will see a constant defined:<br>
+<code><br>
+define ('PHPLENS_MAX_ROWS',99999999); // 9.9 million<br>
+</code><br>
+Redefine this constant to control the maximum records to return.<br>
+<br>
+In phpLens 1.1 onwards, you can access global PHP variables in the SQL if you prefix the SQL with = or %:<br>
+<br>
+=select * from table where col='$key'<br>
+=select * from table where id='$HTTP_COOKIE_VARS['key']'<br>
+=select * from {$country}codes<p><b>Syntax</b><br><code><font size=2>$lens = new phpLens($id,$DB,"=select * from \$table");<br>
+<br>
+$lens->sql = 'select * from catalog';</font></code><P> &nbsp;<font color=#C04040><b>Free:Yes</b></font> &nbsp;<font color=#C04040><b>Basic:Yes</b></font> &nbsp;<font color=#C04040><b>Pro:Yes</b></font> &nbsp;<font color=#C04040><b>Advanced/Enterprise:Yes</b></font> &nbsp;<font color=#40A040><b>DynamicEdit:Yes</b></font>&nbsp;&nbsp; <font size=2 color=#808080>[Version 1.0]</font></p>
+</td></tr></table></font></TD></TR>
+
+</TABLE>
+
+</td>
+
+</tr>
+</table>
+</body>
+<!--
+  (c)2000-2001 Remistech Sdn Bhd. All rights reserved.
+  Generated: 2001-10-16 11:10
+-->

@@ -1,0 +1,164 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<html>
+<head>
+	<title>phplens manual: Setup</title>
+</head>
+
+<body bgcolor=white>
+<p align=center><font size=2><a href=index.htm>Table of Contents</a></font></p>
+<h2>Setup Instructions</h2>
+<ol>
+  <li>These instructions assume that you are familiar with setting up your Web 
+    server, have access to a database such as MySQL, and you know how to install 
+    and code in PHP. 
+    <p> 
+  <li>You need PHP 4.0.3 or later and the free <a href=http://www.zend.com/store/products/zend-optimizer.php>Zend 
+    Optimizer</a> installed. 
+    <p> 
+  <li> To check whether the Optimizer is available, create a test.php file on 
+    your server with the following script: <i> </i> 
+    <pre>    <i>&lt;?php phpinfo();?></i></pre>
+    Run the script from your Web browser and check the output of test.php for 
+    the version number of PHP that the <i>Zend Optimizer</i> is installed. The 
+    following picture shows you what to search for: <br>
+    <br>
+    <div align="center"><img src="img/zendopt.gif" width="602" height="362"></div>
+    <p> 
+  <li>Make sure you have PHP4 sessions enabled. Check in the above phpinfo() output 
+    for the string <i><code>Session Support</code></i> and see if it is <i>enabled</i>. 
+    <p> 
+  <li>Unpack and move all the files so that you can access the files from <code>http://<i>yourserver</i>/php/phplens</code>. 
+    This means the <i>phplens-*.inc.php</i> files are in this directory. Make 
+    sure that that if you are using unzip or ftp that you use the <i>binary safe 
+    mode</i> otherwise the Zend encoded .php files will be corrupted. 
+    <p> 
+  <li>Create a database called <i>phplens</i> and then use the phplens.sql script 
+    to create the required tables. For Microsoft SQL Server use the <i>mssql.sql</i> 
+    file instead of phplens.sql.<br>
+    <a href=#mysql>MySQL</a> instructions. <a href=#postgres>PostgreSQL</a> instructions.
+	<a href=#oci8>Oracle oci8</a> instructions. 
+    <p> 
+  <li>Rename <i>phplens/config/sample-phplens.config.inc.php</i> to <i>phplens/config/phplens.config.inc.php</i>, 
+    then modify the file contents to match the above <i>phplens</i> database settings. 
+    This means modifying all the PHPLENS_SESS_* variables. Some <a href=#SESS>examples</a>. 
+    <p> Make sure that PHPLENS_PATH (in <i>.inc.php</i>) is set 
+      to URL path to the phplens directory (without trailing /). Eg: 
+    <pre><i>    $PHPLENS_PATH = "/php/phplens";</i></pre>
+    <p> 
+  <li>To test phpLens try <a href=../testphplens.php>testphplens.php</a>. Also see <a href=#debug>debugging</a> below. If this file is not found, try testtext.php, which is old name of this file. 
+    <p> 
+  <li>Try the <a href=../gridbuilder/index.php>Grid Builder</a>. With the Grid 
+    Builder you can quickly create a data grid for browsing and editing with a 
+    few mouse-clicks and then generate all the required PHP source code. Paste 
+    the code into a .php file and you have a working data grid. This is great 
+    time saver because no typing is required! 
+    <p> Read the <a href=../gridbuilder/confighelp.html>Grid Builder setup instructions</a> 
+      to add more databases to the Grid Builder. The Grid Builder also has a SQL 
+      query tool included. 
+</ol>
+<a name=debug></a>
+<h2>Debugging your Installation</h2>
+<p>We provide three debugging scripts:</p>
+<ul>
+<li><a href=../testzendopt.php>testzendopt.php</a> is an encoded file that tests 
+whether the Zend Optimizer is working correctly, running phpinfo() (see testzendopt.src.php for source).
+<li><a href=../testconfig.php>testconfig.php</a> tests to see if phplens.config.inc.php is
+properly setup. You can view the source code of this file.
+<li><a href=../testphplens.php>testphplens.php</a> tests to see if you can run phplens 
+using the text driver.  You can view the source code of this file.
+</ul>
+<a name=mysql></a><h3>MySQL Instructions</h3>
+<p>You can place the phpLens tables in an existing database or create a new database from the
+command line (assuming that MySQL is on localhost) with:</p>
+<pre>
+	mysqladmin create phplens
+</pre>
+<p>This will create a database named "phplens".</p>
+Create the phpLens table using the supplied <i>phplens.sql</i> file from the command line:
+<pre>
+	mysql phplens &lt; phplens.sql
+</pre>
+<p>where "phplens" is the name of your database. This completes the MySQL part of the installation.</p>
+
+<a name=postgres></a><h3>PostgreSQL Instructions</h3>
+ <p>You can place the phpLens tables in an existing database or create a new database from psql with:</p>
+<pre>
+	create database phplens;
+	\c phplens
+	\i phplens.sql
+	\q
+</pre>
+<p>This completes the PostgreSQL part of the installation.</p>
+
+<a name=oci8><h3>Oracle Oci8 Instructions</h3>
+Create the phpLens table using the supplied <i>oracle.sql</i> file from the command line:
+<pre>
+	sqlplus scott/tiger@connectstring
+	start /path/to/phplens/oracle.sql
+	quit
+</pre>
+<p>This completes the Oracle part of the installation.</p>
+
+<a name=sess></a>
+<h3>Sample PHPLENS_SESS_* Settings</h3>
+<p>When you use dynamic editing, we need to save your configuration changes 
+in a database. We store these changes in the phplens table you created in 
+the supplied phplens.sql file. The connection settings to connect to your 
+database are set in the following variables in phplens.config.inc.php:
+
+<p>Microsoft SQL Server example:
+<pre>
+	$PHPLENS_SESSION_DRIVER='mssql';
+	$PHPLENS_SESSION_CONNECT='mangrove';
+	$PHPLENS_SESSION_USER ='sa';
+	$PHPLENS_SESSION_PWD ='secret';		
+	$PHPLENS_SESSION_DB ='phplens_db';
+</pre>
+
+<p>MySql example:
+<pre>
+	$PHPLENS_SESSION_DRIVER='mysql';
+	$PHPLENS_SESSION_CONNECT='mangrove';
+	$PHPLENS_SESSION_USER ='root';
+	$PHPLENS_SESSION_PWD ='secret';		
+	$PHPLENS_SESSION_DB ='lensdb';
+</pre>
+
+<p>Postgres example:
+<pre>
+	$PHPLENS_SESSION_DRIVER='postgres';
+	$PHPLENS_SESSION_CONNECT='mangrove';
+	$PHPLENS_SESSION_USER ='root';
+	$PHPLENS_SESSION_PWD ='secret';		
+	$PHPLENS_SESSION_DB ='pglens';
+</pre>
+
+<p>ODBC example:
+<pre>
+	$PHPLENS_SESSION_DRIVER='odbc';
+	$PHPLENS_SESSION_CONNECT='DSN_name';
+	$PHPLENS_SESSION_USER ='root';
+	$PHPLENS_SESSION_PWD ='secret';
+	$PHPLENS_SESSION_DB =''; // not used
+</pre>
+
+<p>Oracle Oci8 example 1:
+<pre>
+	$PHPLENS_SESSION_DRIVER='oci8';
+	$PHPLENS_SESSION_CONNECT='';
+	$PHPLENS_SESSION_USER ='scott';
+	$PHPLENS_SESSION_PWD ='tiger';
+	$PHPLENS_SESSION_DB ='tnsname'; // TNSNAMES.ORA entry
+</pre>
+
+<p>Oracle Oci8 example 2:
+<pre>
+	$PHPLENS_SESSION_DRIVER='oci8';
+	$PHPLENS_SESSION_CONNECT='192.168.0.10'; // ip address of rdbms
+	$PHPLENS_SESSION_USER ='scott';
+	$PHPLENS_SESSION_PWD ='tiger';
+	$PHPLENS_SESSION_DB ='dbname'; // database name
+</pre>
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<html>
+<head>
+	<title>phpLens manual: LookupLens</title>
+</head>
+
+<body bgcolor=white>
+<p align=center><font size=2><a href=index.htm>Table of Contents</a></font></p>
+<h2>LookupLens</h2>
+Lookups are very useful concept in phpLens. There are available in the Basic, 
+Professional, Advanced and Enterprise versions. They allow you to remap codes 
+and display popup menus in the edit and new record screens. 
+<p>
+Some examples of usage are:
+<ul>
+  <li><b>Remapping popups</b>: You have a database field containing 2-letter US 
+    state codes, and you want to lookup and display the actual state names in 
+    a popup, but save the 2-letter codes in the database. 
+    
+  <li><b>Simple lookup popups</b>: When creating a record, you want the user to 
+    fill out the US state field by selecting from a popup. 
+  <li><b>Search Popups/Checkboxes</b>: When you click on the <img src=img/filter.gif >search 
+    icon in phpLens, you want to view a list of states as a popup or set of check 
+    boxes. 
+</ul>
+
+<h3>Remapping Popups</h3>
+Let's say you have a numeric field containing values 0 to 5 and
+ you want to remap the numbers 0 to zero, 1 to one, etc. So the database will store the 0,1...5, and 
+ the popup will show "zero,one,...,five".
+<p>
+Go to <img src=img/editcol.gif> column settings of the column you want to lookup. In the lookupLens
+text field, enter 
+<pre>
+=0/zero/1/one/2/two/3/three/4/four/5/five 
+</pre>
+<p>
+If you have a SQL table called <code>digits</code> containing the following fields:
+<p>
+<table cellspacing="2" cellpadding="2" border="1" align=center>
+<tr>
+    <td>num</td>
+    <td>val</td>
+</tr>
+<tr>
+    <td>0</td>
+    <td>zero</td>
+</tr>
+<tr>
+    <td>1</td>
+    <td>one</td>
+</tr>
+<tr>
+    <td>2</td>
+    <td>two</td>
+</tr>
+<tr>
+    <td>3</td>
+    <td>three</td>
+</tr>
+<tr>
+    <td>4</td>
+    <td>four</td>
+</tr>
+<tr>
+    <td>5</td>
+    <td>five</td>
+</tr>
+</table>
+<p>
+Then enter into the lookupLens field:
+<pre>
+select num, val from digits
+</pre>
+<p>
+Note there is no equals sign as the first line, indicating that we are using SQL. 
+The first column must always be the original value, and the second column the display value.
+<h3>Simple Lookup Popup</h3>
+This differs from the lookup examples above because we are not remapping from one column to
+another column.
+<p>
+Suppose we have a trading application that can handle 3 currencies: Euro, USD, and Yen. 
+We have a popup that allows the user to select currency. There is no remapping required,
+we will enter the value selected into the database.
+<p> We enter into the lookupLens field (note the double equals): 
+<pre>
+==Euro/USD/Yen
+</pre>
+<p>
+Similarly, if the info is stored in a database table called
+ <code>forex</code>, column <code>currency</code>:
+<pre>
+select distinct currency from forex
+</pre>
+<p>
+Note that we only need one column in the SQL statement because there is no remapping.
+<p>
+New to phpLens 1.2 is that the lookupLens supports PHP global variables in SQL statements.
+This is triggered by % as the first character (not = as that is used for text lookups).
+
+<h3>Search Popups and Checkboxes</h3>
+Go to the search screen and click on one of the <img src=img/editcol.gif> column settings. 
+The column settings screen for searching differs from the one used when editing or viewing
+column info.
+<p>
+The lookups for searching are independant from those used in editing and viewing. This
+makes it more flexible. 
+ <p>
+ <img src=img/filteroptions.gif>
+<p>
+In the example above you can see the edit/viewing lookupLens in the 3rd row 
+(this is not used in searching, it's there to help you formulate your Filter Options
+search criteria if you get stuck). 
+<i>Filter Options</i> will generate a popup for searching.
+ Just below it is an option to display the search column as a checkbox.
+
+</body>
+</html>

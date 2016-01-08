@@ -1,0 +1,460 @@
+<?
+// Function collection for Form Processor.
+
+function formproc_listall ($f_sql, $f_items, $f_tpl, $connection, $form_name)
+	{
+	// Run the query.
+	$query=$f_sql["select"];
+	
+	if (isset($query))
+		{
+		$rs=$connection->execute($query);
+		if ($rs === false) die("Failed to run query: ".$query);
+		}
+	else
+		{
+		die("Query is null.");
+		}
+	
+	// No print out a table of results with the standard controls.
+	
+	// Substitute the field titles into the table header template.
+	// First, start by assembling a substitution table.
+	foreach ($f_items as $item=>$property)
+		{
+		$patterns[]="/%%".$item."%%/";
+		$replace[]=$property["title"];
+		}
+	// Write out a table header:
+	echo "<table>";
+	
+	// And then apply and print the reg-exp substutution.
+	echo preg_replace($patterns, $replace, $f_tpl["header"]);
+	
+	// Free up patterns & Replace
+	$patterns= null;
+	$replace= null;
+		
+	$counter=0;
+	while (! $rs->EOF )
+        {
+		// Substitute the field values into the table row template.
+		
+		// Now, start by by assembling a substitutio table:
+		
+		foreach ($f_items as $item=>$property)
+			{
+			$patterns[]= "/%%".$item."%%/";
+			$replace[]= $rs->fields[$item];
+			
+			// Is this item the primary key? If so, we use it to define the tools links.
+			// Tools are Edit, Delete and Touch.
+			
+			if (1==$property["pri-key"])
+				{
+				// We have a primary key!
+				$patterns[]="/%%edit%%/";
+								
+				$replace[]=	"[<a href=\"formproc.php?form=".$form_name."&action=edit&id=".$rs->fields[$item]."\">E</a>]";
+				
+				"E]";
+				
+				/*
+				a href=\"formproc.php?form=".$form_name.
+							"&action=edit".
+							"&id=".$rs->fields[$item].
+							"&page=0".
+							"\">E</a>]";
+				*/
+				$patterns[]="/%%delete%%/";
+				$replace[]="[<a href=\"javascript:deleterecord('".
+								$form_name."', '".
+								$item."','".
+								$rs->fields[$item]."', '".
+								$rs->fields[$property["title_lookup"]]."')\">X</a>]";
+				
+				$patterns[]="/%%touch%%/";
+				$replace[]="[<a href=\"formproc.php?form=".$form_name."&action=touch\">T</a>]";
+				
+				}
+			}
+			
+		// And now apply the regexp replace to the template and then print it.
+		
+		echo preg_replace($patterns, $replace, $f_tpl["row"])."\n";
+		
+		$rs->MoveNext();
+        $counter ++;
+		
+		// Free up patterns & replace
+		$patterns= null;
+		$replace= null;
+		}
+	
+	// End of table
+	echo "</table>";
+	}
+	
+function formproc_showform($f_sql, $f_items, $f_tpl, $connection, $form_name, $key_val)
+	{
+	// Work out what page we are on
+	// If no page is defined then we are on page 0.
+	
+	if (!( isset($form_page)))
+		{
+		// Form page is not set, so assume 0.
+		$form_page=0;
+		}
+	else
+		{
+		// Form page is set, so it should contain a number.
+		// Later on, add some code to check that it is numeric.
+		}
+	
+	// If this is the first page then we need to run a query:
+	
+	if ($form_page==0)
+		{
+		// Form the query from the template.
+	
+		// First we have to identify the primary key.
+	
+		foreach ($f_items as $item=>$value)
+			{
+			// Is it a primary key?
+			if ($value["pri-key"]==1)
+				{
+				// Yes it is
+				
+				// Primary Key Name
+				$match[]="/%%primary%%/";
+				$replace[]=$item;
+				
+				// Primary Key Value
+				$match[]="/%%id%%/";
+				$replace[]=$key_val;
+								
+				echo "<!--Found Pri-Key $item = $key_val -->";
+				break;
+				}
+			}
+			// Substitute the values into the query template.
+			$query= preg_replace($match, $replace, $f_sql["select_one"]);
+			
+			// Debug Code.
+			//echo "Q:".$query ;
+			
+			// And now run the query!
+			$rs=$connection->execute($query);
+			
+			
+		}
+	// Step through the items creating the headings and fields in a table.
+	// Table Header
+	echo "<table>";
+	?><form method="post" action="formproc.php?action=submit&form=<?=$form_name ?>&id=<?=$key_val ?>"><?
+	
+	foreach ($f_items as $item=>$params)
+		{
+		// echo "<!--Found Item: Item= ".$item." Type= ".$params["style"]." -->";
+		switch ($params["style"])
+			{
+			case "input":
+				// Display a Single line text entry box.
+				echo "<tr><td>".$params["title"].":</td>";
+				echo "<td><input type=\"text\" size=\"".$params["size"]."\" name=\"".$item."\" value=\"".$rs->fields[$item]."\"></td></tr>";
+				break;
+			
+			case "static":
+				//Display a non-editable value.
+				echo "<tr><td>".$params["title"]."</td><td>".$rs->fields[$item]."<input type=\"hidden\" name=\"".$item."\" value=\"".$rs->fields[$item]."\"></td></tr>";
+				break;
+			
+			case "hidden":
+				// A hiden value, display nothing.
+				echo "<input type=\"hidden\" name=\"".$item."\" value=\"".$rs->fields[$item]."\">";
+				break;
+						
+			case "boolean":
+				// A checkbox.
+				break;
+			
+			case "option":
+				// Select a single option from a combo.
+				echo "<tr><td>".$params["title"]."</td><td>";
+				echo "\n<select name=\"".$item."\" >";
+				// Print out list of options
+				
+				// Values come from an SQL query, but first we need to form the query from the template.
+				
+				// Clear the holders.
+				$match=null;
+				$replace=null;
+				
+				$match[]="/%%id%%/";
+				$replace[]=$params["opt_key"];
+				
+				$match[]="/%%title%%/";
+				$replace[]=$params["opt_val"];
+				
+				$match[]="/%%table%%/";
+				$replace[]=$params["table"];
+
+				$rs2=$connection->execute(preg_replace($match, $replace, $params["list"]));
+				if ($rs2 == null)
+					{
+					die ("\n\nCould not list options for $item q=".$params["sql"]."\n\n");
+					}
+				// Step through the options
+				while ( ! ($rs2->EOF)  )
+					{
+					echo "\n<option value=\"".$rs2->fields[$params["opt_key"]]."\"";
+					
+					// Is this selected?
+					if ( $rs2->fields[$params["opt_key"]] == $rs->fields[$item])
+						{
+						// This must be the selected value.
+						echo " selected ";
+						}
+					
+					echo ">";
+					echo $rs2->fields[$params["opt_val"]];
+					echo "</option>\n";
+					$rs2->MoveNext();
+					}
+				
+			
+				echo "</select>\n";
+				echo "</td></tr>";
+				break;
+			
+			case "textarea":
+				// Displays a bigger input text box.
+				echo "<tr><td>".$params["title"]."</td>";
+				echo "<td><textarea name=\"".$item."\" rows=\"".$params["rows"]."\" cols=\"".$params["cols"]."\">";
+				echo $rs->fields[$item];
+				echo "</textarea></td>";
+				echo "</tr>";
+				break;
+			
+			case "explain":
+				// Displays body text
+				echo "<tr><td colspan=\"2\">".$params["title"]."</td></tr>";
+				break;
+			
+			}
+		}
+	?>
+	<tr><td></td><td><input type="submit" name="Submit" value="Submit">&nbsp;<input type="Reset"></td></tr>
+	<?
+	echo "</form>";
+	echo "</table>";
+	
+	}
+	
+function formproc_submit($f_sql, $f_items, $f_tpl, $connection, $form_name)
+	{
+	// Display values so that the user can confirm submit.
+	
+	?><table><form method="post" action="formproc.php?form=<?=$form_name?>&action=confirm">
+	<?
+	foreach ($f_items as $item=>$params)
+		{
+		echo "\n\n<!--$item ".$params["style"]." -->\n";
+		switch ($params["style"])
+			{
+			case "option":
+				// We have to look up the options's value.
+				
+				// Values come from an SQL query, but first we need to form the query from the template.
+				
+				// Clear the holders.
+				$match=null;
+				$replace=null;
+				
+				$match[]="/%%id%%/";
+				$replace[]=$params["opt_key"];
+				
+				$match[]="/%%title%%/";
+				$replace[]=$params["opt_val"];
+				
+				$match[]="/%%table%%/";
+				$replace[]=$params["table"];
+				
+				$match[]="/%%index%%/";
+				$replace[]=$_POST[$item];
+				
+				
+				/* This checks all the substitution codes.
+				// Debug code
+				foreach ($match as $key=>$pingu)
+					{
+					echo "\nMatch: $pingu Replace: ".$replace[$key]."\n";
+					}
+				*/
+				
+				$query=preg_replace($match, $replace, $params["lookup"]);
+				$rs3=$connection->execute($query);
+				
+				if ($rs3 == null)
+					{
+					die ("Could not list options for $item q=".$query );
+					}
+		
+				$lookup_result=$rs3->fields[$params["opt_val"]];
+				
+				echo "<tr><td>".$item.":</td><td>[<b>".$lookup_result."</b>]<input type=\"hidden\" name=\"".$item."\" value=\"".$_POST[$item]."\"></td></tr>";
+				
+				break;
+				
+			case "explain":
+				// We dont bother with these.
+			
+			case "boolean":
+				// Not yet implemented.
+				break;
+					
+			case "textarea":
+			case "input":
+			case "static":
+				echo "<tr><td>".$params["title"].":</td><td>".$_POST[$item];
+				echo "<input type=\"hidden\" name=\"".$item."\" value=\"".$_POST[$item]."\">";
+				echo "</td></tr>";
+				break;
+				
+			case "hidden":
+				echo "<input type=\"hidden\" name=\"".$item."\" value=\"".$_POST[$item]."\">";
+				break;
+			}
+		}
+	?>
+	<tr><td>Press the button to update this record:</td><td><input name="submit" value="submit" type="submit"></td></tr>
+	
+	</form></table><?
+	
+	}
+
+function formproc_confirm($f_sql, $f_items, $f_tpl, $connection, $form_name)
+	{
+	// Writes the actual values to the database and displays a confirmation screen with some kind of feedback.
+	
+	// This function reads in all the values from f_items, and identifies all the records that do not
+	// have nodbwrite.
+	
+	$name_value_pairs = "";
+	$counter = 0;
+	
+	foreach ($f_items as $item=>$params)
+		{
+		// First of all, if we have found the key, then do something special with it.
+		if ($params["pri-key"]==1)
+			{
+			// This is a primary key.
+			$match[]="/%%primary%%/";
+			$replace[]=$item;
+			
+			$match[]="/%%id%%/";
+			$replace[]=$_POST[$item];
+			}
+		else
+			{
+		
+			if ($params["nodbwrite"]==1)
+				{
+				// We skip this value, because we have been
+				// requested not to write it by config file.
+				}
+			else
+				{
+				// Build up pairs of names & values.
+				
+				// In SQL we need to seperate name-value pairs with commas.
+				
+
+				
+				// See if this is a style of thingamy that needs to be written into the DB!
+				switch ($params["style"])
+					{
+					// These are all styles that must be written back to the DB.
+					case "option":
+					case "input":
+					case "boolean":
+					case "textarea":
+						
+						// Since we will be adding another name value pair, we had better
+						// Add a comma if we have been round this part of the loop at least once.
+						
+						if ($counter > 0)
+							{
+							$name_value_pairs .=",";
+							}
+							
+						// if this is a character type then we need to enclose it in single-quotes
+						switch ($params["type"])
+						{
+							case "number":
+								$name_value_pairs .= " ". $item . "=" .$_POST["$item"];
+							break;
+					
+							case "character":
+								$name_value_pairs .= " ". $item . "='" .addslashes($_POST["$item"])."'";
+							break;
+						}
+						$counter ++;
+					break;
+					
+					case "static":
+					case "hidden":
+					case "explain":
+					// These styles are never written back to the db.
+
+					}
+				}
+			}
+		}
+	// echo $name_value_pairs;
+	// Then it tries to build up an SQL query to so that it can incorporate the new data into the database.	
+	$match[]="/%%columns%%/";
+	$replace[]=$name_value_pairs;
+	
+	$query = preg_replace($match, $replace, $f_sql["update"]);
+	
+	// Run the query:
+	
+	if ($connection->execute($query))
+		{
+		Echo "Item updated";
+		}
+	else
+		{
+		die ("<b>Warning</b> - Update failed for $query");
+		}
+		
+	// The user can re-edit the data if they like, or view a list of similar entities in the database.
+	
+	// The user is shown a 800 x 300 preview of a page in an iFrame to show the results.
+	
+	
+	}
+	
+function formproc_delete()
+	{
+	
+	}
+?>
+
+<script language=javascript>
+
+function deleterecord(form_name, key_name, key_value, record_title)
+	{
+	var rows=new Array();
+	
+	// From PHP, generate 
+	
+	if ( confirm ("Do you want to delete \""+record_title+"\" ( "+key_name+"="+key_value+" ) ?") )
+		{
+		
+		}
+	}
+
+</script>

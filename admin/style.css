@@ -1,0 +1,116 @@
+<style type="text/css">
+<!--
+body          {font-family: helvetica, arial, geneva, sans-serif; font-size: smaller; color: #000000}
+p          {font-family: helvetica, arial, geneva, sans-serif; font-size: smaller; color: #000000}
+pre, tt       {font-size: small}
+th            {font-family: helvetica, arial, geneva, sans-serif; font-size: small; font-weight: bold; background-color: #D3DCE3}
+td            {font-family: helvetica, arial, geneva, sans-serif; font-size: small}
+form          {font-family: helvetica, arial, geneva, sans-serif; font-size: small}
+input         {font-family: helvetica, arial, geneva, sans-serif; font-size: small; color: #000000}
+select        {font-family: helvetica, arial, geneva, sans-serif; font-size: small; color: #000000}
+textarea      {font-family: helvetica, arial, geneva, sans-serif; font-size: small; color: #000000}
+h1            {font-family: helvetica, arial, geneva, sans-serif; font-size: large; font-weight: bold}
+A:link        {font-family: helvetica, arial, geneva, sans-serif; font-size: small; text-decoration: none; color: #0000ff}
+A:visited     {font-family: helvetica, arial, geneva, sans-serif; font-size: small; text-decoration: none; color: #0000ff}
+A:hover       {font-family: helvetica, arial, geneva, sans-serif; font-size: small; text-decoration: underline; color: #FF0000}
+A:link.nav    {font-family: helvetica, arial, geneva, sans-serif; color: #000000}
+A:visited.nav {font-family: helvetica, arial, geneva, sans-serif; color: #000000}
+A:hover.nav   {font-family: helvetica, arial, geneva, sans-serif; color: #FF0000}
+.nav          {font-family: helvetica, arial, geneva, sans-serif; color: #000000}
+.table_a	  {bgcolor: #eeeeee; }
+.table_b	  {bgcolor: #dddddd; }
+.rsample		{
+	font-family:verdana, ms sans serif, geneva, sans-serif;
+	text-align:right;
+	font-size:10px;
+	font-weight:normal;
+	color:#222222;
+	text-decoration:none;
+	}
+
+.row0		{ background-color: #bbbbff; }
+.row1		{ background-color: #ccccff; }
+.row2		{ background-color: #ddddff; }
+
+.lsample		{
+	font-family:verdana, ms sans serif, geneva, sans-serif;
+	text-align:right;
+	font-size:10px;
+	font-weight:normal;
+	color:#111111;
+	text-decoration:none;
+	}
+	
+.dots	{
+	font-family:verdana, ms sans serif, geneva, sans-serif;
+	text-align:right;
+	font-size:10px;
+	font-weight:normal;
+	color:red;
+	text-decoration:none;
+	}
+	
+TABLE.densetable {font-size: 80% ; }
+TR.summaryrow { font-size: 90%; background: #00FFFF ; }
+CAPTION {font-size: 100% ; }
+.embeddedfloat {float: right; margin-left: 3em}
+H1, H2, H3, H4, H5, H6 {font-family: Verdana, Arial, Helvetica, Geneva, SunSans-Regular, sans-serif ; }
+H4 {margin-bottom: 0.5em }
+H5, H6 {margin-bottom: 0.2em }
+UL.referencelist, .footnote {margin-left: 4em; text-indent: -4em ; font-size: 83%; font-family: Verdana, Arial, Helvetica, Geneva, SunSans-Regular, sans-serif; list-style: none ; }
+A:link, .simulatedlink {color: blue ; }
+A.old:link {color: #2222FF ; }
+A.new:link {color: #0000FF ; }
+A:visited {color: purple ; }
+A:active {color: red ; }
+A.notrecommended:link {color: #6666FF ; }
+A.notrecommended:visited {color: #CC66CC ; }
+A.deemphasized:link {color: #6666FF ; }
+A.deemphasized:visited {color: #CC66CC ; }
+.overline {font-family: Verdana, Arial, Helvetica, Geneva, SunSans-Regular, sans-serif; margin-bottom: -2ex ; }
+.updatecomment {font-size: 100%; background: #00FFFF ; }
+.outsidecomment {font-size: 100%; background: #E9E9E9 ; }
+.microtext {font-size: 10% ; }
+.useem {color: #CC0000 ;}
+.cssSmallGray        { font-size: xx-small; color: #999999;  }
+
+DIV.buttonborder {
+	BORDER-RIGHT: #3f7c5f 2px solid; BORDER-TOP: #3f7c5f 2px solid; BORDER-LEFT: #3f7c5f 2px solid; WIDTH: auto; BORDER-BOTTOM: #3f7c5f 2px solid
+}
+TABLE.internalborder {
+	BORDER-RIGHT: #999999 1px solid; BORDER-TOP: #999999 1px solid; BORDER-LEFT: #999999 1px solid; BORDER-BOTTOM: #999999 1px solid; BORDER-COLLAPSE: collapse
+}
+TD.internalborder {
+	BORDER-RIGHT: #bbbbbb 1px solid; PADDING-RIGHT: 1ex; BORDER-TOP: #bbbbbb 1px solid; PADDING-LEFT: 1ex; PADDING-BOTTOM: 1ex; BORDER-LEFT: #bbbbbb 1px solid; PADDING-TOP: 1ex; BORDER-BOTTOM: #bbbbbb 1px solid; BACKGROUND-COLOR: #f8f8f8
+}
+TH.internalborder {
+	BORDER-RIGHT: #e6f2e6 1px solid; PADDING-RIGHT: 1ex; BORDER-TOP: #e6f2e6 1px solid; PADDING-LEFT: 1ex; PADDING-BOTTOM: 1ex; BORDER-LEFT: #e6f2e6 1px solid; PADDING-TOP: 1ex; BORDER-BOTTOM: #e6f2e6 1px solid
+}
+TABLE.report {
+	BORDER-RIGHT: #3f7c5f 1px solid; BORDER-TOP: #3f7c5f 1px solid; BORDER-LEFT: #3f7c5f 1px solid; BORDER-BOTTOM: #3f7c5f 1px solid
+}
+TABLE.report TD {
+	BORDER-RIGHT: #e0e0e0 1px solid; BORDER-TOP: 0px; BORDER-LEFT: 0px; BORDER-BOTTOM: #d0d0d0 1px solid
+}
+TABLE.report TH {
+	BORDER-RIGHT: #e0e0e0 1px solid; BORDER-TOP: 0px; BORDER-LEFT: 0px; BORDER-BOTTOM: #d0d0d0 1px solid
+}
+TABLE.report TFOOT TD {
+	BORDER-BOTTOM: 0px
+}
+TABLE.report TFOOT TH {
+	BORDER-BOTTOM: 0px
+}
+TABLE.report THEAD TD {
+	BORDER-BOTTOM: 0px
+}
+TABLE.report THEAD TH {
+	BORDER-BOTTOM: 0px
+}
+TABLE.report TD.rightcolumn {
+	BORDER-RIGHT: 0px
+}
+TABLE.report TH.rightcolumn {
+	BORDER-RIGHT: 0px
+//-->
+</style>

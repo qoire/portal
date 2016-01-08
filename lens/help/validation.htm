@@ -1,0 +1,63 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<html>
+<head>
+	<title>Validation</title>
+</head>
+
+<body bgcolor=white>
+<p align=center><font size=2><a href=index.htm>Table of Contents</a></font></p>
+<h2> Validation</h2>
+<p>When you save a record, phpLens will automatically validate all fields based 
+  on the following criteiria. If the field has been defined as must fill field 
+  (using the mustFill property), the user is warned. If you require more detailed 
+  validation, we provide two ways of validating your data: Visual Basic style 
+  input mask, or Javascript validation.</p>
+<h3>Visual Basic Style Validation</h3>
+<table width="75%" border="1"><tr>   <td>X</td>   <td> 0-9 and A-Z, must exist</td>  </tr>  <tr>     <td>x</td> <td>0-9 and A-Z. This character is optional.</td>  </tr> <tr>     <td>#</td>    <td>0-9, must exist.</td></tr><tr> <td>9</td><td>0-9. This character is optional</td></tr><tr> <td>+</td><td>Positive numbers only</td></tr><tr> <td>&amp;</td><td>Any character, must exist</td></tr><tr> <td>?</td><td>Any character, optional</td></tr><tr> <td>\\\\</td><td>escape character</td></tr><tr> <td>&gt;</td><td> <p>Uppercase</p></td></tr><tr><td>&lt;</td><td>Lowercase</td></tr></table><br>
+<br>
+<b>Examples</b><br>
+<table width="75%" border="1">  <tr valign="top">  <td> Telephone numbers with no area code.<br>
+       7 digits must be filled, but some newer phone numbers have 8 digits, so make 1 character optional.<br>
+    </td> <td nowrap><code> 9###-####</code></td>  </tr>  <tr valign="top">     <td>Car part number with the format: 3 digit number, a hyphen followed by  a 3 or 4 letter code</td>    <td nowrap><code>###-XXXx</code></td>  </tr></table>
+<h3>
+  <br>
+  <b> Javascript Validation Functions</b></h3>
+<p> The first character must be the equals (=) character. All subsequent characters 
+  are treated as standard Javascript regular expression characters. <b>/</b><i>expr</i><b>/</b> 
+  delimiters are not required. For PHP programmers, Javascript regular expression 
+  syntax follows preg_match. Some examples follow:</p>
+<table width="75%" border="1"><tr> <td>Value must be either CAR or BOOK, case-insensitive. The $ at the end indicates that no further characters will be accepted.</td>    <td nowrap><code>([Cc][Aa][Rr])|([Bb][Oo][Oo][Kk])$</code></td></tr>  <tr>     <td>Value must begin with 'A' or 'a' followed by any other characters</td>    <td nowrap><code>[aA].*</code></td></tr></table>
+<p>
+  Remember that the regular expressions are case-sensitive.<br>
+  <br>
+  The second optional parameter is the error message on error.</p>
+<h4>Predefined Javascript Functions</h4>
+<p>The first character must be the equals (=) character. </p>
+<table width="75%" border="1">
+  <tr> 
+    <td><b>Description</b></td>
+    <td><b>Code</b></td>
+  </tr>
+  <tr> 
+    <td>To validate email of the form: <a   href="mailto:user@domain.com">user@domain.com</a  ></td>
+    <td><code>=EMAIL</code></td>
+  </tr>
+  <tr> 
+    <td>Credit cards (not available yet)</td>
+    <td><code>=CREDITCARD</code></td>
+  </tr>
+</table>
+<p>
+  To validate email a regular expression is used. This regular expression<br>
+  is defined as a constant called <code>PHPLENS_EMAIL_REGEX</code>. You can override 
+  it by defining this constant before phplens.inc.php is included in your main 
+  php file.<br>
+  <br>
+  The regular expression used is ugly but powerful: <code><font color=darkgreen>^(\\\\S+@).+((\\\\.com)|(\\\\.edu)|(\\\\.gov)|(\\\\.int)|(\\\\.mil)|(\\\\.net)|(\\\\.org)|(\\\\.info)|(\\\\.biz)|(\\\\.name)|(\\\\.pro)|(\\\\.museum)|(\\\\.coop)|(\\\\.aero)|(\\\\.[a-z]{2,2}))$</font></code></p>
+<p>This regular expression is defined as a constant in the phplens.inc.php file, 
+  and can be modified to suit your needs.<br>
+</p>
+<p>&nbsp; </p>
+</body>
+</html>

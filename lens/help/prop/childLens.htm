@@ -1,0 +1,76 @@
+<div align=center><a href=javascript:history.back(1)>Back</a></div>
+<html><head><title> childLens</title></head>
+<body bgcolor=white>
+
+<table bgcolor=#C0C0C0 align=center border=0 cellspacing=0 cellpadding=1>
+<tr>
+
+
+<td valign=top>
+<TABLE COLS=1 width="100%"  BORDER=1 cellspacing=0 cellpadding=2 >
+<TR><TD colspan=1 bgcolor=black><font color=#F0F0F0 size=2>Editing, Updating and Creating Records</b></font></td></tr><TR bgcolor=white valign=top><TD><font size=2>
+<table border=0 cellspacing=0 width=100%>
+<tr><td bgcolor=papayawhip><font color=black size=+1><b>childLens</b></font></td></tr>
+<tr><td bgcolor=white>Replaces the details grid with an editor to create/edit records<hr>This is called childLens because internally, it creates a second phpLens object(the child) to do the editing.<br>
+<br>
+Syntax:<br>
+<br>
+$lens->childLens = '{id of child phplens};editdetail;newdetail';<br>
+<br>
+The string <b>editdetail</b> is a constant that allows editing in the detail grid.<br>
+<br>
+The string <b>newdetail</b> is optional and will display the create new record screen in the detail grid when no record has been clicked on. The <b>editdetail</b> constant must also be set for <b>newdetail</b> to work.<br>
+<br>
+The id of the child phpLens should be a unique value that is not used by other phpLens objects.<p><b>Syntax</b><br><code><font size=2>Example 1: Simple Example<br>
+<font color=green><br>
+include_once('./phplens.inc.php');<br>
+session_start();<br>
+<br>
+$db = &ADONewConnection('mysql');<br>
+if (!$db->PConnect('localhost','root','','db')) print 'Error:'.$db->ErrorMsg();<br>
+$lens = new PHPLens('editdet',$db,' select * from  products order by 1 ');<br>
+<b>$lens->childLens = 'editdet2;editdetail';</b><br>
+$lens->canEdit = true;<br>
+$lens->canDelete = true;<br>
+$lens->canNew = true;<br>
+$lens->Render();<br>
+$lens->Close();<br>
+</font><br>
+<br>
+Example 2: You want to modify the child phplens object so the top border is green.<br>
+You will need to extend the Clone() method:<br>
+<font color=green><br>
+include_once('./phplens.inc.php');<br>
+session_start();<br>
+<br>
+class PhpLens2 extends PhpLens {<br>
+	function &Clone()<br>
+	{<br>
+		$lens = PhpLens::Clone();<br>
+		$lens->colorNavBorder  = 'green';<br>
+		return $lens;<br>
+	}<br>
+}<br>
+<br>
+$db = &ADONewConnection('mysql');<br>
+if (!$db->PConnect('localhost','root','','db')) print 'Error:'.$db->ErrorMsg();<br>
+$lens = new PHPLens2('editdt',$db,' select * from  products order by 1 ');<br>
+<b>$lens->childLens = 'editdt2;editdetail';</b><br>
+$lens->canEdit = true;<br>
+$lens->canDelete = true;<br>
+$lens->canNew = true;<br>
+$lens->Render();<br>
+$lens->Close();</font></code><P> &nbsp;<font color=#C0C0C0>Free:No </font> &nbsp;<font color=#C0C0C0>Basic:No </font> &nbsp;<font color=#C0C0C0>Pro:No </font> &nbsp;<font color=#C04040><b>Advanced/Enterprise:Yes</b></font> &nbsp;<font color=#40A040><b>DynamicEdit:Yes</b></font>&nbsp;&nbsp; <font size=2 color=#808080>[Version 1.2]</font></p>
+</td></tr></table></font></TD></TR>
+
+</TABLE>
+
+</td>
+
+</tr>
+</table>
+</body>
+<!--
+  (c)2000-2001 Remistech Sdn Bhd. All rights reserved.
+  Generated: 2001-10-16 11:10
+-->

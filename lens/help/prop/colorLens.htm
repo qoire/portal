@@ -1,0 +1,59 @@
+<div align=center><a href=javascript:history.back(1)>Back</a></div>
+<html><head><title> colorLens</title></head>
+<body bgcolor=white>
+
+<table bgcolor=#C0C0C0 align=center border=0 cellspacing=0 cellpadding=1>
+<tr>
+
+
+<td valign=top>
+<TABLE COLS=1 width="100%"  BORDER=1 cellspacing=0 cellpadding=2 >
+<TR><TD colspan=1 bgcolor=black><font color=#F0F0F0 size=2>Table Cell formating</b></font></td></tr><TR bgcolor=white valign=top><TD><font size=2>
+<table border=0 cellspacing=0 width=100%>
+<tr><td bgcolor=papayawhip><font color=black size=+1><b>colorLens</b></font></td></tr>
+<tr><td bgcolor=white>Dynamicly change color of column or cell, and column attributes too.<hr>You can use this property to enter a color such as 'white' or 'black', or use the numeric RGB values where #000000 and #FFFFFF is white.<br>
+<br>
+To set dynamic colors in your columns, set the first character to an equals (=), then you can use the PHP's ternary logical operator or your own pre-defined function to perform checks and comparisons. <br>
+<br>
+PHP has a nice way of allowing you to choose between multiple values in one line of code:<br>
+<code><font size=3>= (<i>expr</i>) ? <br>
+     "value if expr is true" : "value if expr is false"</font></code><br>
+<br>
+<br>
+An example is given a column named UnitsInStock, and we want to color the column red if the units are less than 10:<br>
+<code><font size=3>=({UnitsInStock} < 10)? "red" : ""</font></code><br>
+<br>
+You can also use any global variables defined in the $GLOBALS array. To access the value of the current column, say <i>ProductName</i>, use {<i>ProductName</i>}.<br>
+<br>
+The colorLens property can access any column in the current row using the {<i>columnname</i>} syntax just like the powerLens.<br>
+<br>
+<b>Additional Macro Variables Available</b><br>
+{NBSP} = ' '<br>
+{SEMICOLON} = ';'	<br>
+{_HILITE_RECNO_} = current record number<br>
+{_LENSID_} = the phpLens object's id<br>
+{_ODDC_} = the odd row color<br>
+{_EVENC_} = the even row color<br>
+{_SELECTC_} = the hilite color for the current line<br>
+{_HASDETAILS_} = whether the detail grid is visible<br>
+<br>
+<b>Changing Column Attributes</b><br>
+You can also change column widths with this property by taking advantage of a side-effect. Any attribute can be added to the TD tag using colorLens. See example in syntax. Note that setting the column width is discretionary. The browser can override this setting if it wants to.<p><b>Syntax</b><br><code><font size=2>$lens->colorLens = 'totals^yellow'; // color the totals column yellow<br>
+<br>
+$lens->colorLens = 'totals^yellow width=200px'; // ... sets the width too<br>
+<br>
+<br>
+$lens->colorLens = 'totals^yellow;name^#0000FF'; // and name is blue</font></code><P> &nbsp;<font color=#C0C0C0>Free:No </font> &nbsp;<font color=#C04040><b>Basic:Yes</b></font> &nbsp;<font color=#C04040><b>Pro:Yes</b></font> &nbsp;<font color=#C04040><b>Advanced/Enterprise:Yes</b></font> &nbsp;<font color=#40A040><b>DynamicEdit:Yes</b></font>&nbsp;&nbsp; <font size=2 color=#808080>[Version 1.0]</font></p>
+</td></tr></table></font></TD></TR>
+
+</TABLE>
+
+</td>
+
+</tr>
+</table>
+</body>
+<!--
+  (c)2000-2001 Remistech Sdn Bhd. All rights reserved.
+  Generated: 2001-10-16 11:10
+-->

@@ -1,0 +1,35 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<html>
+<head>
+	<title>Dynamic Editing with Global phpLens Settings</title>
+</head>
+
+<body bgcolor=white>
+<p align=center><font size=2><a href=index.htm>Table of Contents</a></font></p>
+<h2>Dynamic Editing with Global phpLens Settings</h2>
+The Dynamic editor allows you to modify global phpLens settings such as the colors 
+and the SQL statement to use. From the top left of the phpLens grid, click the 
+red <img src="img/editbtn.gif" width="14" height="13"> Edit phpLens Settings icon 
+to run the Dynamic Editor. This will bring you to the page shown below. At the 
+top of the page is the menu bar which allows you to move to different dynamic 
+editing screens. 
+<p><img src=img/editcolors.gif></p>
+Just below the menu is the global color settings. On the right is <b>Select Color Style</b> where you can
+choose from the preset Color Styles. You can also define your own color styles by adding new array entries 
+to the Javascript array PHPLENS_styles in <i>phplens/img/phplens-js.styles.js</i>.
+<p>
+<p>Below the color settings (not visible in above picture) you can set whether 
+  the records can be edited, deleted, or created, define the primary key and table 
+  to update, sort and date settings, and whether debugging information is turned 
+  on. Context sensitive help is available for most options.</p>
+<p>New to phpLens 1.2 is that the SQL and Key Table fields support PHP global variables if the first character
+in the field is =. For example, suppose you have multiple tables that hold postcodes for specific countries, eg:
+usacodes, japancodes, ukcodes, malaysiacodes. You can store the country in a global variable $COUNTRY and
+set the sql property to:
+<pre>
+=SELECT * FROM {$COUNTRY}CODES
+</pre>
+</p>
+</body>
+</html>

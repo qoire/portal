@@ -1,0 +1,248 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<html>
+<head>
+	<title>PhpLens ChangeLog 1.0 to 1.2</title>
+</head>
+
+<body bgcolor=white>
+<p align=center><font size=2><a href=index.htm>Table of Contents</a></font></p>
+<h1>PhpLens Changes 1.0 to 1.2</h1>
+<p>PhpLens 1.2 is backward compatible with phpLens 1.0 except for template handling 
+  (see point 15).</p>
+<p>A quick summary of major improvements would be</p>
+<ul>
+  <li>automatic row highlighting (rowColorLens property)</li>
+  <li>the ability to have the record editor in the detail grid (childLens property)</li>
+  <li>support for checkboxes, radio buttons, checkboxes and multiple select (listbox) 
+    in data entry forms</li>
+  <li>improved double-byte support.</li>
+</ul>
+<h3>Detailed Changelog</h3>
+<pre>
+1. Added <b>rowColorLens</b> property to set the color of the current row:
+<font color=green>
+# sets the color to red if PRICE is negative, otherwise use normal colors.
+$lens->rowColorLens = '= ({PRICE}<0) ? "red" : false ';
+</font>
+<p>
+There is a default rowColorLens installed now. The source code for the
+function it calls (LensRowColor) can be found in phplens.inc.php. Code contributed
+by Eric Grau.
+<p>
+Also added dynamic editor setting called (Child Editor) so you can decide 
+whether to enable record editing in the detail grid.
+<p>
+Also see point 3 for another example, coloring the currently selected row.
+
+
+2. The following properties support PHP global variables and 1-dimensional global
+arrays. Optional curly-brackets are usable:
+
+<i>Triggered by =</i>
+  <b>powerLens</b> - modify field columns
+  <b>sql</b> - sql statement
+  <b>keyTable</b> - table to update
+  
+<i>Triggered by % because = is used for text mappings</i>
+  <b>lookupLens</b> - mappings for popups, checkboxes, and submit & radio buttons
+
+Examples:
+<font color=green>
+$lens->keyTable = '<b>=</b>$table'; <i># get table name from variable $table</i>
+
+<i># dynamic table name</i>
+$lens->sql = '<b>=</b>select * from {$prefix}table';
+
+<i># get states from table usa_states, malaysia_states, etc depending on
+# the country...</i>
+$lens->lookupLens = 'state^<b>%</b>select statecodes from {$country}_states';
+
+<i># for lookuplens, if {$var} means from PHP globals, if {col} then from database</i>
+$lens->powerLens = 'URL^<b>=</b>{$HTTP_SERVER_VARS['HTTP_HOST']}://{PATH}'
+</font>
+
+3. Added <b>_HILITE_RECNO_</b> and <b>_RECNO_ </b>variables in powerLens and rowColorLens.
+Useful for telling phplens to drilldown from grid to detail view from an
+&lt;A> tag. Use {_HILITE_RECNO_} == {_RECNO_}  to find out if the current
+row is selected.
+
+Eg. We have a phpLens with $ID='abc', and we want to drilldown to the detail
+view (note: it uses the new global var support with $ID and $PHP_SELF):
+<font color=green>
+$lens->powerLens = 'Column^=&lt;a href=$PHP_SELF?lens_no_$ID={_RECNO_}>{Column}&lt;/a>';
+
+#hilite the current row
+$lens->rowColorLens = '={_RECNO_} == {_HILITE_RECNO_}? "#FFCCCC": false';
+</font>
+
+4. Property <b>powerEditLens</b> added. This allows you to modify the value of an field
+when editing an existing record. Useful for timestamping modifications. This differs 
+from defaultLens which only allows you to modify the field when creating a new record.
+
+For example to set the TimeModified and TimeCreated fields:
+<font color=green>
+$lens->readOnlyLens = 'TimeModified;TimeCreated';
+$lens->powerEditLens = 'TimeModified^=time()';
+$lens->defaultLens = 'TimeModified^=time();TimeCreated^=time()';
+ </font>
+This property can be edited from the dynamic editor.
+ 
+ 
+5. Added <b>inputTypeLens</b> property to support checkboxes, radio buttons and 
+submit buttons. Can be edited in dynamic editor. See 22 for support for multiple select.
+<font color=green>
+<i># choose 1 gender, and choose multiple hobbies</i>
+$lens->inputTypeLens = 'gender^radio;hobbies^checkbox';
+</font>
+
+6. Property <b>displaySep</b> added to hold the text used to separate checkbox items.
+Checkbox items are not stored in a separate child table, but as items in the current
+table, separated by this displaySep value (default is ', ').
+
+
+7. Save/Cancel buttons appear on both top/bottom navigation bars if the number of
+fields is greater than constant 'LENS_SHOW_TOP_MIN_ITEMS' in phplens.inc.php.
+
+
+8. Property <b>showCancel</b> to determine whether cancel button is displayed when
+editing records. Default is $lens->showCancel = true;
+
+
+9. Added == to lookupLens property. 
+
+There are 2 uses for lookupLens. First, for remapping (say 'CA' to 'California'),
+and the other is for displaying a popup selection. If you were using lookupLens with
+text lookup to implement a popup selection, in phpLens 1.0 you use:
+<font color=green>
+$lens->lookupLens = 'sports^==Football/Football/Squash/Squash/Tennis/Tennis';
+</font>
+Now we support a simplified lookupLens for this scenario using ==
+<font color=green>
+$lens->lookupLens = 'sports^=Football/Squash/Tennis';
+</font>
+
+10. Property <b>textAreaHeader</b> extended to support different textarea rows and cols 
+for different fields. The old syntax is still supported.
+<font color=green>
+$lens->textAreaHeader = 'field1^rows=10 cols=40;widefield^rows=3 cols=80';
+</font>
+
+11. The <b>sqlBind</b> property will cause variable binding to occur in SQL statements. 
+Currently supported by ODBC. Note this is still experimental in 1.2. Not guaranteed to work!
+
+$lens->sqlBind = true;
+
+
+12. Nested phpLens objects now work properly.
+
+
+13. Now if properties redirectOnInsert and redirectOnInsertCancel are set, then
+ no viewing of grid is allowed for security reasons.
+
+ 
+14. When viewing html text, phpLens will now convert https:// url's to anchor tags.
+
+ 
+15. Many template changes to support future phpLens improvements. Your macro input
+variables will have to be changed from {COLUMN_INPUT} to {COLUMN}. Also changed
+macro {_EDIT_} to {_DYNEDIT_}.
+
+
+16. Now if the field is mustFill but is set to readOnly then the field can be modified 
+on record creation, but not editable in the future after the record is created.
+
+
+17. New <b>errorHandler</b> property. Returns true if error should be shown, false to ignore 
+the error. The parameters are:
+
+    $msg = holds the error message
+    $severity = one of {LENSERROR_SEVERE=1, LENSERROR=0, LENSWARNING=-1}
+    $objid = the phpLens object id
+<font color=green>
+function show_error($msg, $severity, $objid)
+{
+	if ($severity  >= LENSERROR_SEVERE) {
+		@mail('admin',"Error $objid",$msg);
+		die();
+	}
+	return true;
+}
+$lens->errorHandler = 'show_error';</font>
+
+ 
+18. PhpLens template skeleton support if you set $lens->debug = -1. Useful for generating
+basic Smarty templates quickly which you can then edit in a graphical html editor.
+
+
+19. Replace details with edit grid. Use with caution as this feature is very new and 
+has not been tested as thoroughly as the rest of phpLens. Uses new property <b>childLens</b>.
+
+Syntax:
+
+$lens->childLens = '{id of child phplens};editdetail';
+
+The string editdetail is a constant that should not be changed. In the future, additional
+constants will be defined to modify the behaviour of the child phpLens object. The id
+of the child phpLens should be a unique value that is not used by other phpLens objects.
+
+Example 1: Simple Example
+<font color=green>
+include_once('./phplens.inc.php');
+session_start();
+
+$db = &ADONewConnection('mysql');
+if (!$db->PConnect('localhost','root','','db')) print 'Error:'.$db->ErrorMsg();
+$lens = new PHPLens('editdet',$db,' select * from  products order by 1 ');
+<b>$lens->childLens = 'editdet2;editdetail';</b>
+$lens->canEdit = true;
+$lens->canDelete = true;
+$lens->canNew = true;
+$lens->Render();
+$lens->Close();
+</font>
+
+Example 2: You want to modify the child phplens object so the top border is green.
+You will need to extend the Clone() method:
+<font color=green>
+include_once('./phplens.inc.php');
+session_start();
+
+class PhpLens2 extends PhpLens {
+	function &Clone()
+	{
+		$lens = PhpLens::Clone();
+		$lens->colorTitle = 'green';
+		$lens->detailLeftColor = 'blue';
+		return $lens;
+	}
+}
+
+$db = &ADONewConnection('mysql');
+if (!$db->PConnect('localhost','root','','db')) print 'Error:'.$db->ErrorMsg();
+$lens = new PHPLens2('editdt',$db,' select * from  products order by 1 ');
+<b>$lens->childLens = 'editdt2;editdetail';</b>
+$lens->canEdit = true;
+$lens->canDelete = true;
+$lens->canNew = true;
+$lens->Render();
+$lens->Close();</font>
+
+20. Better support for input of double-byte characters. Formerly only UTF-8 worked well.
+Now tested extensively with GB and Big5 using NJStar Communicator.
+
+To make all columns support double-byte characters, set 
+    $lens->htmlLens = '*';
+
+21. Blobs can be set to display normal HTML by setting 
+    $lens->htmlLens = 'blobCol1;blobCol2';
+or
+    $lens->htmlLens = '*';
+
+
+22. New inputTypeLens value, "multiple" which allows a listbox to appear:
+
+$lens->inputTypeLens = 'hobbies^multiple';</pre>
+10 September 2001. 
+</body>
+</html>

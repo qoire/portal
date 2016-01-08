@@ -1,0 +1,277 @@
+<html>
+<head>
+<title>phpLens manual: Templates</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000">
+<p align=center><font size=2><a href=index.htm>Table of Contents</a></font></p>
+<h2>Templates</h2>
+You can reconfigure the look and feel of phpLens grids using templates. Template 
+files are created with a .tpl extension and are compiled into .php files. Templates 
+are only available in the Advanced and Enterprise versions. If you are not sure 
+what templates can do, see the edit template example <a href="#templateex">below</a>. 
+<p> Templates use the Smarty Template Engine 1.4.4, an Open Source software by 
+  Monte Ohrt (monte@ispi.net) and Andrei Zmievski (andrei@ispi.net). Information 
+  on Smarty can be found at <a href=http://www.phpinsider.com/php/code/Smarty/>http://www.phpinsider.com/php/code/Smarty/</a>. 
+<p>
+<h3>Installation</h3>
+PHP 4.0.4pl1 or later is recommended for Smarty.
+<p>
+In all directories where you are using phpLens templates, create a <i>templates</i>
+  directory, <i>configs</i> directory and a <i>templates_c</i> directory. Be sure the
+  <i>templates_c</i> directory is writable by your web server user (usually nobody).
+  <pre> chown nobody:nobody templates_c; chmod 700 templates_c</pre>
+  You can also chmod 777 this directory, but be aware of security issues for
+  multi-user systems.
+ <p>
+ Your template files should be placed in the <i>templates</i> directory, and they will be
+ compiled into .php files in the <i>templates_c</i> directory by phpLens.
+<h3>Usage</h3>
+Fields from a database are inserted into a template by replacing all tags of the form:
+{$FIELDNAME} with the field values. The tag must be in uppercase.
+<p>
+All fields are processed in a pipe-line before they are merged into template tags.
+<p>
+Without powerLens, the pipeline start with any lookups (eg. converting country codes from 'ru' to 'Russia'), 
+then performs default html formatting.
+ This forces numbers to align right, and changes empty strings to &amp;nbsp; as shown below:
+<pre>
+  <b>database fields --> lookups --> html formatting --> template merging</b>
+   field['PRICE']                                            {$PRICE}
+      4.95                                        &lt;div align=right>$4.95&lt;/div>              
+
+   field['NAME']                                             {$NAME}
+       ""                                                     &amp;nbsp;                             
+</pre>
+
+With powerLens, we pass the raw data after lookups (eg. converting state codes from 'NY' to 'New York')
+ to the powerLens processor:
+<pre>
+  <b>database fields --> lookups --> powerLens processing --> template merging</b>
+   field['PRICE']                  &lt;b>${PRICE}&lt;/b>             {$PRICE}
+
+      4.95                          &lt;b>$4.95&lt;/b>             &lt;b>$4.95&lt;/b>        
+</pre>
+When the data arrives at the template, the data has been formatted for presentation.
+This means to get the raw values, the html tags will have to be stripped. This can be
+done with the standard PHP function <code>striptags()</code>. And to check if the 
+field is an empty string, a comparison with <code>&amp;nbsp;</code> will have to be made.
+
+<h3>Extending Smarty</h3>
+The phpLens template engine is based on Smarty 1.4. The Smarty engine supports 
+many sophisticated features, including conditional if's (see edit example below). 
+<p>
+Smarty has also been extended to support printing global variables. For example to
+access a global called $PHPGLOBAL  we would use:
+<code>{print_global name="PHPGLOBAL"}</code>
+<p>
+You can replace the Smarty Template Engine with your own engine 
+by modifying the file phplens-template.inc.php, which is a wrapper around Smarty.
+
+<h3>Regenerating Templates</h3>
+By default, tempalte files are automatically recompiled provided
+the Web server process is able to write to the template_c directory.
+
+<h3>Grid Templates</h3>
+Every row of the grid is treated as a separate template invocation using the template file
+defined in <code>$lens->templateGrid</code>. For example, <code>$lens->templateGrid = 'grid.tpl';</code>
+means that the './templates/grid.tpl' file will be compiled into './templates.php/grid.tpl.php'
+and executed for every row of the grid.
+<p>
+The field names (in uppercase) are available as variables containing the html formatted data.
+ The field names with '_T' appended (eg. {$FIELDNAME_T}) hold the field titles defined
+ in phpLens.
+<p>
+The following template variables are also available although they are probably not
+needed as the edit and delete buttons are automatically generated for you outside the
+template.
+<p>
+<ul>
+<li> _DELETE_  &nbsp; contains the delete button code.
+<li> _EDIT_ &nbsp; contains the edit button code.
+<li> _RECNO_ &nbsp; contains the current record number.
+<li> _PRIMARY_ &nbsp; is the urlencoded primary key
+</ul>
+<p>
+An example template file could look like this:
+<pre>
+&lt;table>
+&lt;tr>
+ &lt;td>{$NAME_T}: {$NAME}&lt;/td>&lt;td>{$TEL_T}: {$TEL} &lt;/td>
+&lt;/tr>
+&lt;/table>
+</pre>
+The grid header is provided with its own template: <code>$lens->templateGridHdr</code>.
+<p>
+The forums at <a href=http://phplens.com/>http://phplens.com</a> is an example of grid template usage.
+<p>
+<h3>Detail Templates</h3>
+Every detail table is treated as a separate template invocation using the template file
+defined in <code>$lens->templateDetail</code>. 
+<p>
+The field names (in uppercase) are available as variables containing the html formatted data.
+ The field names with '_T' appended (eg. {$FIELDNAME_T}) hold the field titles defined
+ in phpLens.
+<p>
+The following template variables are also available:
+<ul>
+<li> _DELETE_ &nbsp; contains the delete button code.
+<li> _EDIT_ &nbsp; contains the edit button code.
+<li> _RECNO_ &nbsp; contains the current record number.
+<li> _PRIMARY_ &nbsp; is the urlencoded primary key
+</ul>
+<a href=http://phplens.com/lens/ex/ex303.php>Example 303</a> at the phpLens Web site 
+is an example of detail template usage.
+<p>
+<h3>Layout Templates</h3>
+If you want to control the layout of the captions, menus, and position of the grid and detail tables,
+you can do so with the layout template (<code>$lens->templateLayout</code>).
+<p>
+The following variables are available:
+<p>
+<ul>
+<li>COLORNAVBORDER &nbsp; The color of the navigation menu background.
+<li>LAYOUT_ATTR &nbsp; Holds the layout table attributes, including bgcolor. 
+A synonym for {$LAYOUT_ATTR} is {$COLORBACKGROUND} for historical reasons.
+<li>TOPCAPTION
+<li>BOTTOMCAPTION
+<li>GRIDDATA &nbsp; an array holding an the html for each column
+<li>DETAILDATA &nbsp; the html for the details of a row
+<li>PAGENO &nbsp; the current page number
+<li>NAVMENUS &nbsp; the menus
+<li>ERRORMESSAGES &nbsp; where to display error messages (see also templateShowErrors). 
+</ul>
+<p>
+A sample that mimics the phpLens standard layout:
+<p>
+<pre>
+{if strlen($ERRORMESSAGES)>0}
+{$ERRORMESSAGES}
+{/if}
+&lt;table {$LAYOUT_ATTR} border=0 cellspacing=0 cellpadding=1>
+&lt;tr>&lt;td>
+	&lt;table bgcolor={$COLORNAVBORDER} width=100% border=0 cellspacing=0 cellpadding=0>
+	&lt;tr>&lt;td> &nbsp; {$TOPCAPTION}&lt;/td>&lt;td align=right>{$NAVMENUS}&lt;/td>&lt;/tr>
+	&lt;/table>
+&lt;/td>&lt;/tr>
+&lt;tr>&lt;td>
+&lt;table border=0 width=100% cellspacing=0 cellpadding=0>
+&lt;tr>
+ 	{section name=cols loop=$GRIDDATA}
+ &lt;td valign=top>
+	{$GRIDDATA[cols]}
+ &lt;/td>
+ 	{/section}
+ {if strlen($DETAILDATA)>0}
+ &lt;td valign=top>{$DETAILDATA}&lt;/td>
+ {/if}
+ &lt;/tr>
+&lt;/table>
+&lt;/td>&lt;/tr>
+&lt;tr>&lt;td>
+	&lt;table bgcolor={$COLORNAVBORDER} width=100% border=0 cellspacing=0 cellpadding=0>
+	&lt;tr>&lt;td> &nbsp; {$BOTTOMCAPTION}&lt;/td>&lt;td align=right>{$NAVMENUS}&lt;/td>&lt;/tr>
+	&lt;/table>
+&lt;/td>&lt;/tr>
+&lt;/table>
+</pre>
+<h3>Edit and New Templates</h3>
+Separate templates are provided for edit (<code>$lens->templateEdit</code>)
+ and new (<code>$lens->templateNew</code>) record. 
+<p>
+The input fields are available as variables containing the data {$FIELDNAME}.
+ The field names with '_T' appended (eg. {$FIELDNAME_T}) hold the field titles defined
+ in phpLens. The fields values are available as field names with '_VALUE' appended 
+ (eg. {$FIELDNAME_VALUE}).
+ <p>
+ Other variables:
+<ul>
+<li>_FORMBEGIN_ &nbsp; This holds the &lt;FORM> tag and should be the first template tag. Do not define
+the form tag yourself as attributes and hidden input tags are also added here.
+<li>_FORMEND_ &nbsp; This holds the &lt;/FORM> tag and should be the last template tag. Do not define this
+tag yourself.
+<li>_SUBMIT_  &nbsp; The Submit button.
+<li>_CANCEL_ &nbsp; The Cancel button.
+<li>ERRORMESSAGES &nbsp; where to display error messages (see also templateShowErrors). 
+</ul>
+<a name="templateex"></a>
+<h3>Edit Template Example</h3>
+<p>Suppose we don't want to use the default edit screen and want to define our 
+  own edit screen. In your PHP code add the templateDetail property: </p>
+<pre>
+	$id = 'tpldemo';
+	$sql = 'select NAME,PHONE from USERTABLE';
+	$lens = PHPLensConnect($id,$sql,...);
+	<b>$lens->templateEdit = 'edit.tpl';</b>
+	$lens->Render(); 
+	$lens->Close();
+</pre>
+The bolded line sets the templateEdit property. This will cause the following 
+"edit.tpl" file which is stored in the template subdirectory of that page to be 
+loaded when any record is edited. The tpl file could look like this: 
+<pre>
+	&lt;html>&lt;body>
+	&lt;table border=1>&lt;tr>&lt;td>
+	&lt;h1>Edit&lt;/h1>
+	<b><font color="#000000">{$_FORMBEGIN_}</font></b>
+	{if <b>$NAME_VALUE</b> == "Nelson Mandela"}
+		&lt;img src='/img/mandela.jpg'>&lt;hr>
+	{/if}
+	
+	<b>{$NAME_T}:</b>  <b>{$NAME}</b>&lt;br>
+	<b>{$PHONE_T}</b>:  <b>{$PHONE}</b>&lt;br>
+	<b>{$_SUBMIT_}</b> <b>{$_CANCEL_}</b>&lt;br>
+	
+	<b>{$_FORMEND_}</b>
+	&lt;/td>&lt;/tr>&lt;/table>
+	&lt;/body>&lt;/html>
+</pre>
+<p>This will cause phpLens to ignore its default Edit screen and use the above 
+  screen defined in the tpl file for editing. Note that the template has an IF 
+  condition, so if Nelson Mandela is being displayed, his picture is also shown. 
+  The following HTML is seen by the end-user in the Web browser: </p>
+<p>
+
+<table border=1><tr><td>
+<h1>Edit</h1>
+	<form>
+	Name:  <input type=text value='Roberto Baggio'><br>
+	Phone:   <input type=text value='706-1216'><br>
+	<input type=submit value=Save> <input type=submit value=Cancel><br>
+	</form>
+</td></tr></table>
+<p>The variables used in the tpl file are summarized below:</p>
+<pre>
+	Title Variables
+	===============
+	$NAME_T = 'Name'
+	$PHONE_T = 'Telephone'
+	
+	Input Text Variables
+	====================
+	$NAME = &lt;input type=text name=lens_FC_NAME value='Roberto Baggio'>
+	$PHONE = &lt;input type=text name=lens_FC_PHONE value='706-1216'>
+	
+	Raw Contents of Fields
+	======================
+	$NAME_VALUE = 'Roberto Baggio'
+	$PHONE_VALUE = '706-1216'
+	
+	Buttons
+	=======
+	$_SUBMIT_
+	$_CANCEL_
+	
+	FORM tags
+	========
+	$_FORMBEGIN_ = &lt;form>&lt;input type=hidden name=... value=...>
+	$_FORMEND_ = &lt;/form>
+</pre>
+<h3>New in phpLens 1.1</h3>
+<p>If you set $lens->debug = -1 the detail grid and the edit/create forms will 
+  appear as Smarty template skeletons on which you can base your template design.
+<p> Also *_INPUT variables are no longer supported, and *_VALUE variables were 
+  added.
+</body>
+</html>

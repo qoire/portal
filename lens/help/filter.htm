@@ -1,0 +1,96 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<html>
+<head>
+	<title>phpLens manual: Searching and Filtering</title>
+</head>
+
+<body bgcolor=white>
+<p align=center><font size=2><a href=index.htm>Table of Contents</a></font></p>
+<h2>Searching and Filtering</h2>
+<p>When users clicks on the search <img src=img/filter.gif> icon, a search screen 
+  will appear where they can search for text strings and numeric values. In the 
+  following example, you can search from a popup, use checkboxes to select multiple 
+  "Or" criteria to search on, and enter search criteria in a text box. You can 
+  see that we can also search for all products with less than 10 units in stock. 
+  All text boxes allow you to enter comparison operators (=, !=, &lt;&gt;, &lt;, 
+  &gt;, &lt;=, &gt;=).</p>
+ 
+<p><img src=img/filter1.gif></p>
+<p>You can search for dates using the format defined by the dateInput property. Two digit years 
+will wrap around correctly.</p>
+<h3>Searching by Range</h3>
+<p>We also support search ranges using the special &gt;&lt; operator. To search for all
+products with between 10 to 20 units in stock, use:
+<pre>
+&gt;&lt; 10, 20
+</pre>
+<p>This will generate a query where <i>10 &lt;= UnitsInStock and UnitsInStock &lt;= 20</i>. The
+following also means search between 10 to 20:
+<pre>
+&gt;&lt;10,20
+&gt;&lt;20,10
+</pre>
+<h3>Configuring Search</h3>
+<p>The following configuration screen is diplayed when you click on the white 
+  Supplier <img src="img/editcol.gif" width="14" height="13"> icon. Note that 
+  <i>Use Checkboxe</i>s is enabled. The filter hint is taken from the lookupLens 
+  settings, but is not applied in the search screen automatically so that you 
+  can choose whether to display a text box or popup. </p>
+<p><img src="img/filteroptions.gif" width="501" height="201"></p>
+<p>&nbsp;</p>
+<table width="100%" border="1">
+  <tr> 
+    <td height="18"><b><font face="Arial, Helvetica, sans-serif">How Do I...</font></b></td>
+    <td height="18"><b><font face="Arial, Helvetica, sans-serif">Solution</font></b></td>
+    <td height="18"><b><font face="Arial, Helvetica, sans-serif">Property modified</font></b></td>
+  </tr>
+  <tr> 
+    <td>Decide on which fields to display</td>
+    <td>Click on the green <img src="img/edittab.gif" width="14" height="13"> 
+      icon to see the Filter Columns screen. Then move the fields from left to 
+      right to display, and right to left to hide.</td>
+    <td>filterLens</td>
+  </tr>
+  <tr> 
+    <td>Change the field title</td>
+    <td>Click on the white <img src="img/editcol.gif" width="14" height="13"> 
+      icon for the field you want to modify and change that field's title.</td>
+    <td>nameLens</td>
+  </tr>
+  <tr> 
+    <td>Use a popup instead of a text field</td>
+    <td>Click on the white <img src="img/editcol.gif" width="14" height="13"> 
+      icon for the field you want to modify and set theFilter Options you want 
+      for the popup.</td>
+    <td>filterParams</td>
+  </tr>
+  <tr> 
+    <td>Use checkboxes</td>
+    <td>Click on the white <img src="img/editcol.gif" width="14" height="13"> 
+      icon for the field you want to modify and enable the Use Checkboxes.</td>
+    <td>filterParams</td>
+  </tr>
+  <tr> 
+    <td>Change default string search matching</td>
+    <td>You want to change the default from Match From Beginning (1) to Match 
+      Exactly(0) or Match Anywhere(2). Set the filterUseLike property programmatically.</td>
+    <td>filterUseLike</td>
+  </tr>
+  <tr> 
+    <td>Start phpLens with the search screen</td>
+    <td>Click on the green <img src="img/edittab.gif" width="14" height="13"> 
+      icon to see the Filter Columns screen. Click on <i>phpLens Settings</i> 
+      at the top of the screen. Scroll past the color settings, and set <i>Start 
+      phpLens</i> to <i>Search Form</i>.</td>
+    <td>firstState</td>
+  </tr>
+  <tr>
+    <td>Hide the search form once a search is initiated</td>
+    <td>Set the filterShowForm property to false.</td>
+    <td>filterShowForm</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

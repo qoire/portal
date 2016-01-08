@@ -1,0 +1,57 @@
+<div align=center><a href=javascript:history.back(1)>Back</a></div>
+<html><head><title> validation</title></head>
+<body bgcolor=white>
+
+<table bgcolor=#C0C0C0 align=center border=0 cellspacing=0 cellpadding=1>
+<tr>
+
+
+<td valign=top>
+<TABLE COLS=1 width="100%"  BORDER=1 cellspacing=0 cellpadding=2 >
+<TR><TD colspan=1 bgcolor=black><font color=#F0F0F0 size=2>Editing, Updating and Creating Records</b></font></td></tr><TR bgcolor=white valign=top><TD><font size=2>
+<table border=0 cellspacing=0 width=100%>
+<tr><td bgcolor=papayawhip><font color=black size=+1><b>validation</b></font></td></tr>
+<tr><td bgcolor=white>Javascript or input mask for data and error message on error<hr>Javascript is activated if first character is =. Otherwise we use the following:<table width="75%" border="1"><tr>   <td>X</td>   <td> 0-9 and A-Z, must exist</td>  </tr>  <tr>     <td>x</td> <td>0-9 and A-Z. This character is optional.</td>  </tr> <tr>     <td>#</td>    <td>0-9, must exist.</td></tr><tr> <td>9</td><td>0-9. This character is optional</td></tr><tr> <td>+</td><td>Positive numbers only</td></tr><tr> <td>&amp;</td><td>Any character, must exist</td></tr><tr> <td>?</td><td>Any character, optional</td></tr><tr> <td>\</td><td>escape character</td></tr><tr> <td>&gt;</td><td> <p>Uppercase</p></td></tr><tr><td>&lt;</td><td>Lowercase</td></tr></table><br>
+<br>
+<b>Examples</b><br>
+<table width="75%" border="1">  <tr valign="top">  <td> Telephone numbers with no area code.<br>
+       7 digits must be filled, but some newer phone numbers have 8 digits, so make 1 character optional.<br>
+    </td> <td nowrap><code> 9###-####</code></td>  </tr>  <tr valign="top">     <td>Car part number with the format: 3 digit number, a hyphen followed by  a 3 or 4 letter code</td>    <td nowrap><code>###-XXXx</code></td>  </tr></table><br>
+<br>
+<b> Validation Functions</b><br>
+The first character must be the equals (=) character. The code is not case-sensitive. <br>
+<br>
+<table width="75%" border="1">  <tr>   <td><b>Description</b></td>    <td><b>Code</b></td>  </tr>  <tr>     <td>To validate email of the form: <a   href="mailto:user@domain.com">user@domain.com</a  ></td>    <td><code>=EMAIL</code></td>  </tr>  <tr><td>Credit cards (not yet)</td>    <td><code>=CREDITCARD</code></td>  </tr></table><br>
+<br>
+To validate email a regular expression is used. This regular expression<br>
+is defined as a constant called <code>PHPLENS_EMAIL_REGEX</code>. You can override it by defining this constant before phplens.inc.php is included in your main php file.<br>
+<br>
+The regular expression used is the ugly but powerful: <code><font color=darkgreen>^(\S+@).+((\.com)|(\.edu)|(\.gov)|(\.int)|(\.mil)|(\.net)|(\.org)|(\.info)|(\.biz)|(\.name)|(\.pro)|(\.museum)|(\.coop)|(\.aero)|(\.[a-z]{2,2}))$</font></code><br>
+<br>
+<b>Javascript Regular Expressions</b><br>
+The first character must be the equals (=) character. All subsequent characters  are treated as standard Javascript regular expression characters. <b>/</b><i>expr</i><b>/</b>  delimiters are not required. <br>
+  <br>
+ <table width="75%" border="1"><tr> <td>Value must be either CAR or BOOK, case-insensitive. The $ at the end indicates that no further characters will be accepted.</td>    <td nowrap><code>([Cc][Aa][Rr])|([Bb][Oo][Oo][Kk])$</code></td></tr>  <tr>     <td>Value must begin with 'A' or 'a' followed by any other characters</td>    <td nowrap><code>[aA].*</code></td></tr></table><br>
+<br>
+Remember that the regular expressions are case-sensitive. You do not need to enter the ^ and $ in ^<i>expr</i>$ at the beginning and end of the regular expression as it is done automatically for you by phpLens.<br>
+<br>
+The second optional parameter is the error message on error.<p><b>Syntax</b><br><code><font size=2>$lens = "<i>ColumnName^Validation Mask^Invalid Error Message</i>";<br>
+<br>
+$lens->validation =<br>
+ &nbsp; "PHONE^#######9^Phone number must be 7 or 8 digits";<br>
+<br>
+To treat a column as an email column:<br>
+$lens->validation = 'mailaddress^=EMAIL';</font></code><P> &nbsp;<font color=#C0C0C0>Free:No </font> &nbsp;<font color=#C0C0C0>Basic:No </font> &nbsp;<font color=#C04040><b>Pro:Yes</b></font> &nbsp;<font color=#C04040><b>Advanced/Enterprise:Yes</b></font> &nbsp;<font color=#40A040><b>DynamicEdit:Yes</b></font>&nbsp;&nbsp; <font size=2 color=#808080>[Version 1.0]</font></p>
+</td></tr></table></font></TD></TR>
+
+</TABLE>
+
+</td>
+
+</tr>
+</table>
+</body>
+<!--
+  (c)2000-2001 Remistech Sdn Bhd. All rights reserved.
+  Generated: 2001-10-16 11:10
+-->

@@ -1,0 +1,49 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<html>
+<head>
+	<title>phpLens manual: Customizing Language and Images</title>
+</head>
+
+<body bgcolor=white>
+<p align=center><font size=2><a href=index.htm>Table of Contents</a></font></p>
+<h2>Customizing Language and Images</h2>
+<p>You can define your own language files. For example if you are using Russian, 
+  you should create a <code>phplens/phplens-lang-<b>ru</b>.inc.php</code> file based on 
+  <code>phplens/phplens-lang-en_us.php</code>. 
+</p>
+<p>Then modify the following line in the phplens/config/phplens.config.inc.php 
+  file to use those language files. Change the following line from:</p>
+<pre>define(PHPLENS_LANG_DEFAULT,'en_us'); </pre>
+<p>to</p>
+<pre>define(PHPLENS_LANG_DEFAULT,'ru'); 
+</pre>
+<h3>Images</h3>
+<p>You can also modify the images in the phplens/img directory to control the 
+  look and feel of the screens. If you don't want to overwrite the default images, 
+  you can modify the &lt;img src&gt; tags in the language file. You might also 
+  want to change the image dimensions. The relevant lines in the phplens-lang-en_us.inc.php 
+  are documented here:</p>
+<pre>   var $dynEditIcon = '&lt;img src=&quot;$PHPLENS_PATH/img/editbtn.gif&quot; border=0 alt=&quot;phpLens Settings&quot;&gt;';
+   var $dynEditColIcon = '&lt;img src=&quot;$PHPLENS_PATH/img/editcol.gif&quot;     border=0 alt=&quot;Column Settings&quot;&gt;';
+   var $dynEditTabIcon = '&lt;img src=&quot;$PHPLENS_PATH/img/edittab.gif&quot;    border=0 alt=&quot;Choose Visible Columns&quot;&gt;';
+   var $menuPrev = '&lt;img src=&quot;$PHPLENS_PATH/img/prev.gif&quot; width=20&quot;    height=20 border=0 alt=Previous&gt;';
+   var $menuNext = '&lt;img src=&quot;$PHPLENS_PATH/img/next.gif&quot; width=20&quot;    height=20 border=0 alt=Next&gt;';
+   var $menuBegin = '&lt;img src=&quot;$PHPLENS_PATH/img/begin.gif&quot; width=20    height=20 border=0 alt=Begin&gt;';
+   var $menuEnd = '&lt;img src=&quot;$PHPLENS_PATH/img/end.gif&quot; width=20 height=20    border=0 alt=End&gt;';
+   var $menuFilter = '&lt;img src=&quot;$PHPLENS_PATH/img/filter.gif&quot; width=20    height=20 border=0 alt=Search&gt;';
+   var $menuFilterReset = '&lt;img src=&quot;$PHPLENS_PATH/img/filterreset.gif&quot; width=20 height=20 border=0 alt=&quot;Reset Search&quot;&gt;';
+   var $menuClear = '&lt;img src=&quot;$PHPLENS_PATH/img/dot.gif&quot; width=20    height=20 border=0&gt;';
+   var $menuNew = '&lt;img src=&quot;$PHPLENS_PATH/img/new.gif&quot; width=20 height=20    border=0 alt=&quot;New Record&quot;&gt;';
+   var $iconDel = '&lt;img src=&quot;$PHPLENS_PATH/img/del.gif&quot; width=13    height=13 alt=Delete border=0&gt;';
+   var $iconEdit = '&lt;img src=&quot;$PHPLENS_PATH/img/edit.gif&quot; width=17    height=15 alt=Edit border=0&gt;';
+</pre>
+<p>The phpLens dynamic editor text is stored in the phplens-lang-edit.inc.php 
+  file.</p>
+ <h3>Color Schemes</h3>
+ <p>You can define your own pre-defined color schemes by modifying the 
+ <i>phplens/img/phplens-js-styles.js</i> file. To add a new scheme, add a new element to the
+ PHPLENS_styles[] array. The javascript code will autodetect that the change in the length of the
+ array.
+</body>
+</html>

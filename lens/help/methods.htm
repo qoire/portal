@@ -1,0 +1,137 @@
+
+<head>
+	<title>phpLens manual: Methods</title>
+</head>
+
+<body bgcolor=white>
+<p align=center><font size=2><a href=index.htm>Table of Contents</a></font></p>
+<a href=#functions>Functions</a> &nbsp; <a href=#methods>Methods</a><p>
+<a name=functions>
+<h2>A. Functions</h2>
+These functions can be called at any time.
+<p>
+ <a href="#phplensconnect">PHPLensConnect</a>
+  &nbsp; <a href="#PHPLensPConnect">PHPLensPConnect</a>
+  &nbsp; <a href="#phplenspredictstate">PHPLensPredictState</a>
+  &nbsp; <a href=#phplensstate>PHPLensLastState</a>
+
+<h3>function &<a name="PHPLensConnect">PHPLensConnect</a><font color=#808080>($id,$sql,$dbms,$server,$user=false,$pwd=false,$db=false,$lang='en_us')</font><br>
+function &<a name="PHPLensPConnect">PHPLensPConnect</a><font color=#808080>($id,$sql,$dbms,$server,$user=false,$pwd=false,$db=false,$lang='en_us')</font></h3>
+Two similar functions to connect to a database and return a phpLens object. 
+The PHPLensPConnect function will perform a persistent connection for speed, the other does 
+a normal connect.<p>
+
+<i>Returns</i>: phpLens object or false on failure.<p>
+
+<i>Parameters</i>:
+<ul>
+<li>$<b>id</b>: the unique id that identifies the phpLens object. Also the primary key that maps to
+the phplens configuration table. Must be no more than 10 characters long and consist of
+only alphanumeric characters or underscores.
+<li>$<b>sql</b>: SQL statement to retrieve the records.
+<li>$<b>dbms</b>: RDBMS driver to connect to the database. For the latest legal values, see the ADODB documentation.
+Possible settings include 'mysql', 'postgres', 'mssql', 'oracle', 'sybase', 'access', 'odbc', 'vfp', 'ibase'.
+<li>$<b>server</b>: address of the server (eg. 'localhost'), or the DSN to use.
+<li>$<b>user</b>: login id. Optional.
+<li>$<b>pwd</b>: password. Optional.
+<li>$<b>db</b>: database to connect to. Optional.
+<li>$<b>lang</b>: language file to use. Default is <b>en_us</b>, which means it will look for a file called 
+<i>phplens-lang-en_us.inc.php</i> to load. The file must contain the class <i>PHPLens_en_us</i> which holds 
+the text strings to use.
+So if you want to support Korean, set $lang = 'kr' and create a file called <i>phplens-lang-kr.inc.php</i> which
+contains the class <i>PHPLens_kr</i> to hold the Korean text strings.
+
+</ul>
+
+Source for the functions is provided:
+<i><pre>
+	function &PHPLensConnect 
+		($id,$sql,$dbms,$server,$user=false,$pwd=false,$db=false,$lang='en_us')
+	{
+	 	$conn = &ADONewConnection($dbms);
+	 	if (!$conn->Connect($server,$user,$pwd,$db)) return false;
+	 	return new PHPLens($id,$conn,$sql,$lang);
+	}
+	
+	function &PHPLensPConnect 
+		($id,$sql,$dbms,$server,$user=false,$pwd=false,$db=false,$lang='en_us')
+	{
+	 	$conn = &ADONewConnection($dbms);
+		if (!$conn->PConnect($server,$user,$pwd,$db)) return false;
+	 	return new PHPLens($id,$conn,$sql,$lang);
+	}
+</pre></i>
+
+Example of connecting to MySQL:
+<pre>
+$lens = PHPLensPConnect('RandID','select * from table','localhost','root','pwd','db1');
+</pre>
+
+Example of connecting to Oracle:
+<pre>
+$lens = PHPLensPConnect('ORARand23','select * from table','','scott','tiger','');
+</pre>
+
+Example of connecting to Microsoft SQL Server:
+<pre>
+$lens = PHPLensPConnect('mssql_9','select * from table','192.168.0.1','sa','secret','db');
+</pre>
+
+Example of connecting to MS Access (ODBC) with UK English:
+<pre>
+$lens = PHPLensPConnect('access_98','select * from table','AccessDSN','','','','en_uk');
+</pre>
+
+<h3>function <a name="phplenspredictstate">PHPLensPredictState</a>($id, [$firststate='VIEW'])</h3>
+Returns the predicted next state of the phpLens object as a string by 
+examining the $HTTP_POST_VARS and $HTTP_GET_VARS arrays. 
+This can be called before the phpLens object is created because it reads the state from a session variable. 
+The $id parameter is the unique id used to identify the phpLens object. If the first screen is the
+create new record or filter/search screen, you need to set the $firststate to 'NEW' or 'FILTER'.
+<p>This function is very useful when you want to optimize your SQL statements because you can
+set different SQL statements to use based on the predicted state.<p>
+There are 2 cases where the prediction might not be accurate, on saving a new or updated record. 
+Then the next state should normally be 'VIEW', but if an error is detected before saving, typically 
+because a must fill field has been left empty, then the user will be prompted to edit that must fill 
+field, so the state will not change to 'VIEW'. Thus in the case of saving a new record we return 'NEW?' 
+and on updating a new record we return 'EDIT?'.
+<p>
+See <a href=prop/curState.htm>curState</a> for the legal values, 
+and an example of usage is topics.php at
+<a href=http://phplens.com/lens/lensforum/topics.php?src=1&v=topics>phplens.com</a><p>
+
+<h3>function <a name="phplensstate">PHPLensLastState</a>($id)</h3>
+Returns the last state of the phpLens object as a string.  
+This can be called before the phpLens object
+is created because it reads the state from a session variable.
+The $id parameter is the unique id used to identify the phpLens object.
+See <a href=prop/curState.htm>curState</a> for the legal values.<p>
+
+<a name=methods>
+<h2>B. Methods of phpLens</h2>
+
+These can only be called as an object method, eg. $lens->Render().<p>
+<a href="#Close">Close</a> &nbsp;  <a href="#phplens">PHPLens</a>  &nbsp; <a href="#Render">Render</a><p>
+<h3>function <a name="phplens">PHPLens</a>($id, $dbconnection, $sql, $lang='en_us')</h3>
+Constructor for PHPLens class.<p>
+<i>Returns</i>: phpLens object.<p>
+<i>Parameters</i>:
+<ul>
+<li>$<b>id</b>: the unique id that identifies the phpLens object. Also the primary key that maps to
+the phplens configuration table.
+<li>$<b>dbconnection</b>: ADODB database connection object.
+<li>$<b>sql</b>: SQL statement to retrieve the records
+<li><b>$lang</b>: String that maps to a language file such as phplens-lang-<i>$lang</i>-inc.php. 
+Source code for the language file is provided for you to customize.
+</ul>
+
+<h3>function <a name="render">Render</a>()</h3>
+
+Draws the HTML on the screen.<p>
+
+
+<h3>function <a name="close">Close</a>()</h3>
+
+Frees some data structures, including the recordset. Does not close the database connection.<p>
+
+</body>

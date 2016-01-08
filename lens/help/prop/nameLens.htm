@@ -1,0 +1,36 @@
+<div align=center><a href=javascript:history.back(1)>Back</a></div>
+<html><head><title> nameLens</title></head>
+<body bgcolor=white>
+
+<table bgcolor=#C0C0C0 align=center border=0 cellspacing=0 cellpadding=1>
+<tr>
+
+
+<td valign=top>
+<TABLE COLS=1 width="100%"  BORDER=1 cellspacing=0 cellpadding=2 >
+<TR><TD colspan=1 bgcolor=black><font color=#F0F0F0 size=2>Table Column/Field Titles</b></font></td></tr><TR bgcolor=white valign=top><TD><font size=2>
+<table border=0 cellspacing=0 width=100%>
+<tr><td bgcolor=papayawhip><font color=black size=+1><b>nameLens</b></font></td></tr>
+<tr><td bgcolor=white>Sets the field titles for the grid, detail, edit and new record screens<hr>Default: <code><font size=2>Use the field name</font></code><hr>This allows you to place additional instructions specific to a field when editing it, a different one when creating a new record, or to shorten or rephrase a column title.<br />
+<br />
+To set a blank title, use {nbsp} to set a non-breaking space.<p><b>Syntax</b><br><code><font size=2>$lens->nameLens="<i>grid^edit^new^detail</i>";<br />
+</code><br />
+Consider a column called PHONE and we want to tell users that it accepts the format 999-9999:<br />
+<br />
+<code><font size=3><lens->nameLens="^Edit Phone (999-9999)^New Phone (999-9999)^";</font></code><br />
+<br />
+If you leave a parameter blank, the column name will be used instead.<br />
+<code></font></code><P> &nbsp;<font color=#C04040><b>Free:Yes</b></font> &nbsp;<font color=#C04040><b>Basic:Yes</b></font> &nbsp;<font color=#C04040><b>Pro:Yes</b></font> &nbsp;<font color=#C04040><b>Advanced/Enterprise:Yes</b></font> &nbsp;<font color=#40A040><b>DynamicEdit:Yes</b></font>&nbsp;&nbsp; <font size=2 color=#808080>[Version 1.0]</font></p>
+</td></tr></table></font></TD></TR>
+
+</TABLE>
+
+</td>
+
+</tr>
+</table>
+</body>
+<!--
+  (c)2000-2001 Remistech Sdn Bhd. All rights reserved.
+  Generated: 2001-10-16 11:10
+-->

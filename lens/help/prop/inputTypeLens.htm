@@ -1,0 +1,65 @@
+<div align=center><a href=javascript:history.back(1)>Back</a></div>
+<html><head><title> inputTypeLens</title></head>
+<body bgcolor=white>
+
+<table bgcolor=#C0C0C0 align=center border=0 cellspacing=0 cellpadding=1>
+<tr>
+
+
+<td valign=top>
+<TABLE COLS=1 width="100%"  BORDER=1 cellspacing=0 cellpadding=2 >
+<TR><TD colspan=1 bgcolor=black><font color=#F0F0F0 size=2>Editing, Updating and Creating Records</b></font></td></tr><TR bgcolor=white valign=top><TD><font size=2>
+<table border=0 cellspacing=0 width=100%>
+<tr><td bgcolor=papayawhip><font color=black size=+1><b>inputTypeLens</b></font></td></tr>
+<tr><td bgcolor=white>When editing, display checkbox, radio or submit buttons for selected fields<hr>You can display a field as a set of check boxes, radio buttons or submit buttons using this property. The mustFill property is ignored if this property is set.<br>
+<br>
+<b>Check Boxes</b><br>
+There are 2 types of checkboxes:<br>
+<br>
+First are numeric/boolean checkboxes where you can toggle the checkbox on or off.<br>
+<br>
+Second are multiple selection checkboxes. This works in conjunction with lookupLens which provide the lookup options, and the displaySep property which controls how each selection is used. See an example below.<br>
+<br>
+Checkbox options are saved as comma separated items in the field. To use some other separator, modify the displaySep field.<br>
+<br>
+<b>Radio Buttons</b><br>
+Allows you to select one item only. If you require this to be must fill field, use a popup instead.<br>
+<br>
+<b>Submit Buttons</b><br>
+Useful for approval/workflow forms and surveys. Say you have an approval screen with 3 buttons, Approve, Decline and Send Back. We then have the following code:<br>
+<br>
+<code>$lens->lookupLens = 'status=^Approve/Decline/Send Back';<br>
+$lens->inputTypeLens = 'status^submit';</code><br>
+<br>
+Clicking on any of the buttons will save the "Approve", "Decline" or "Send Back" text into the database field <i>status</i> linked to these set of buttons.<br>
+<br>
+This is available in phpLens 1.2 onwards.<p><b>Syntax</b><br><code><font size=2><i># To select all the cities i like by clicking on multiple checkboxes<br>
+# and then save them into the Cities_I_Like column in the format:<br>
+# "Bukina Faso, London, Verona"</i><br>
+<br>
+$lens->displaySep = ', ';<br>
+$lens->lookupLens = 'select distinct cityname from citylist';<br>
+$lens->inputTypeLens = 'Cities_I_Like^<b>checkbox</b>';<br>
+<br>
+<i># to select only one city from 'NY,Moscow,Beijing':</i><br>
+$lens->lookupLens = 'Cities_I_Like^==NY/Moscow/Beijing';<br>
+$lens->inputTypeLens = 'Cities_I_Like^<b>radio</b>';<br>
+<br>
+<i># to select only one US state, and you want the user to save time<br>
+# by not having to click on the default Save button (which is hidden).<br>
+# We show the state names, but save as state codes ( a mapping):</i><br>
+$lens->lookupLens = 'State^=AR/Arkansas/CA/California/NY/New York';<br>
+$lens->inputTypeLens = 'State^<b>submit</b>';</font></code><P> &nbsp;<font color=#C0C0C0>Free:No </font> &nbsp;<font color=#C0C0C0>Basic:No </font> &nbsp;<font color=#C0C0C0>Pro:No </font> &nbsp;<font color=#C04040><b>Advanced/Enterprise:Yes</b></font> &nbsp;<font color=#40A040><b>DynamicEdit:Yes</b></font>&nbsp;&nbsp; <font size=2 color=#808080>[Version 1.2]</font></p>
+</td></tr></table></font></TD></TR>
+
+</TABLE>
+
+</td>
+
+</tr>
+</table>
+</body>
+<!--
+  (c)2000-2001 Remistech Sdn Bhd. All rights reserved.
+  Generated: 2001-10-16 11:10
+-->

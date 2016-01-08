@@ -1,0 +1,960 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta name="description" content="AWStats Documentation - Configuration directives and parameters">
+<meta name="keywords" content="awstats, awstat, config, parameters, configuration, conf">
+<meta name="robots" content="index,follow">
+<meta name="title" content="AWStats Documentation - Configuration directives and parameters">
+<title>AWStats Documentation - Configuration directives and parameters</title>
+<link rel="stylesheet" href="styles.css" type="text/css">
+</head>
+
+<body topmargin=10 leftmargin=5>
+<!-- $Revision: 1.1.1.1 $ - $Author: sal $ - $Date: 2003/01/28 21:12:59 $ -->
+
+
+<table style="font: 10pt arial,helvetica,verdana" cellpadding=0 cellspacing=0 border=0 bgcolor=#FFFFFF width=100%>
+
+<!-- Large -->
+<tr style="font: 10pt arial,helvetica,verdana">
+<td bgcolor=#9999cc align=center><a href="/"><img src="images/awstats_logo4.png" border=0></a></td>
+<td bgcolor=#9999cc align=center>
+<br>
+<font style="font: 16pt Times;" color=#EEEEFF><b>AWStats logfile analyzer 4.0 Documentation</b></font><br>
+<br>
+</td>
+<td bgcolor=#9999cc align=center>
+&nbsp;
+</td>
+</tr>
+
+</table>
+
+
+<br><br><H1 style="font: 26px Times;">AWStats configuration directives/options</H1>
+<!-- -------------------------------------------------------------------------------------- -->
+
+<br>Each directives available in the AWStats config file (.conf) is listed here.<br>
+They are described using a consistent format.<br>
+<br>
+<b>Notes</b>
+To include an environnement variable in any parameter (AWStats will replaced
+it with its value when reading it), follow the example:<br>
+<i>Parameter="__ENVNAME__"</i>
+<br>
+<br>
+<br>
+<br><b>MAIN SETUP SECTION (Required to make AWStats working)</b><br>
+<ul>
+<li><a href="#LogFile">LogFile</a>
+<li><a href="#LogFormat">LogFormat</a>
+<li><a href="#DNSLookup">DNSLookup</a>
+<li><a href="#DirData">DirData</a>
+<li><a href="#DirCgi">DirCgi</a>
+<li><a href="#DirIcons">DirIcons</a>
+<li><a href="#SiteDomain">SiteDomain</a>
+<li><a href="#HostAliases">HostAliases</a>
+<li><a href="#AllowToUpdateStatsFromBrowser">AllowToUpdateStatsFromBrowser</a>
+</ul>
+
+
+<br><b>OPTIONAL SETUP SECTION (Not required but increase AWStats features)</b><br>
+<ul>
+<li><a href="#AllowAccessFromWebToAuthenticatedUsersOnly">AllowAccessFromWebToAuthenticatedUsersOnly</a>
+<li><a href="#AllowAccessFromWebToFollowingAuthenticatedUsers">AllowAccessFromWebToFollowingAuthenticatedUsers</a>
+<li><a href="#CreateDirDataIfNotExists">CreateDirDataIfNotExists</a>
+<li><a href="#SaveDatabaseFilesWithPermissionsForEveryone">SaveDatabaseFilesWithPermissionsForEveryone</a>
+<li><a href="#PurgeLogFile">PurgeLogFile</a>
+<li><a href="#ArchiveLogRecords">ArchiveLogRecords</a>
+<li><a href="#KeepBackupOfHistoricFiles">KeepBackupOfHistoricFiles</a>
+<li><a href="#DefaultFile">DefaultFile</a>
+<li><a href="#SkipHosts">SkipHosts</a>
+<li><a href="#SkipDNSLookupFor">SkipDNSLookupFor</a>
+<li><a href="#SkipFiles">SkipFiles</a>
+<li><a href="#OnlyFiles">OnlyFiles</a>
+<li><a href="#NotPageList">NotPageList</a>
+<li><a href="#ValidHTTPCodes">ValidHTTPCodes</a>
+<li><a href="#URLWithQuery">URLWithQuery</a>
+<li><a href="#WarningMessages">WarningMessages</a>
+<li><a href="#NbOfLinesForCorruptedLog">NbOfLinesForCorruptedLog</a>
+<li><a href="#SplitSearchString">SplitSearchString</a>
+<li><a href="#Expires">Expires</a>
+<li><a href="#WrapperScript">WrapperScript</a>
+</ul>
+
+<br><b>OPTIONAL ACCURACY SETUP SECTION (Not required but increase AWStats features)</b><br>
+<ul>
+<li><a href="#LevelFor">LevelForRobotsDetection</a>
+<li><a href="#LevelFor">LevelForBrowsersDetection</a>
+<li><a href="#LevelFor">LevelForOSDetection</a>
+<li><a href="#LevelFor">LevelForRefererAnalyze</a>
+</ul>
+
+<br><b>OPTIONAL APPEARANCE SETUP SECTION (Not required but increase AWStats features)</b><br>
+<ul>
+<li><a href="#MaxRowsInHTMLOutput">MaxRowsInHTMLOutput</a>
+<li><a href="#Lang">Lang</a>
+<li><a href="#DirLang">DirLang</a>
+<li><a href="#Show">ShowHeader</a>
+<li><a href="#Show">ShowMenu</a>
+<li><a href="#Show">ShowMonthDayStats</a>
+<li><a href="#Show">ShowDaysOfWeekStats</a>
+<li><a href="#Show">ShowHoursStats</a>
+<li><a href="#Show">ShowDomainsStats</a>
+<li><a href="#Show">ShowHostsStats</a>
+<li><a href="#Show">ShowAuthenticatedUsers</a>
+<li><a href="#Show">ShowRobotsStats</a>
+<li><a href="#Show">ShowPagesStats</a>
+<li><a href="#Show">ShowCompressionStats</a>
+<li><a href="#Show">ShowFileTypesStats</a>
+<li><a href="#Show">ShowFileSizesStats</a>
+<li><a href="#Show">ShowBrowsersStats</a>
+<li><a href="#Show">ShowOSStats</a>
+<li><a href="#Show">ShowOriginStats</a>
+<li><a href="#Show">ShowKeyphrasesStats</a>
+<li><a href="#Show">ShowKeywordsStats</a>
+<li><a href="#Show">ShowHTTPErrorsStats</a>
+<li><a href="#Max">MaxNbOfDomain</a>
+<li><a href="#Max">MaxNbOfHostsShown</a>
+<li><a href="#Max">MinHitHost</a>
+<li><a href="#Max">MaxNbOfLoginShown</a>
+<li><a href="#Max">MinHitLogin</a>
+<li><a href="#Max">MaxNbOfRobotShown</a>
+<li><a href="#Max">MinHitRobot</a>
+<li><a href="#Max">MaxNbOfPageShown</a>
+<li><a href="#Max">MinHitFile</a>
+<li><a href="#Max">MaxNbOfRefererShown</a>
+<li><a href="#Max">MinHitRefer</a>
+<li><a href="#Max">MaxNbOfKeywordsShown</a>
+<li><a href="#Max">MinHitKeyword</a>
+<li><a href="#FirstDayOfWeek">FirstDayOfWeek</a>
+<li><a href="#DetailedReportsOnNewWindows">DetailedReportsOnNewWindows</a>
+<li><a href="#ShowFlagLinks">ShowFlagLinks</a>
+<li><a href="#ShowLinksOnUrl">ShowLinksOnUrl</a>
+<li><a href="#MaxLengthOfURL">MaxLengthOfURL</a>
+<li><a href="#ShowLinksToWhoIs">ShowLinksToWhoIs</a>
+<li><a href="#LinksToWhoIs">LinksToWhoIs</a>
+<li><a href="#HTMLHeadSection">HTMLHeadSection</a>
+<li><a href="#HTMLEndSection">HTMLEndSection</a>
+<li><a href="#Bar">BarWidth</a>
+<li><a href="#Bar">BarHeight</a>
+<li><a href="#Logo">Logo</a>
+<li><a href="#Logo">LogoLink</a>
+<li><a href="#StyleSheet">StyleSheet</a>
+<li><a href="#color_">color_Background</a>
+<li><a href="#color_">color_TableBGTitle</a>
+<li><a href="#color_">color_TableTitle</a>
+<li><a href="#color_">color_TableBG</a>
+<li><a href="#color_">color_TableRowTitle</a>
+<li><a href="#color_">color_TableBGRowTitle</a>
+<li><a href="#color_">color_TableBorder</a>
+<li><a href="#color_">color_text</a>
+<li><a href="#color_">color_titletext</a>
+<li><a href="#color_">color_weekend</a>
+<li><a href="#color_">color_link</a>
+<li><a href="#color_">color_hover</a>
+<li><a href="#color_">color_u</a>
+<li><a href="#color_">color_v</a>
+<li><a href="#color_">color_p</a>
+<li><a href="#color_">color_h</a>
+<li><a href="#color_">color_k</a>
+<li><a href="#color_">color_s</a>
+</ul>
+
+
+<br><br><hr>
+
+<a name="LogFile"><b>LogFile</b></a><br>
+<b>Version : </b>1.0 +<br>
+<br># "LogFile" contains the web server logfile to analyze.
+<br># You can use a full path or relative path from awstats.pl directory.
+<br># Example: "/var/log/apache/access.log"
+<br># Example: "../logs/mycombinedlog.log"
+<br>#
+<br># You can also use tags in this filename if you need a dynamic file name
+<br># depending on date or time (Replacement is made by AWStats at the beginning
+<br># of its execution). This is available tags :
+<br>#  %YYYY-n  is replaced with 4 digits year we were n hours ago
+<br>#  %YY-n    is replaced with 2 digits year we were n hours ago
+<br>#  %MM-n    is replaced with month we were n hours ago
+<br>#  %DD-n    is replaced with day we were n hours ago
+<br>#  %HH-n    is replaced with hour we were n hours ago
+<br>#  %WM-n    is replaced with the week number in month (1-5)
+<br>#  You can use 0 for n if you need current year, month, day, hour...
+<br># Example: "/var/log/access_log.%YYYY-0%MM-0%DD-0.log"
+<br># Example: "C:/WINNT/system32/LogFiles/W3SVC1/ex%YY-24%MM-24%DD-24.log"
+<br>#
+<br>LogFile="/var/log/httpd/mylog.log"
+
+<br><br><hr>
+
+<a name="LogFormat"><b>LogFormat</b></a><br>
+<b>Version : </b>2.1 +<br>
+<br># Put here your log format (Must agree with your web server. See setup
+<br># instructions in README.txt to know how to configure your web server to have
+<br># the required log format).
+<br># Possible values: 1,2,3,4,5 or "your_own_personalized_log_format"
+<br># 1 = Apache native combined log format (NCSA combined/XLF/ELF log format)
+<br># 2 = IIS log format (W3C log format)
+<br># 3 = Webstar native log format
+<br># 4 = Apache or Squid native common log format (NCSA common log format)
+<br>#     With LogFormat=4, some features (browsers, os, keywords...) can't work.
+<br># 5 = ISA server standard log format
+<br># "your_own_personalized_log_format" = If your log is a personalized format,
+<br>#     you must use the following syntax keys to define the log format string:
+<br>#     %host             Host client name or IP address
+<br>#     %logname          Authenticated login/user used on protected pages
+<br>#     %time1            Date and time with format: [dd/mmm/yyyy:hh:mm:ss +0000]
+<br>#     %time2            Date and time with format: yyyy-mm-dd hh-mm-ss
+<br>#     %methodurl        Method and URL with format: "GET /index.html HTTP/x.x"
+<br>#     %methodurlnoprot  Method and URL with format: "GET /index.html"
+<br>#     %method           Method with format: GET
+<br>#     %url              URL only with format: /index.html
+<br>#     %query            Query string (used by URLWithQuery option)
+<br>#     %code             HTTP return code with format: 999
+<br>#     %bytesd           Size of document in bytes
+<br>#     %refererquot      Referer page with format: "http://from.com/from.htm"
+<br>#     %referer          Referer page with format: http://from.com/from.htm
+<br>#     %uaquot           User agent with format: "Mozilla/4.0 (compatible, ...)"
+<br>#     %ua               User agent with format: Mozilla/4.0_(compatible...)
+<br>#     %gzipres          Mod_gzip compression results: STATUS:STATUS
+<br>#     %gzipin           Mod_gzip compression input bytes: In:num_bytes        
+<br>#     %gzipout          Mod_gzip compression output bytes & percentage: Out:num_bytes:%
+<br>#     %syslog           Syslog-specific time and host stamp with format: Mon ddhh:mm:ss hostname
+<br>#     If your log format has some fields not included in this list, use
+<br>#     %other            Means another field
+<br>#
+<br># Examples for Apache combined logs (this two examples are equivalent):
+<br># LogFormat = 1
+<br># LogFormat = "%host %other %logname %time1 %methodurl %code %bytesd %refererquot %uaquot"
+<br># Examples for IIS (this two examples are equivalent):
+<br># LogFormat = 2
+<br># LogFormat = "%time2 %host %logname %method %url %code %bytesd %other %ua %referer"
+<br>#
+<br>LogFormat=1
+
+<br><br><hr>
+
+<a name="DNSLookup"><b>DNSLookup</b></a><br>
+<b>Version : </b>1.0 +<br>
+<br># If you want to have informations on domains/countries visitors, you must ask
+<br># AWStats to make reverse DNS lookup (if not already done in your log file).
+<br># If you set DNSLookup to 1, don't forget that reverse DNS lookup decrease
+<br># seriously AWStats time processing.
+<br># If you keep DNSLookup to 0, all hosts will be reported by the IP addresses
+<br># and not by the full hostname of visitors. Domain/Country chart will also 
+<br># report all visitors from a domain/country "Unknown".
+<br># Possible values: 0 or 1
+<br># Default: 0
+<br># 
+<br>DNSLookup=0
+
+<br><br><hr>
+
+<a name="DirData"><b>DirData</b></a><br>
+<b>Version : </b>1.0 +<br>
+<br># When AWStats updates its statistics, it stores results of its analysis in 
+<br># files (AWStats database). All those files are written in the directory
+<br># defined by the "DirData" parameter. Set this value to the directory where
+<br># you want AWStats to save its database and working files into.
+<br># Warning: If you want to be able to use the "AllowToUpdateStatsFromBrowser"
+<br># feature (see later), you need write permissions by webserver user on this
+<br># directory.
+<br># Example: "/var/cache/awstats"
+<br># Example: "../data"
+<br># Example: "C:/awstats_data_dir"
+<br># Default: "."          (means same directory as awstats.pl)
+<br>#
+<br>DirData="."
+
+<br><br><hr>
+
+<a name="DirCgi"><b>DirCgi</b></a><br>
+<b>Version : </b>1.0 +<br>
+<br># Relative or absolute web URL of your awstats.pl directory.
+<br># This parameter is used only when AWStats is ran from command line
+<br># with -output option (to generate links in HTML reported page).
+<br># Default: "/cgi-bin"   (means awstats.pl is in "/mywwwroot/cgi-bin")
+<br>#
+<br>DirCgi="/cgi-bin"
+
+<br><br><hr>
+
+<a name="DirIcons"><b>DirIcons</b></a><br>
+<b>Version : </b>1.0 +<br>
+<br># Relative or absolute web URL of all icons subdirectories.
+<br># Default: "/icon" (means you must copy icon directories in "/mywwwroot/icon")
+<br>#
+<br>DirIcons="/icon"
+
+<br><br><hr>
+
+<a name="SiteDomain"><b>SiteDomain</b></a><br>
+<b>Version : </b>3.2 +<br>
+<br># "SiteDomain" must contain the main domain name or the main intranet web
+<br># server name used to reach the web site.
+<br># This parameter is only used to generate full URLs links when ShowLinksOnUrl
+<br># option is set to 1.
+<br># Example: "www.mysite.com"
+<br># Example: "user.mydomain.com"
+<br># Example: "myintranetserver"
+<br># Default: ""
+<br>#
+<br>SiteDomain=""
+
+<br><br><hr>
+
+<a name="Hostaliases"><b>Hostaliases</b></a><br>
+<b>Version : </b>1.0 +<br>
+<br># Put here all other possible domain names, addresses or virtual host aliases
+<br># someone can use to access your site. Try to keep only the minimum number of
+<br># possible names/adresses to have the best performances.
+<br># You can repeat the "SiteDomain" value in this list.
+<br># Use space between each value and put a backslash before each dot.
+<br># This parameter is used to analyze referer field in log file and to help
+<br># AWStats to know if a referer URL is a local URL of same site or an URL of
+<br># another site.
+<br># Example: "www.myserver.com x.y.z.w localhost 127.0.0.1"
+<br>#
+<br>HostAliases="www.myserver.com x.y.z.w localhost 127.0.0.1"
+
+<br><br><hr>
+
+<a name="AllowToUpdateStatsFromBrowser"><b>AllowToUpdateStatsFromBrowser</b></a><br>
+<b>Version : </b>3.0 +<br>
+<br># When this parameter is set to 1, AWStats add a button on report page to
+<br># allow to "update" statistics from a web browser. Warning, when "update" is
+<br># made from a browser, AWStats is ran as a CGI by the web server user
+<br># defined in your web server (user "nobody" by default with Apache, "IUSR_XXX"
+<br># with IIS), so the "DirData" directory and all already existing history files
+<br># (awstatsMMYYYY[.xxx].txt) must be writable by this user. Change permissions
+<br># if required.
+<br># Warning: Update process can be long so you might experience "time out"
+<br># browser errors if you don't launch AWStats enough frequently.
+<br># When set to 0, update is only made when AWStats is ran from the command
+<br># line interface (or a task scheduler).
+<br># Possible values: 1 or 0
+<br># Default: 0
+<br>#
+<br>AllowToUpdateStatsFromBrowser=0
+
+<br><br><hr>
+
+<a name="AllowAccessFromWebToAuthenticatedUsersOnly"><b>AllowAccessFromWebToAuthenticatedUsersOnly</b></a><br>
+<b>Version : </b>4.0 +<br>
+<br># The following two parameters allow you to protect a config file to be used
+<br># by your AWStats program called from a browser only if web user has been
+<br># authenticated. Your AWStats program must be in a web protected "realm" (With
+<br># Apache, you can use .htaccess files to do so. With other web servers, see
+<br># your server setup manual).
+<br># Possible values: 1 or 0
+<br># Default: 0
+<br>#
+<br>AllowAccessFromWebToAuthenticatedUsersOnly=0
+
+<br><br><hr>
+
+<a name="AllowAccessFromWebToFollowingAuthenticatedUsers"><b>AllowAccessFromWebToFollowingAuthenticatedUsers</b></a><br>
+<b>Version : </b>4.0 +<br>
+<br># This parameter gives the list of all authorized authenticated users to view
+<br># statistics for this domain/config file. This parameter is used only if
+<br># AllowAccessToAuthenticatedUsersOnly is set to 1.
+<br># Example: "user1 user2"
+<br># Default: ""
+<br>#
+<br>AllowAccessFromWebToFollowingAuthenticatedUsers=""
+
+<br><br><hr>
+
+<a name="CreateDirDataIfNotExists"><b>CreateDirDataIfNotExists</b></a><br>
+<b>Version : </b>4.0 +<br>
+<br># If the "DirData" directory (see above) does not exists, AWStats return an
+<br># error. However, you can ask AWStats to create it. This option can be used by
+<br># some Web Hosting Providers that has defined a dynamic value for DirData (for
+<br># example DirData="/home/__REMOTE_USER__").
+<br># Possible values: 1 or 0
+<br># Default: 0
+<br>#
+<br>CreateDirDataIfNotExists=1
+
+<br><br><hr>
+
+<a name="SaveDatabaseFilesWithPermissionsForEveryone"><b>SaveDatabaseFilesWithPermissionsForEveryone</b></a><br>
+<b>Version : </b>4.0 +<br>
+<br># In most case, AWStats is used as a cgi program. So AWStats process is ran
+<br># by default web server user (nobody for Unix, IUSR_xxx for IIS/Windows,...).
+<br># To make use easier and avoid permission problems between update process 
+<br># (run by an admin user) and CGI process (ran by a low level user), AWStats
+<br># save its database files with read and write for everyone.
+<br># If you have experience on managing security policies (Web Hosting Provider),
+<br># you should set this parameter to 0. AWStats will keep default process user
+<br># permissions on its files.
+<br># Possible values: 1 or 0
+<br># Default: 1
+<br>#
+<br>SaveDatabaseFilesWithPermissionsForEveryone=1
+
+<br><br><hr>
+
+<a name="PurgeLogFile"><b>PurgeLogFile</b></a><br>
+<b>Version : </b>2.23 +<br>
+<br># AWStats can purge log after processing it. By this way, the next time you
+<br># launch AWStats, log file will be smaller and processing time will be better.
+<br># IMPORTANT !!!
+<br># AWStats is able to detect new lines in log file, to process only them, so
+<br># you can launch AWStats as soon as you want, even with this parameter to 0.
+<br># With 0, no purge is made, so you must use a scheduled task or a web server
+<br># that make this purge frequently.
+<br># With 1, the purge of the log file is made each time AWStats is ran.
+<br># This parameter doesn't work with IIS (This web server doesn't let its log
+<br># file to be purged).
+<br># Possible values: 1 or 0
+<br># Default: 0
+<br>#
+<br>PurgeLogFile=0
+
+<br><br><hr>
+
+<a name="ArchiveLogRecords"><b>ArchiveLogRecords</b></a><br>
+<b>Version : </b>2.1 +<br>
+<br># When PurgeLogFile is setup to 1, AWStats will clean your log file after
+<br># processing it. You can however keep an archive file (saved in "DirData") of
+<br># all processed log records by setting this to 1 (For example if you want to
+<br># use another log analyzer).
+<br># This parameter is not used if PurgeLogFile=0
+<br># Possible values: 1 or 0
+<br># Default: 0
+<br>#
+<br>ArchiveLogRecords=0
+
+<br><br><hr>
+
+<a name="KeepBackupOfHistoricFiles"><b>KeepBackupOfHistoricFiles</b></a><br>
+<b>Version : </b>3.2 +<br>
+<br># Each time you run the update process, AWStats overwrite the 'historic file'
+<br># for the month (awstatsMMYYYY[.*].txt) with the updated one.
+<br># When write errors occurs (IO, disk full,...), this historic file can be
+<br># corrupted and must be deleted. Because this file contains information of all
+<br># past processed log files, you will loose old stats if removed. So you can
+<br># ask AWStats to save last non corrupted file in a .bak file. This file is
+<br># stored in "DirData" directory with other 'historic files'.
+<br># Possible values: 1 or 0
+<br># Default: 1
+<br>#
+<br>KeepBackupOfHistoricFiles=0
+
+<br><br><hr>
+
+<a name="DefaultFile"><b>DefaultFile</b></a><br>
+<b>Version : </b>1.0 +<br>
+<br># Index page name for your web server.
+<br># Example: "default.htm"
+<br># Default: "index.html"
+<br>#
+<br>DefaultFile="index.html"
+
+<br><br><hr>
+
+<a name="SkipHosts"><b>SkipHosts</b></a><br>
+<b>Version : </b>1.0 +<br>
+<br># Do not include access from clients that match following criteria.
+<br># If your log file contains IP adresses in host field, you must put here
+<br># matching IP adresses criteria.
+<br># If DNS lookup is already done in your log file, you must put here hostname
+<br># criteria.
+<br># Note: Use space between each value.
+<br># Example: "127.0.0.1 163.84. 201.101.51.1"
+<br># Example: "localhost abcxyz"
+<br># Default: ""
+<br>#
+<br>SkipHosts=""
+
+<br><br><hr>
+
+<a name="SkipDNSLookupFor"><b>SkipDNSLookupFor</b></a><br>
+<b>Version : </b>3.0 +<br>
+<br># You can specify specific IP addresses that should NOT be looked up in
+<br>#  the DNS. You may specify partial addresses (ie 163.85. for everything
+<br>#  behind the usual firewall setup, etc)...
+<br># This is only useful if DNSLookup=1.
+<br># Note: Use space between each value and put a backslash before each dot.
+<br># Example: "163.85. 201.101.51.2"
+<br># Default: ""
+<br>#
+<br>SkipDNSLookupFor=""
+
+<br><br><hr>
+
+<a name="SkipFiles"><b>SkipFiles</b></a><br>
+<b>Version : </b>1.0 +<br>
+<br># Use SkipFiles to ignore access to URLs that match one of following entries.
+<br># You can, with this option, add a list of not important frame pages (like 
+<br># menus, etc...) to exclude them from statistics.
+<br># For example, to ignore a whole directory tree, just add "directorytoignore",
+<br># to ignore "users" pages in your stats, you can add "/~".
+<br># The opposite parameter of "SkipFiles" is "OnlyFiles".
+<br># Note: This parameter is not case sensitive.
+<br># Note: Use space between each value and do not remove default values.
+<br># Note: xxx$ means URL ending with xxx.
+<br># Example: "robots.txt$ favicon.ico$ badpage.html /~"
+<br># Default: "robots.txt$ favicon.ico$"
+<br>#
+<br>SkipFiles="robots.txt$ favicon.ico$"
+
+<br><br><hr>
+
+<a name="OnlyFiles"><b>OnlyFiles</b></a><br>
+<b>Version : </b>3.0 +<br>
+<br># Include in stats, only accesses to URLs that match one of following entries.
+<br># For example, if you want AWStats to filter access to keep only stats that
+<br># match a particular string, like a particular directory, you can add this
+<br># directory name in this parameter.
+<br># The opposite parameter of "OnlyFiles" is "SkipFiles".
+<br># Note: This parameter is not case sensitive.
+<br># Note: Use space between each value and do not remove default values
+<br># Note: \. means . and xxx$ means URL ending by xxx.
+<br># Example: "marketing_directory"
+<br># Default: ""
+<br>#
+<br>OnlyFiles=""
+
+<br><br><hr>
+
+<a name="NotPageList"><b>NotPageList</b></a><br>
+<b>Version : </b>3.2 +<br>
+<br># Add here a list of kind of url (file extension) that must be counted as
+<br># "Hit only" and not as a "Hit" and "Page viewed". You can set here all images
+<br># extensions as they are hit downloaded that must be counted but they are not
+<br># viewed pages. URL with such extensions are not included in the TOP Pages/URL
+<br># report.
+<br># Note: If you want to exclude your own URLs from stats (No Pages and no Hits
+<br># reported), you should use SkipFiles parameter instead.
+<br># Example: ""
+<br># Example: "css js class gif jpg jpeg png bmp zip arj gz z wav mp3 wma mpg"
+<br># Default: "css js class gif jpg jpeg png bmp"
+<br>#
+<br>NotPageList="css js class gif jpg jpeg png bmp"
+
+<br><br><hr>
+
+<a name="ValidHTTPCodes"><b>ValidHTTPCodes</b></a><br>
+<b>Version : </b>4.0 +<br>
+<br># By default, AWStats considers that records found in log file are successful
+<br># hits if HTTP code returned by server is a valid HTTP code (200 and 304).
+<br># Any other code are reported in HTTP error chart.
+<br># However in some specific environnement, with web server HTTP redirection,
+<br># you can choose to also accept other codes.
+<br># Example: "200 304 302 305"
+<br># Default: "200 304"
+<br>#
+<br>ValidHTTPCodes="200 304"
+<br>
+<br><u>This is examples of current HTTP codes</u>
+<br><i>
+<br>200 OK
+<br>201 Created
+<br>202 Accepted
+<br>203 Non-Authorative Information
+<br>204 No Content
+<br>205 Reset Content
+<br>206 Partial Content
+<br>
+<br>300 Multiple Choices
+<br>301 Moved Permanently
+<br>302 Moved Temporarily
+<br>303 See Other
+<br>304 Not Modified
+<br>305 Use Proxy
+<br>
+<br>400 Bad Request
+<br>401 Authorization Required
+<br>402 Payment Required
+<br>403 Forbidden
+<br>404 Not Found
+<br>405 Method Not Allowed
+<br>406 Not Acceptable (encoding)
+<br>407 Proxy Authentication Required
+<br>408 Request Timed Out
+<br>409 Conflicting Request
+<br>410 Gone
+<br>411 Content Length Required
+<br>412 Precondition Failed
+<br>413 Request Entity Too Long
+<br>414 Request URI Too Long
+<br>415 Unsupported Media Type
+<br>
+<br>500 Internal Server Error
+<br>501 Not Implemented
+<br>502 Bad Gateway
+<br>503 Service Unavailable
+<br>504 Gateway Timeout
+<br>505 HTTP Version Not Supported
+</i>
+
+<br><br><hr>
+
+<a name="URLWithQuery"><b>URLWithquery</b></a><br>
+<b>Version : </b>3.2 +<br>
+<br># Keep or attach the query string to the URL in the statistics for individual
+<br># pages. This is primarily used to differentiate between the URLs of dynamic
+<br># pages. If set to 1, mypage.html?id=x and mypage.html?id=y are counted as
+<br># two different pages. Warning, when set to 1, memory required to run AWStats
+<br># is doubled.
+<br># Possible values:
+<br># 0 - URLs are cleaned from the query string (ie: "/mypage.html")
+<br># 1 - Full URL with query string is used     (ie: "/mypage.html?x=y")
+<br># Default: 0
+<br># 
+<br>URLWithQuery=0
+
+<br><br><hr>
+
+<a name="WarningMessages"><b>WarningMessages</b></a><br>
+<b>Version : </b>1.0 +<br>
+<br># AWStats can detect setup problems or show you important informations to have
+<br># a better use. Keep this to 1, except if AWStats says you can change it.
+<br># Possible values: 1 or 0
+<br># Default: 1
+<br>#
+<br>WarningMessages=1
+
+<br><br><hr>
+
+<a name="NbOfLinesForCorruptedLog"><b>NbOfLinesForCorruptedLog</b></a><br>
+<b>Version : </b>3.2 +<br>
+<br># To help you to detect if your log format is good, AWStats report an error
+<br># if the first NbOfLinesForCorruptedLog lines have all a format that does not
+<br># match the LogFormat parameter.
+<br># However, some worm virus attack on your web server can result in a very high
+<br># number of corrupted lines in your log. So if you experience awstats stop
+<br># because of bad virus records, you can increase this parameter (very rare).
+<br># Default: 50
+<br>#
+<br>NbOfLinesForCorruptedLog=50
+
+<br><br><hr>
+
+<a name="SplitSearchString"><b>SplitSearchString</b></a><br>
+<b>Version : </b>2.24 +<br>
+<br># Search engines keywords reported are full search string or separate keywords
+<br># Possible values:
+<br># 0 - Search keywords reported are full search string (ie: "town maps")
+<br># 1 - Search keywords reported are separated words (ie: "town" and "maps")
+<br># Default: 0
+<br>#
+<br>SplitSearchString=0
+
+<br><br><hr>
+
+<a name="Expires"><b>Expires</b></a><br>
+<b>Version : </b>3.1 +<br>
+<br># You can add in the HTML report page a delay to force browsers to reload page
+<br># if page is loaded a second time after this delay (in seconds).
+<br># Example: 3600
+<br># Default: 0
+<br>#
+<br>Expires=0
+
+<br><br><hr>
+
+<a name="WrapperScript"><b>WrapperScript</b></a><br>
+<b>Version : </b>4.0 +<br>
+<br># For some particular integration needs, you may want to have CGI links to
+<br># point to another script than awstats.pl.
+<br># Use the name of this script in WrapperScript parameter.
+<br># Example: "awstatslauncher.pl"
+<br># Default: ""
+<br>#
+<br>WrapperScript=""
+
+<br><br><hr>
+
+<a name="LevelFor"><b>LevelFor</b></a><br>
+<b>Version : </b>4.0 +<br>
+<br># You can change value for following option to increase AWStats capabilities
+<br># (but this reduce AWStats speed).
+<br># Possible values: 0, 1 or 2
+<br># Default: 1
+<br>#
+<br>LevelForRobotsDetection=1	# 0 will increase AWStats speed by 1%.
+<br>LevelForBrowsersDetection=1	# 0 disables Browsers detection. No speed gain.
+<br>LevelForOSDetection=1		# 0 disables OS detection. No speed gain.
+<br>LevelForRefererAnalyze=1	# 0 will increase AWStats speed by 6%.
+
+<br><br><hr>
+
+<a name="MaxRowsInHTMLOutput"><b>MaxRowsInHTMLOutput</b></a><br>
+<b>Version : </b>4.0 +<br>
+<br># To avoid too large web pages, you can ask AWStats to limit number of rows of
+<br># all reported charts to this number when no other limit apply.
+<br># Default: 1000
+<br>#
+<br>MaxRowsInHTMLOutput=1000
+
+<br><br><hr>
+
+<a name="Lang"><b>Lang</b></a><br>
+<b>Version : </b>2.1 +<br>
+<br># Set your primary language.
+<br># Possible value:
+<br>#  Bosnian=ba, Chinese (Taiwan)=tw, Chinese (Traditional)=cn, Czech=cz,
+<br>#  Danish=dk, Dutch=nl, English=en, French=fr, German=de, Greek=gr,
+<br>#  Hungarian=hu, Indonesian=id, Italian=it, Japanese=jp, Korean=kr,
+<br>#  Norwegian (Nynorsk)=nn, Norwegian (Bokmal)=nb, Polish=pl, Portuguese=pt,
+<br>#  Portuguese (Brazilian)=br, Romanian=ro, Russian=ru, Spanish=es, Swedish=se,
+<br>#  Turkish=tr, Ukrainian=ua
+<br># Default: en
+<br>#
+<br>Lang="en"
+
+<br><br><hr>
+
+<a name="DirLang"><b>DirLang</b></a><br>
+<b>Version : </b>2.1 +<br>
+<br># Set the location of language files.
+<br># Example: "/opt/awstats/lang"
+<br># Default: "./lang" (means lang directory is in same location than awstats.pl)
+<br>#
+<br>DirLang="./lang"
+
+<br><br><hr>
+
+<a name="Show"><b>Show...</b></a><br>
+<b>Version : </b>3.2 +<br>
+<br># You choose here which summary report you want to see in the main page.
+<br># Whatever is your setup here, all detailed reports are still available.
+<br># So if you setup to 1 only ShowHeader, ShowMenu and ShowMonthDayStats, all
+<br># links in menu will point to detailed views.
+<br># Possible values: 1 or 0
+<br>#
+<br>ShowHeader=1				# Show AWStats head title and icon
+<br>ShowMenu=1					# Show menu header with links on detailed reports
+<br>ShowMonthDayStats=1
+<br>ShowDaysOfWeekStats=1
+<br>ShowHoursStats=1
+<br>ShowDomainsStats=1
+<br>ShowHostsStats=1
+<br>ShowAuthenticatedUsers=0
+<br>ShowRobotsStats=1
+<br>ShowPagesStats=1
+<br>ShowCompressionStats=0		# Show report of compression stats when using mod_gzip
+<br>ShowFileTypesStats=1
+<br>ShowFileSizesStats=0		# Not yet available
+<br>ShowBrowsersStats=1
+<br>ShowOSStats=1
+<br>ShowOriginStats=1
+<br>ShowKeyphrasesStats=1
+<br>ShowKeywordsStats=1			# Not yet available
+<br>ShowHTTPErrorsStats=1
+
+<br><br><hr>
+
+<a name="Max"><b>Max...</b></a><br>
+<b>Version : </b>1.0 +<br>
+<br># This value can be used to choose maximum number of lines shown for each 
+<br># particular reporting.
+<br>#
+<br># Stats by domains
+<br>MaxNbOfDomain = 25
+<br># Stats by hosts
+<br>MaxNbOfHostsShown = 25
+<br>MinHitHost    = 1
+<br># Stats by authenticated users
+<br>MaxNbOfLoginShown = 10
+<br>MinHitLogin   = 1
+<br># Stats by robots
+<br>MaxNbOfRobotShown = 25
+<br>MinHitRobot   = 1
+<br># Stats by pages
+<br>MaxNbOfPageShown = 25
+<br>MinHitFile    = 1
+<br># Stats by referers
+<br>MaxNbOfRefererShown = 25
+<br>MinHitRefer   = 1
+<br># Stats for keywords
+<br>MaxNbOfKeywordsShown = 25
+<br>MinHitKeyword  = 1
+
+<br><br><hr>
+
+<a name="FirstDayOfWeek"><b>FirstDayOfWeek</b></a><br>
+<b>Version : </b>3.2 +<br>
+<br># Choose if you want week to start on sunday or monday
+<br># Possible values:
+<br># 0 - Week start on sunday
+<br># 1 - Week start on monday
+<br># Default: 1
+<br>#
+<br>FirstDayOfWeek=1
+
+<br><br><hr>
+
+<a name="DetailedReportsOnNewWindows"><b>DetailedReportsOnNewWindows</b></a><br>
+<b>Version : </b>3.2 +<br>
+<br># This parameter ask your browser to open detailed reports into a different
+<br># window than the main page.
+<br># Possible values: 1 or 0
+<br># Default: 1
+<br>#
+<br>DetailedReportsOnNewWindows=1
+
+<br><br><hr>
+
+<a name="ShowFlagLinks"><b>ShowFlagLinks</b></a><br>
+<b>Version : </b>3.2 +<br>
+<br># List of visible flags with link to other language translations.
+<br># If you don't want any flag link, set ShowFlagLinks to "".
+<br># This parameter is used only if ShowHeader is set to 1.
+<br># Possible values: "" or "language_codes_separated_by_space"
+<br># Default: "en es fr it nl es"
+<br>#
+<br>ShowFlagLinks="en fr de it nl es"
+
+<br><br><hr>
+
+<a name="ShowLinksOnUrl"><b>ShowLinksOnUrl</b></a><br>
+<b>Version : </b>3.1 +<br>
+<br># Each URL shown in stats report views are links you can click.
+<br># Possible values: 1 or 0
+<br># Default: 1
+<br>#
+<br>ShowLinksOnUrl=1
+
+<br><br><hr>
+
+<a name="MaxLengthOfURL"><b>MaxLengthOfURL</b></a><br>
+<b>Version : </b>1.0 +<br>
+<br># Maximum length of URL shown on stats page (number of characters). This
+<br># affects only URL visible text, link still work.
+<br># Default: 72
+<br>#
+<br>MaxLengthOfURL=72
+
+<br><br><hr>
+
+<a name="ShowLinksToWhoIs"><b>ShowLinksToWhoIs</b></a><br>
+<b>Version : </b>4.0 +<br>
+<br># AWStats can include a link to WhoIs database on all hostnames. For this, you
+<br># must set ShowLinksToWhoIs to 1. Warning, a such feature depends on next
+<br># parameter (LinksForWhoIs) and on WhoIs server exhaustivity and availability.
+<br># For this reason, this feature can't be a reliable feature.
+<br># Possible values: 1 or 0
+<br># Default: 0
+<br>#
+<br>ShowLinksToWhoIs=0
+
+<br><br><hr>
+
+<a name="LinksToWhoIs"><b>LinksToWhoIs</b></a><br>
+<b>Version : </b>4.0 +<br>
+<br># Set here the link used to point to Internet WhoIs database.
+<br># This parameter is not used if ShowLinksToWhoIs is 0.
+<br># Default: "http://www.whois.net/search.cgi2?str="
+<br># Example: "http://www.netsol.com/cgi-bin/whois/whois?SearchType=all&STRING="
+<br># Example: "http://www.ripe.net/perl/whois?form_type=simple&searchtext="
+<br># Example: "http://www.arin.net/cgi-bin/whois.pl?queryinput="
+<br>#
+<br>LinksToWhoIs="http://www.whois.net/search.cgi2?str="
+
+<br><br><hr>
+
+<a name="HTMLHeadSection"><b>HTMLHeadSection</b></a><br>
+<b>Version : </b>3.2 +<br>
+<br># You can put here HTML code that will be added at the top of AWStats reports.
+<br># Default: ""
+<br>#
+<br>HTMLHeadSection=""
+
+<br><br><hr>
+
+<a name="HTMLEndSection"><b>HTMLEndSection</b></a><br>
+<b>Version : </b>3.2 +<br>
+<br># You can put here HTML code that will be added at the end of AWStats reports.
+<br># Great to add advert ban.
+<br># Default: ""
+<br>#
+<br>HTMLEndSection=""
+
+<br><br><hr>
+
+<a name="Bar"><b>Bar...</b></a><br>
+<b>Version : </b>1.0 +<br>
+<br># Value of maximum bar width/heigth for horizontal/vertical graphics bar
+<br># Default: 260/180
+<br>#
+<br>BarWidth   = 260
+<br>BarHeight  = 180
+
+<br><br><hr>
+
+<a name="Logo"><b>Logo...</b></a><br>
+<b>Version : </b>3.1 +<br>
+<br># You can set Logo and LogoLink to use your own logo.
+<br># Logo must be the name of image file (must be in $DirIcons/other directory).
+<br># LogoLink is the expected URL when clicking on Logo.
+<br># Default: "awstats_logo1.png"
+<br>#
+<br>Logo="awstats_logo1.png"
+<br>LogoLink="http://awstats.sourceforge.net"
+
+<br><br><hr>
+
+<a name="StyleSheet"><b>StyleSheet</b></a><br>
+<b>Version : </b>4.0 +<br>
+<br># You can ask AWStats to use a particular CSS (Cascading Style Sheet) to
+<br># change its look.
+<br># Example: "/css/awstats.css"
+<br># Default: ""
+<br>#
+<br>StyleSheet=""
+
+<br><br><hr>
+
+<a name="color_"><b>color_...</b></a><br>
+<b>Version : </b>Variable<br>
+<br># Those colors parameters can be used (if StyleSheet parameter is not used)
+<br># to change AWStats look.
+<br># Example: color_name="RRGGBB"	# RRGGBB is Red Green Blue components in Hex
+<br>#
+<br>color_Background="FFFFFF"		# Background color for main page (Default = "FFFFFF")
+<br>color_TableBGTitle="CCCCDD"		# Background color for table title (Default = "CCCCDD")
+<br>color_TableTitle="000000"		# Table title font color (Default = "000000")
+<br>color_TableBG="CCCCDD"			# Background color for table (Default = "CCCCDD")
+<br>color_TableRowTitle="FFFFFF"	# Table row title font color (Default = "FFFFFF")
+<br>color_TableBGRowTitle="ECECEC"	# Background color for row title (Default = "ECECEC")
+<br>color_TableBorder="ECECEC"		# Table border color (Default = "ECECEC")
+<br>color_text="000000"				# Color of text (Default = "000000")
+<br>color_textpercent="606060"		# Color of text for percent values (Default = "606060")
+<br>color_titletext="000000"		# Color of text title within colored Title Rows (Default = "000000")
+<br>color_weekend="EAEAEA"			# Color for week-end days (Default = "EAEAEA")
+<br>color_link="0011BB"				# Color of HTML links (Default = "0011BB")
+<br>color_hover="605040"			# Color of HTML on-mouseover links (Default = "605040") 
+<br>color_u="FF9933"				# Background color for number of unique visitors (Default = "FF9933")
+<br>color_v="F3F300"				# Background color for number of visites (Default = "F3F300")
+<br>color_p="4477DD"				# Background color for number of pages (Default = "4477DD")
+<br>color_h="66F0FF"				# Background color for number of hits (Default = "66F0FF")
+<br>color_k="339944"				# Background color for number of bytes (Default = "339944")
+<br>color_s="8888DD"				# Background color for number of search (Default = "8888DD")
+<br>
+
+
+<!-- -------------------------------------------------------------------------------------- -->
+
+<br><hr>
+
+<script language=javascript>
+	var lastmod = new Date(document.lastModified);
+	if (lastmod.getDate() > 0) {
+		if (lastmod.getDate()<10) zerod="0"
+		else zerod="";
+		if (lastmod.getMonth()<9) zerom="0"
+		else zerom=""
+		year2kok=lastmod.getYear();
+		if (year2kok<100) year2kok+=2000;
+		if ((year2kok>=100) && (year2kok < 1970)) year2kok+=1900;
+		document.writeln("Last revision: "+year2kok+"-"+zerom+(lastmod.getMonth()+1)+"-"+zerod+lastmod.getDate());
+	}
+</script>
+
+</body>
+</html>

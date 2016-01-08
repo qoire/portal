@@ -1,0 +1,9 @@
+DirectoryIndex index.php
+
+AuthUserFile /usr/local/etc/htpasswd
+AuthGroupFile /dev/null
+AuthName "dev"
+AuthType Basic
+<Limit GET PUT POST>
+require user brendan nadia andy sal 
+</Limit>

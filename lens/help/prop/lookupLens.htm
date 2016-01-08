@@ -1,0 +1,61 @@
+<div align=center><a href=javascript:history.back(1)>Back</a></div>
+<html><head><title> lookupLens</title></head>
+<body bgcolor=white>
+
+<table bgcolor=#C0C0C0 align=center border=0 cellspacing=0 cellpadding=1>
+<tr>
+
+
+<td valign=top>
+<TABLE COLS=1 width="100%"  BORDER=1 cellspacing=0 cellpadding=2 >
+<TR><TD colspan=1 bgcolor=black><font color=#F0F0F0 size=2>Table Cell formating</b></font></td></tr><TR bgcolor=white valign=top><TD><font size=2>
+<table border=0 cellspacing=0 width=100%>
+<tr><td bgcolor=papayawhip><font color=black size=+1><b>lookupLens</b></font></td></tr>
+<tr><td bgcolor=white>A lens to lookup descriptions of codes and create popups for &lt;select&gt; options<hr>There are 2 types of lookup values. The first is looking up the description of a code. For example mapping the country code <i>ca</i> to <i>Canada</i>, and <i>uk</i> for <i>United Kingdom</i>. The second is when you are editing a record and you want the user to be able to lookup all legal values for that field in a popup menu.<br>
+<br>
+1. Lookup a Code<br>
+Sometimes you are use an abbreviation or a code in a column. You want to translate the abbreviation to something more natural. Use the Lookup Value feature to do so.<br>
+<br>
+You can lookup a value by using a SQL select statement where the first column selected matches the code/abbreviation, and the second column matches the translated value to display. See example below.<br>
+<br>
+SELECT col_id,col_to_display FROM table<br>
+<br>
+To lookup the country names from a list of country codes, you could use:<br>
+<br>
+SELECT Code, CountryName FROM CountryTable<br>
+<br>
+Alternately you can text mappings. Make the first character equals (=), and follow it with your mappings. In the example below, we want to set "1" to lookup "one", "2" to lookup "two", etc.<br>
+<br>
+=1/one/2/two/3/three/4/four<br>
+<br>
+<br>
+2. Lookup Popup Values<br>
+When editing or creating a record, you can give the user a list of legal values to select from by entering SQL of the form<br>
+<br>
+SELECT DISTINCT colname FROM table<br>
+<br>
+If you do not want to use SQL and want to perform text lookups, make use double equals(==) and follow it with your mappings. In the example below, we want legal values to be <i>Yes</i> or <i>No</i>:<br>
+<br>
+==Yes/No<br>
+<br>
+The double equals is available in phpLens 1.1 onwards.<br>
+<br>
+<b>Using variables in your SQL</b><br>
+In phpLens 1.2 onwards, you can access PHP global variables in your SQL statement provided you prefix the statement with a '%'. See examples in the syntax section.<p><b>Syntax</b><br><code><font size=2>$lens->lookupLens='Column^sql statement';<br>
+$lens->lookupLens='Column^=1/one/2/two';<br>
+<br>
+$lens->lookupLens='Column^%select value,caption from $table';<br>
+$lens->lookupLens="Column^%select value,caption from map where key=\$key";</font></code><P> &nbsp;<font color=#C0C0C0>Free:No </font> &nbsp;<font color=#C04040><b>Basic:Yes</b></font> &nbsp;<font color=#C04040><b>Pro:Yes</b></font> &nbsp;<font color=#C04040><b>Advanced/Enterprise:Yes</b></font> &nbsp;<font color=#40A040><b>DynamicEdit:Yes</b></font>&nbsp;&nbsp; <font size=2 color=#808080>[Version 1.0]</font></p>
+</td></tr></table></font></TD></TR>
+
+</TABLE>
+
+</td>
+
+</tr>
+</table>
+</body>
+<!--
+  (c)2000-2001 Remistech Sdn Bhd. All rights reserved.
+  Generated: 2001-10-16 11:10
+-->

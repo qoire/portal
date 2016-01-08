@@ -1,0 +1,119 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<html>
+<head>
+	<title>phpLens manual: Using PowerLens and ColorLens</title>
+</head>
+
+<body bgcolor=white>
+<p align=center><font size=2><a href=index.htm>Table of Contents</a></font></p>
+<h2>Using PowerLens and ColorLens</h2>
+<p> You can reformat a field's data before it is displayed in phpLens using powerLens. 
+  Cell background colors and cell formating can be controlled with the colorLens. 
+  These properties are only available to the Basic, Professional, Advanced and 
+  Enterprise versions. 
+<h3>PowerLens</h3>
+<p>
+
+For example, if you have 2 columns, say firstname and surname you can combine them using:
+<pre>
+{firstname} {surname}
+</pre>
+<p>
+If you want to have the surname first, with the firstname in italics:
+<pre>
+{surname}, &lt;i>{firstname}&lt;/i>
+</pre>
+<p>
+If you want the surname in uppercase you can do so by executing PHP code.
+To execute PHP code, set the first character to an equals (=). This will treat all following text as PHP code. 
+<pre>
+=strtoupper({surname})", &lt;i>".{firstname}."&lt;/i>"
+</pre>
+You can access also global variables using the $GLOBALS[] array, or call PHP functions.
+<p>
+<h3>More Examples</h3>
+<table width="95%" border="1">  <tr>  <td> &nbsp; &nbsp; </td> <td><b>Description</b></td>  
+<td nowrap><b>PowerLens Code</b></td> </tr><tr valign="top">  <td>1</td> <td>Show column {c} as bold</td><td nowrap><code>&lt;b&gt;{c}&lt;/b&gt;</code></td></tr><tr valign="top">  <td>2</td> <td>Capitalize first character of each word in column {c} using the PHP <i>ucwords</i>   function</td> <td nowrap><code>=ucwords({c})</code></td> </tr><tr valign="top"> <td>3</td><td>Combine 3 columns in one: {book}, {chapter}, {verse} so it will appear as <br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [<b>Genesis</b> 2:3]</td>  <td nowrap><code>[&lt;b&gt;{book}&lt;/b&gt; {chapter} : {verse}]</code></td>  </tr><tr valign="top">  <td>4</td><td>Create a hyperlink</td> <td nowrap><code>&lt;a href={linkpage}&gt;{linktext}&lt;/a&gt;</code></td>  </tr></table><br>
+
+<a name=colorLens>
+<h3>ColorLens</h3>
+The powerLens allows you to modify a HTML table cell's contents. The colorLens allows you to 
+control the cell tag (TD) attributes. Two methods to set a cell's color to red:
+<pre>
+$lens->colorLens='col1^red';
+$lens->colorLens='col1^#CC0000';
+</pre>
+<p>
+You can perform conditional color-coding also. Use the equals (=) escape sequence to execute PHP code.
+ Say we want to hilite all products with prices
+greater than $100.00.
+<pre>
+$lens->colorLens="productname^= {price}>100 ? 'red' : 'white'";
+</pre>
+<p>
+Originally the colorLens property was developed to control cell colors, but later
+we realized that it can be extended to set any TD tag attribute.
+For example, you can  change column widths in the example below.
+<pre>
+$lens->colorLens = 'totals^yellow <b>width=200px</b>'; // ... sets the width too
+</pre>
+Note that setting the column width is discretionary. 
+The browser can override this setting if it wants to.
+<p>
+<h3>The Pipe-line</h3>
+All fields are processed in a pipe-line before they are displayed.
+<p>
+With powerLens, we pass the raw data after lookups (eg. converting state codes from 'NY' to 'New York')
+to the powerLens processor.
+<p>
+To show prices in bold.
+<pre>
+  <b>database fields --> lookups --> powerLens processing --> Display</b>
+   field['PRICE']                  &lt;b>${PRICE}&lt;/b>             
+
+      4.95                                                 &lt;b>$4.95&lt;/b>                   
+</pre>
+<p>
+Convert US state codes to the actual state name, and ensure that all characters are
+capitalised.
+<pre>
+  <b>
+database fields --> lookups --> powerLens processing --> Display</b>
+   field['STATE']                =strtoupper({STATE})            
+
+      NY            New York                             NEW YORK 
+</pre>
+<h3>Handling Empty Fields</h3>
+<p>
+There is a problem with the above example. If the field['STATE'] returns an null, phpLens
+assumes that you are displaying this in a grid cell, and will convert the null to a non-breaking space: &amp;nbsp;.
+Here's what happens:
+<pre>
+  <b>
+database fields --> lookups --> powerLens processing --> Display</b>
+   field['STATE']                =strtoupper({STATE})            
+
+      null -> &amp;nbsp;                                     &NBSP;
+</pre>
+And the problem is that &amp;NBSP; will not show as a space but as 6 characters as the non-breaking
+space ISO entity is case-sensitive. The solution is to use the following powerLens:
+<pre>
+= {STATE}=='&amp;nbsp;' ? '&amp;nbsp;' : strtoupper({STATE})  
+</pre>
+<p>
+Unfortunately, the above code will not work as the ; is treated as a special character (the field
+separator) by phpLens. So we have a special variable called {NBSP} that you can use:
+<pre>
+= {STATE}=={NBSP} ? '{NBSP}' : strtoupper({STATE})  
+</pre>
+<p>An alternative method is to use the special {SEMICOLON} variable: 
+<pre>
+= {STATE}=='&amp;nbsp{SEMICOLON}' ? '&amp;nbsp{SEMICOLON}' : strtoupper({STATE})  
+</pre>
+<p>
+The {semicolon} and {nbsp} variables are case-insensitive. You can also generate any ISO entity using the
+{semicolon} variable.
+</body>
+</html>

@@ -1,0 +1,71 @@
+<div align=center><a href=javascript:history.back(1)>Back</a></div>
+<html><head><title> templateLayout</title></head>
+<body bgcolor=white>
+
+<table bgcolor=#C0C0C0 align=center border=0 cellspacing=0 cellpadding=1>
+<tr>
+
+
+<td valign=top>
+<TABLE COLS=1 width="100%"  BORDER=1 cellspacing=0 cellpadding=2 >
+<TR><TD colspan=1 bgcolor=black><font color=#F0F0F0 size=2>Templates</b></font></td></tr><TR bgcolor=white valign=top><TD><font size=2>
+<table border=0 cellspacing=0 width=100%>
+<tr><td bgcolor=papayawhip><font color=black size=+1><b>templateLayout</b></font></td></tr>
+<tr><td bgcolor=white>Template of phpLens in view state<hr>The Smarty template file must be placed in the templates subdirectory of the Web page.<br />
+<br />
+The following template variables are available:<br />
+<br />
+{$COLORNAVBORDER} -- The color of the navigation menu background.<br />
+{$LAYOUT_ATTR} -- all the layout table attributes, including bgcolor<br />
+{$TOPCAPTION} <br />
+{$BOTTOMCAPTION} <br />
+{$GRIDDATA}   -- an array holding an the html for each column<br />
+{$DETAILDATA} -- the html for the details of a row<br />
+{$PAGENO} -- the current page number<br />
+{$NAVMENUS} -- the menus<br />
+{$ERRORMESSAGES} -- where to display error messages (see also templateShowErrors).<br />
+<br />
+A synonym for {$LAYOUT_ATTR} is {$COLORBACKGROUND} for historical reasons.<p><b>Syntax</b><br><code><font size=2>$lens->templateLayout = 'layout.tpl';<br />
+<br />
+<i>Contents of sample layout.tpl:</i><br />
+<br />
+<br />
+&lt;table {$LAYOUT_ATTR} border=0 cellspacing=0 cellpadding=1><br />
+&lt;tr>&lt;td><br />
+ &nbsp; &lt;table bgcolor={$COLORNAVBORDER} width=100% cellspacing=0 cellpadding=0 border=0><br />
+ &nbsp; &lt;tr>&lt;td>   {$TOPCAPTION}&lt;/td>&lt;td align=right>{$NAVMENUS}&lt;/td>&lt;/tr><br />
+ &nbsp; &lt;/table><br />
+&lt;/td>&lt;/tr><br />
+&lt;tr>&lt;td><br />
+&lt;table border=0 width=100% cellspacing=0 cellpadding=0><br />
+&lt;tr><br />
+  &nbsp; {section name=cols loop=$GRIDDATA}<br />
+ &lt;td valign=top><br />
+ &nbsp; {$GRIDDATA[cols]}<br />
+ &lt;/td><br />
+  &nbsp; {/section}<br />
+ {if strlen($DETAILDATA)>0}<br />
+ &lt;td valign=top>{$DETAILDATA}&lt;/td><br />
+ {/if}<br />
+&lt;/tr><br />
+&lt;/table><br />
+&lt;/td>&lt;/tr><br />
+&lt;tr>&lt;td><br />
+ &nbsp; &lt;table bgcolor={$COLORNAVBORDER} width=100% border=0 cellspacing=0 cellpadding=0><br />
+ &nbsp; &lt;tr>&lt;td>   {$BOTTOMCAPTION}&lt;/td>&lt;td align=right>{$NAVMENUS}&lt;/td>&lt;/tr><br />
+ &nbsp; &lt;/table><br />
+&lt;/td>&lt;/tr><br />
+&lt;/table></font></code><P> &nbsp;<font color=#C0C0C0>Free:No </font> &nbsp;<font color=#C0C0C0>Basic:No </font> &nbsp;<font color=#C0C0C0>Pro:No </font> &nbsp;<font color=#C04040><b>Advanced/Enterprise:Yes</b></font> &nbsp;<font color=#C0C0C0>DynamicEdit:No </font>&nbsp;&nbsp; <font size=2 color=#808080>[Version 1.0]</font></p>
+</td></tr></table></font></TD></TR>
+
+</TABLE>
+
+</td>
+
+</tr>
+</table>
+</body>
+<!--
+  (c)2000-2001 Remistech Sdn Bhd. All rights reserved.
+  Generated: 2001-10-16 11:10
+-->

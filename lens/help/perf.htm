@@ -1,0 +1,37 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<html>
+<head>
+	<title>phpLens manual: Performance Tuning</title>
+</head>
+
+<body bgcolor=white>
+<p align=center><font size=2><a href=index.htm>Table of Contents</a></font></p>
+<h2>Performance Tuning phpLens</h2>
+The keys to good performance are:
+
+<ol>
+<li>Tune your SQL statement by <br>
+(a) selecting only columns that are required <br>
+(b) index all important columns in your <i>where</i> clause<p>
+<li> Don't select and view fields with large amounts of data, such as binary images or
+large text fields. View these fields on a special page, not in the main browse page.<p>
+<li>Try to reduce usage of <i>powerLens</i>, <i>sumLens</i> and <i>lookupLens</i> properties. 
+They are powerful, but there is a performance hit.<p>
+  <li>If your database server is overloaded, define a cache directory (eg. set 
+    $ADODB_CACHE_DIR='/tmp') and try setting <i>cacheLookups</i>=60. This will 
+    cache SQL lookups for 60 seconds. Only available on Advanced and Enterprise 
+    versions of phpLens. 
+    <p>
+<li>Instead of using templates, save editing and new record screens as html pages. 
+Then set the phpLens object property <i>securityEditSeq</i> = false. 
+(Enterprise users only)<p>
+<li>Generate PHP code, then set <i>dynEdit</i>=0. 
+This disables dynamic editing, which means one less SQL query to perform.<p>
+<li>Move all files in the img directory to another server to reduce the load on the current phpLens server.
+ You will need to change the <i>imageDir</i> property to match the URL of the directory where the images are residing.<p>
+<li>Use a cache that supports Zend encoded files such as the Zend Cache.<p>
+</ol>
+
+</body>
+</html>

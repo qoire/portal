@@ -1,0 +1,46 @@
+<div align=center><a href=javascript:history.back(1)>Back</a></div>
+<html><head><title> xmlLens</title></head>
+<body bgcolor=white>
+
+<table bgcolor=#C0C0C0 align=center border=0 cellspacing=0 cellpadding=1>
+
+
+<td valign=top>
+<TABLE COLS=1 width="100%"  BORDER=1 cellspacing=0 cellpadding=2 ><TR><TD colspan=2 bgcolor=black><font color=#F0F0F0 size=2>Editing, Updating and Creating Records</b></font></td></tr><TR bgcolor=white valign=top><TD><font size=2>
+<table border=0 cellspacing=0 width=100%>
+<tr><td bgcolor=papayawhip><font color=black size=+1><b>xmlLens</b></font></td></tr>
+<tr><td bgcolor=white>Allows you to create virtual columns stored as XML records<hr>Instead of altering the database table everytime you have a new field to add, store multiple fields as XML in one field.<br>
+<br>
+The following example will generate the following XML in the field XMLSTORE:<br>
+<code><font size=3><br>
+$lens->xmlLens = 'XMLSTORE^NAME32^TITLE';</font><br>
+</code><br>
+And this is the XML generated in the XMLSTORE field when you create a new record:<br>
+<code><font size=3><br>
+&lt;?xml version="1.0"?><br>
+&lt;ROW><br>
+ &lt;NAME32>&lt;/NAME32><br>
+ &lt;TITLE>&lt;/TITLE><br>
+&lt;/ROW></font><br>
+</code><br>
+Two new fields NAME32 and TITLE will be seen in the phpLens grid. Any change in the two fields will overwrite the contents of XMLSTORE. The two new fields can be manipulated using any of the phpLens properties. The field type is set to CHAR automatically.<br>
+<br>
+If a virtual field name ends in a 2 digit number, that is treated as the field length. So NAME32 will be treated as a 32 character long field. TITLE will be treated as a field with unknown length (-1).<br>
+<br>
+There are some limitations:<br>
+1. You cannot filter nor search within a virtual field.<br>
+2. PhpLens cannot store the XML in an Oracle CLOB or BLOB.<br>
+3. Do not modify the XML storage column yourself.<p><b>Syntax</b><br><code><font size=2>$lens->xmlLens = 'Column_to_Store_XML^XMLCol1^XMLCol2^XMLCol3';</font></code><P> &nbsp;<font color=#C0C0C0>Free:No </font> &nbsp;<font color=#C0C0C0>Basic:No </font> &nbsp;<font color=#C0C0C0>Pro:No </font> &nbsp;<font color=#C04040><b>Advanced/Enterprise:Yes</b></font> &nbsp;<font color=#C0C0C0>DynamicEdit:No </font>&nbsp;&nbsp; <font size=2 color=#808080>[Version 1.2]</font></p>
+</td></tr></table></font></TD><TD width=18><a href=/lens/lensman/gen/prop1help.php?rn_proponeX=1&t=R&lens_proponeX=e&lens_p1=209><img src="/php/phplens/img/edit.gif" width=17 height=15 alt=Edit border=0></a></td></TR>
+
+</TABLE>
+
+</td>
+
+</tr>
+</table>
+</body>
+<!--
+  (c)2000-2001 Remistech Sdn Bhd. All rights reserved.
+  Generated: 2001-08-27 12:08
+-->

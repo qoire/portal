@@ -1,0 +1,43 @@
+<div align=center><a href=javascript:history.back(1)>Back</a></div>
+<html><head><title> rowColorLens</title></head>
+<body bgcolor=white>
+
+<table bgcolor=#C0C0C0 align=center border=0 cellspacing=0 cellpadding=1>
+<tr>
+
+
+<td valign=top>
+<TABLE COLS=1 width="100%"  BORDER=1 cellspacing=0 cellpadding=2 >
+<TR><TD colspan=1 bgcolor=black><font color=#F0F0F0 size=2>Table and Grid formating</b></font></td></tr><TR bgcolor=white valign=top><TD><font size=2>
+<table border=0 cellspacing=0 width=100%>
+<tr><td bgcolor=papayawhip><font color=black size=+1><b>rowColorLens</b></font></td></tr>
+<tr><td bgcolor=white>Set the color of rows in the grid dynamically<hr>If the first character is = then the rest of the line is evaluated as PHP code. The default rowColorLens can be seen in the syntax example below:<br>
+<br>
+The following example highlights the selected row:<br>
+<br>
+<code>$lens->rowColorLens = '={_RECNO_}=={_HILITE_RECNO_} ? "#FFCCCC" : false ';</code><br>
+<br>
+where {_RECNO_} is the current row, and {_HILITE_RECNO_} is the selected or highlighted record number.<br>
+<br>
+You can also use column names. For example, to highlight all negative prices in pink:<br>
+<br>
+<code>$lens->rowColorLens = '={PRICE}&lt;0? "#FFCCCC" : false ';</code><br>
+<br>
+If you do not prefix this property with equals, the string will be treated as HTML and not PHP code as in the powerLens property.<p><b>Syntax</b><br><code><font size=2># The source code for LensRowsColor() is in phplens.inc.php<br>
+<br>
+$lens->rowColorLens=<br>
+ '=LensRowColor("#FF8080",{_LENSID_},{_RECNO_},'.<br>
+ '{_RECNO_}=={_HILITE_RECNO_},{_SELECTC_},{_ODDC_},{_EVENC_},{_HASDETAILS_})';</font></code><P> &nbsp;<font color=#C04040><b>Free:Yes</b></font> &nbsp;<font color=#C04040><b>Basic:Yes</b></font> &nbsp;<font color=#C04040><b>Pro:Yes</b></font> &nbsp;<font color=#C04040><b>Advanced/Enterprise:Yes</b></font> &nbsp;<font color=#C0C0C0>DynamicEdit:No </font>&nbsp;&nbsp; <font size=2 color=#808080>[Version 1.2]</font></p>
+</td></tr></table></font></TD></TR>
+
+</TABLE>
+
+</td>
+
+</tr>
+</table>
+</body>
+<!--
+  (c)2000-2001 Remistech Sdn Bhd. All rights reserved.
+  Generated: 2001-10-16 11:10
+-->

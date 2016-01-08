@@ -1,0 +1,23 @@
+BODY {font-family: Verdana, Arial, Helvetica, Geneva, SunSans-Regular, sans-serif ; background: white; color: black; }
+CODE {font-family: "Courier New", Courier, Monaco, monospace ; }
+PRE {font-family: "Courier New", Courier, Monaco, monospace ; }
+HR {color: gray ; }
+.dailytext {font-size: 75%;}
+.navbar {font-size: 100%; font-family: Verdana, Arial, Helvetica, Geneva, SunSans-Regular, sans-serif; background: #FFFF66 ; border-style: none none solid none; border-width: thin; padding: 2px;}
+.linkbox {font-size: 100%; font-family: Verdana, Arial, Helvetica, Geneva, SunSans-Regular, sans-serif; background: #FFFFDD ; border-style: none solid solid none; border-width: thin; padding: 2px;}
+.mlinkbox {font-size: 100%; font-family: Verdana, Arial, Helvetica, Geneva, SunSans-Regular, sans-serif; background: #FFFF66 ; border-style: none solid solid none; border-width: thin; padding: 2px;}
+.dailybox {position:absolute; width:195px; top:150px; right:10px; z-index:4; font-size: 100%; font-family: Verdana, Arial, Helvetica, Geneva, SunSans-Regular, sans-serif; background: #FFFF66 ; border-style: none solid solid none; border-width: thin; padding: 2px;}
+
+.shouts {position:absolute; bottom:10px, left:10px; z-index:4; font-size: 100%; font-family: Verdana, Arial, Helvetica, Geneva, SunSans-Regular, sans-serif; background: #FFFF66 ; padding: 0px;}
+
+.bigbox {position:absolute; left:10px; top:150px; right:190px; z-index:4;}
+.navarea { background: #FFFF66 ; }
+.notrecommended {color: #666666 ; }
+.deemphasized {color: #666666 ; }
+
+.brackets {font-style:italic}
+.quotes {font-weight:bold}
+.related {font-size:smaller}
+
+
+}

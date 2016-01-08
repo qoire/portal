@@ -1,0 +1,79 @@
+<div align=center><a href=javascript:history.back(1)>Back</a></div>
+<html><head><title> filterLikeFunction</title></head>
+<body bgcolor=white>
+
+<table bgcolor=#C0C0C0 align=center border=0 cellspacing=0 cellpadding=1>
+<tr>
+
+
+<td valign=top>
+<TABLE COLS=1 width="100%"  BORDER=1 cellspacing=0 cellpadding=2 >
+<TR><TD colspan=1 bgcolor=black><font color=#F0F0F0 size=2>Filtering and Searching</b></font></td></tr><TR bgcolor=white valign=top><TD><font size=2>
+<table border=0 cellspacing=0 width=100%>
+<tr><td bgcolor=papayawhip><font color=black size=+1><b>filterLikeFunction</b></font></td></tr>
+<tr><td bgcolor=white>Allows you to perform special searching on a column<hr>Allows you override normal WHERE searching clauses, so you can use database specific syntax. Useful for full text search and case-sensitive matching.<p><b>Syntax</b><br><code><font size=2><b>Example 1: MySQL Full Text Search</b><br />
+/*********************************************************************************<br />
+ $colname is the name of the column<br />
+ $oper is the operator to use (LIKE/=)<br />
+ $prefix is the prefix to attach to the search string<br />
+ $suffix is the suffix to attach to the search string<br />
+ $quote = true to let phplens quote the search string, false if you do it yourself<br />
+ $matchMode is 0 == exact match, 1 = match beginning, 2 = match anywhere.<br />
+<br />
+ For example to support say mysql full text search for column 'message':<br />
+ <br />
+  SELECT * FROM articles WHERE MATCH (message) AGAINST ('text');<br />
+*********************************************************************************/<br />
+function LensLikeFn(&$colname,&$oper, &$prefix, &$suffix, &$quote, $matchMode)<br />
+{<br />
+   if (strtoupper($colname) == 'MESSAGE') {<br />
+&nbsp; 	$quote = false;<br />
+&nbsp; 	$colname = " MATCH ($colname) ";<br />
+&nbsp; 	$oper = " AGAINST ";<br />
+&nbsp; 	$prefix = "('";<br />
+&nbsp; 	$suffix = "')";<br />
+ }<br />
+}<br />
+	<br />
+$lens->filterLikeFunction = 'LensLikeFn';<br />
+<br />
+<br />
+<b>Example 2: Switch to using PostgreSQL ILIKE operator</b><br />
+<br />
+# ILIKE is case sensitive<br />
+function LensLikeFn(&$colname,&$oper, &$prefix, &$suffix, &$quote, $matchMode)<br />
+{<br />
+&nbsp; if (strtoupper($oper) == ' LIKE ') $oper = ' ILIKE ';<br />
+}<br />
+$lens->filterLikeFunction = 'LensLikeFn';<br />
+<br />
+<b>Example 3: Using Full Text Search in Microsoft SQL Server</b><br />
+<br />
+/*********************************************************************************<br />
+ To support full text search for column 'message':<br />
+  SELECT * FROM articles WHERE CONTAINS(message,'text');<br />
+*********************************************************************************/<br />
+function LensLikeFn(&$colname,&$oper, &$prefix, &$suffix, &$quote, $matchMode)<br />
+{<br />
+   if (strtoupper($colname) == 'MESSAGE') {<br />
+&nbsp; 	$quote = false;<br />
+&nbsp; 	$oper = " CONTAINS($colname,";<br />
+&nbsp; 	$colname = "";<br />
+&nbsp; 	$prefix = "'";<br />
+&nbsp; 	$suffix = "')";<br />
+ }<br />
+}<br />
+$lens->filterLikeFunction = 'LensLikeFn';</font></code><P> &nbsp;<font color=#C0C0C0>Free:No </font> &nbsp;<font color=#C0C0C0>Basic:No </font> &nbsp;<font color=#C0C0C0>Pro:No </font> &nbsp;<font color=#C04040><b>Advanced/Enterprise:Yes</b></font> &nbsp;<font color=#C0C0C0>DynamicEdit:No </font>&nbsp;&nbsp; <font size=2 color=#808080>[Version 1.3]</font></p>
+</td></tr></table></font></TD></TR>
+
+</TABLE>
+
+</td>
+
+</tr>
+</table>
+</body>
+<!--
+  (c)2000-2001 Remistech Sdn Bhd. All rights reserved.
+  Generated: 2001-10-16 11:10
+-->

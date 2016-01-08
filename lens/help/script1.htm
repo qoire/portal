@@ -1,0 +1,143 @@
+<html>
+<head>
+<title>phplens manual: Your first phpLens script explained</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000">
+<p align=center><font size=2><a href=index.htm>Table of Contents</a></font></p>
+<h2>Your First phpLens Script Explained </h2>
+<pre>01:  &lt;?php
+02:  #include('<font color="#0033CC">./phplens.inc.php</font>');
+03:  session_start();
+04:  $<font color="#990099">lens</font> = PHPLensPConnect('<font color="#0033CC">prodLens</font>', '<font color="#0033CC">select * from Products</font>',
+05:                        '<font color="#0033CC">mysql</font>', '<font color="#0033CC">localhost</font>', '<font color="#0033CC">userid</font>', '<font color="#0033CC">password</font>', '<font color="#0033CC">database</font>');
+06:  $<font color="#990099">lens</font>-&gt;Render();
+07:  $<font color="#990099">lens</font>-&gt;Close();
+08:  ?&gt;
+</pre>
+<p>Let us go line by line over the script:</p>
+<pre>  01: &lt;?php</pre>
+<p>Make sure that the first line of the script file is the above. Don't leave 
+  any empty lines above it. This tells your PHP interpreter to execute the following 
+  lines as PHP code, and not to send any HTML or HTTP commands to the browser 
+  yet.</p>
+<pre>  02: #include('<font color="#0033CC">./phplens.inc.php</font>');</pre>
+<p>Include all required library files needed to run phpLens.</p>
+<pre>  03: session_start(); </pre>
+<p>In Line 3, before any HTML is sent to the browser, configure PHP to use session 
+  variables. Session variables allow PHP to remember what the user was doing 
+  on previous Web pages.</p>
+<pre>  04: $<font color="#990099">lens</font> = PHPLensPConnect('<font color="#0033CC">prodLens</font>', '<font color="#0033CC">select * from Products</font>',</pre>
+<table width="100%" border="0" cellspacing="2" cellpadding="2">
+  <tr>
+    <td width="75%"> 
+      <p>Line 4 creates a new phpLens object ($<font color="#990099">lens</font>) 
+        using the PHPLensPConnect( ) function. </p>
+      <p><code>PHPLensPConnect</code> indicates that a persistent connection is 
+        established. A persistent connection means that the database connection 
+        is not closed at the end of the script but can be reused by other scripts. 
+        This speeds up connections dramatically. </p>
+      <p>We give the phpLens object an <b>id</b> of '<font color="#0033CC"><i>prodLens</i></font>'. 
+        The <b>id</b> is used to identify the object in the internal phpLens database. 
+        Every phpLens object in your code must have a unique id, and it must be 
+        no longer than 10 characters and consist only of alphanumeric (A-Z 0-9) 
+        characters or underscore ( _ ). </p>
+      <p><b>Warning: Very strange behaviour will occur if you have multiple phpLens 
+        objects on different pages sharing the same id because their settings 
+        will conflict with each other.</b></p>
+      <p> In the above example, we also set the SQL statement to use (<font color="#0033CC">select 
+        * from Products</font>). </p>
+      <p>A phpLens object has many properties (variables) attached to it. The 
+        SQL statement above is a property of phpLens. The behaviour of phpLens 
+        is modified by changing these properties. See the discussion of properties 
+        in the next section below.</p>
+      <p>In PHP, variables are prefixed by the $ sign.</p>
+      </td>
+    <td align="center" valign="top"> 
+      <table width="90%" border="1" cellspacing="2" cellpadding="2">
+        <tr>
+          <td>
+            <h4>What is an SQL statement?</h4>
+            <p>These are special commands that retrieve information from a database. 
+              <i><font color="#0033CC">Select * from Products</font> </i>means 
+              retrieve all (*) records from the Products table. </p>
+            </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<pre>  05: '<font color="#0033CC">mysql</font>', '<font color="#0033CC">localhost</font>', '<font color="#0033CC">userid</font>', '<font color="#0033CC">password</font>',    '<font color="#0033CC">database</font>'); </pre>
+<p>Line 5 connect phpLens to the <i><font color="#0033CC">mysql</font></i> system 
+  located at <font color="#0033CC"><i>localhost</i></font>, with the login id 
+  <font color="#0033CC"><i>userid</i></font> and the password <font color="#0033CC"><i>password</i></font>, 
+  and the database to use is called <font color="#0033CC"><i>database</i></font>. 
+  These parameters are normally given to you by your database administrator.</p>
+<pre>  06: $<font color="#990099">lens</font>-&gt;Render();</pre>
+<p>This will draw the phpLens Grid and Details on the Web page. If you need to 
+  script some phpLens properties, you will need to do so before calling Render( 
+  ). </p>
+<pre>  07: $<font color="#990099">lens</font>-&gt;Close();</pre>
+<p>Line 7 will close the internal recordset that contains the database records.</p>
+<pre>  08: ?&gt;</pre>
+<p>The end of the PHP script. PHP will release the $<font color="#990099">lens</font> 
+  object and free all database resources automatically.</p>
+<h2>Properties of phpLens<a name="properties"></a></h2>
+<p>As mentioned above, the SQL statement used to retrieve the data is a property 
+  of phpLens. You can print it also.</p>
+<pre>print $<font color="#990099">lens</font>-&gt;sql;</pre>
+<p>More interesting are the <i>Lens</i> range of properties. Lens properties are 
+  properties that filter or transform the data in some useful way. I like to think 
+  of them as lenses that allow you to refract or magnify the data in some way. 
+  For example, the <i>colorLens</i> property allows you to change the background 
+  color of a particular column, say ProductName with:</p>
+<pre>$<font color="#990099">lens</font>-&gt;colorLens = '<font color="#0033CC">ProductName^yellow</font>';</pre>
+<p>To also change the color of the ProductID column, we use:</p>
+<pre>$<font color="#990099">lens</font>-&gt;colorLens = '<font color="#0033CC">ProductName^yellow;ProductID^beige</font>';</pre>
+<p>Within the string, we use the hat (^) symbol to separate the column name with 
+  its setting. We use the semi-colon (;) to separate each column's settings.</p>
+<p>The colorLens property from be dynamically edited from a Web browser also. 
+  Dynamic editing from a browser is much easier than coding with the cryptic conventions 
+  (but you will soon get used to it!)</p>
+<p>PhpLens has over 150 properties. All the important and commonly used properties 
+  can be set from your Web browser in <a href="tablesettings.htm">Dynamic Editing</a> 
+  mode (which is covered in the next section), except for properties that deal 
+  with security and the navigation bar. </p>
+<table width="360" border="1" cellspacing="2" cellpadding="2" align="center">
+  <tr>
+    <td align="left"><b>Properties</b>: <a href=propall.htm>Alphabetical List</a> 
+      &nbsp; <a href=propcat.htm>Category List</a> <br> <b>Methods</b>: <a href=methods.htm>Alphabetical 
+      List</a> </td>
+  </tr>
+</table>
+<h3>A More Realistic Example</h3>
+<p>This example shows you how to interleave HTML with phpLens code, and where 
+  to place property settings..</p>
+
+<pre>01:  &lt;?php
+02:  #include('<font color="#0033CC">./phplens.inc.php</font>');
+03:  session_start();
+<b>04:  ?&gt;
+05:
+06:  <i>  &lt;html&gt; &lt;head&gt; &lt;title&gt;phpLens demo&lt;/title&gt;&lt;/head&gt;</i> &lt;body&gt;
+07:    &lt;h3&gt;A More Realistic Demo&lt;/3&gt;
+08:
+09:  &lt;?php</b>
+10:  $<font color="#990099">lens</font> = PHPLensPConnect('<font color="#0033CC">prodLens</font>', '<font color="#0033CC">select * from Products</font>',
+11:                        '<font color="#0033CC">mysql</font>', '<font color="#0033CC">localhost</font>', '<font color="#0033CC">userid</font>', '<font color="#0033CC">password</font>', '<font color="#0033CC">database</font>');
+<b>12:</b>
+<b>13:  $<font color="#990099">lens</font>-&gt;password = '<font color="#0033CC">secret</font>';</b>
+<b>14:</b>
+15:  $<font color="#990099">lens</font>-&gt;Render();<font color="#006633"> // generate and print the HTML tables</font>
+16:  $<font color="#990099">lens</font>-&gt;Close(); 
+17:  ?&gt;
+<b>18:     &lt;/body&gt;&lt;/html&gt;</b></pre>
+<p>Lines 4 to 8 show you where to place the HTML header and some HTML.</p>
+<p>Line 13 shows us setting a property <i>password</i> that forces you to enter 
+  a password ('secret') before you can dynamically edit this phpLens object. We 
+  don't allow security properties to be dynamically edited to prevent unauthorised 
+  users from modifying security settings from a Web browser.</p>
+<p>The text after // on line 15 is a comment.</p>
+</body>
+</html>

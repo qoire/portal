@@ -1,0 +1,32 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<html>
+<head>
+	<title>Dynamic Editing with Charts</title>
+</head>
+
+<body bgcolor=white>
+<p align=center><font size=2><a href=index.htm>Table of Contents</a></font></p>
+<h2>Dynamic Editing with Charts</h2>
+Any numeric field can be charted as a horizontal <b>bar chart</b> or 
+<b>icon chart</b>.<p>
+<h3>Bar Charts</h3>
+Bar charts are self-explanatory. Here we chart the stock availability for various products:<p> 
+<div align=center><img src=img/chart.gif></div><p>
+If the chart has both negative and positive numbers, you can choose two different colors for the negative and positive values.
+<p>
+Chart dimensions must be set for bar charts. This is the maximum size of a chart. Set the width and height.
+<p>
+To fit the chart into the chart dimensions, phpLens needs to estimate the maximum and minimum values of the field. You can provide an SQL statement to calculate it here, or hard-code numeric values (this is faster). 
+<h3>Icon Charts</h3>
+<p>Icon charts are figures that are repeated multiple times to
+represent a given quantity.
+For example, if you want to display a red circle for every 10 units in stock, and 68 units were
+sold in a month, the icon chart would display 7 circles.<p>
+<div align=center><img src=img/iconchart.gif></div><p>
+You can define your own images to use for your icon or bar charts; just store the picture
+in the <i>phplens/img/bar</i> directory and phpLens' dynamic editor will autodetect the images.<p>
+Refer to the <a href=prop/chartLens.htm>chartLens</a> property for more information.
+
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<html>
+<head>
+	<title>phpLens manual: Grid Builder</title>
+</head>
+
+<body bgcolor=white>
+<p align=center><font size=2><a href=index.htm>Table of Contents</a></font></p>
+<h2>Grid Builder</h2>
+The Grid Builder allows you to quickly create phpLens objects and <i>Generate 
+PHP Source Code</i> for any table in a list of available databases. Select a database, 
+then a table and the phpLens object for that table is automatically created for 
+you. In the example below, the Region table is being selected and the phpLens 
+representation of that table will be created. 
+<p>
+<img src=img/gridbuilder.gif><p>
+After you complete configuring phpLens the way you want it, click on 
+Generate PHP Code. Save the generated code in a .php file and you are in action!
+
+<h3>Configuring the Grid Builder</h3>
+To configure the phpLens Grid Builder, you need to<br>
+<ol>
+<li>Password protect your Grid Builder directory (you might need to talk to your Webmaster to do this).
+<li>Set the PHPLENS_DIR constant to the location of the phpLens directory.
+<li>Define the databases you want to connect to in <i>PHPLENS_DIR.'/config/phplens.config.inc.php'</i>.
+<li>Password protect this directory to ensure only authorised staff have access to your database.
+</ol>
+
+<h3>PHPLENS_DIR</h3>
+In the latest version of phpLens, PHPLENS_DIR is autoconfigured for you. 
+If for some obscure reason the Grid Builder is not working,
+ you will have to set it in <i>init.php</i>. It's the line that's 
+commented out around lines 5-7.<p>
+The Grid Builder can autoconfigure itself as long as it is 
+placed as a sub-directory of the phplens folder.<p>
+
+<h3>Database Definitions</h3>
+Scroll to the bottom of the file <i>PHPLENS_DIR/config/phplens.config.inc.php</i>.<p>
+
+Search for the following array variable in the file:
+<pre>
+$PHPLENS_DATABASES = 
+array(			//driver, server, userid, pwd, database
+	'northwind' => array('access','nwind','','',''),
+	'phplens data' => array('mysql','phplens','root','password','phplens')
+);
+</pre>
+This lists out all the databases that the Grid Builder can access. The key is the name to display (eg. northwind), 
+and each array element consists of the following <code>array($driver, $server, $userid, $password, $database)</code>.<p>
+
+Legal database drivers include <code>'mysql', 'postgres', 'postgres7', 'mssql', 'sybase', 'oracle', 'oci8',  
+'access', 'vfp', 'odbc', 'ibase'</code>. Refer to ADODB <a href=../adodb/readme.htm>readme.htm</a> file for more information on database drivers.
+<h3>SQL Tool</h3>
+This allows you to enter SQL and see the results coming back. We found it useful
+for debugging SQL and have included it in the phpLens package as an freebie. 
+It does not interact with phpLens at all.<p>
+<i>List Tables</i> provides an easy way to view the tables available in a database. Clicking
+on a table will bring return the table records and some information about each column such
+as the type and maximum length.
+</body>
+</html>

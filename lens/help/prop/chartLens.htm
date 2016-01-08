@@ -1,0 +1,40 @@
+<div align=center><a href=javascript:history.back(1)>Back</a></div>
+<html><head><title> chartLens</title></head>
+<body bgcolor=white>
+
+<table bgcolor=#C0C0C0 align=center border=0 cellspacing=0 cellpadding=1>
+<tr>
+
+
+<td valign=top>
+<TABLE COLS=1 width="100%"  BORDER=1 cellspacing=0 cellpadding=2 >
+<TR><TD colspan=1 bgcolor=black><font color=#F0F0F0 size=2>Charting</b></font></td></tr><TR bgcolor=white valign=top><TD><font size=2>
+<table border=0 cellspacing=0 width=100%>
+<tr><td bgcolor=papayawhip><font color=black size=+1><b>chartLens</b></font></td></tr>
+<tr><td bgcolor=white>Fields listed in this lens are displayed as charts<hr>The field must be of type integer or numeric. There are two types of charts you can create. <br>
+<br>
+<b>Bar Charts</b><br>
+The first is a <i>horizontal bar chart</i>. If the chart has both negative and positive numbers, you can choose two different colors for the negative and positive values.<br>
+<br>
+Chart dimensions must be set for bar charts. This is the maximum size of a chart. Set the width and height.<br>
+<br>
+To fit the chart into the chart dimensions, phpLens needs to estimate the maximum and minimum values of the field. You can provide an SQL statement to calculate it here, or hard-code numeric values (this is faster). <br>
+<br>
+<b>Icon Chart</b> <br>
+The other chart is the <i>icon chart</i>, which shows a picture for every <i>Scale</i> units (rounded up).<br>
+<br>
+<b>Setting Chart Min/Max</b><br>
+The scale of the chart is determined by these settings. Chart Min is the smallest possible value and Chart Max is the largest possible value in that column. You can set this value manually (default), or execute an SQL statement to do this, normally:<pre>select min(col),max(col) from table</pre>From these values and the Chart Dimensions, phpLens is able to scale the chart correctly.<p><b>Syntax</b><br><code><font size=2>$lens->chartLens = 'Col1;Col2;Col3';</font></code><P> &nbsp;<font color=#C0C0C0>Free:No </font> &nbsp;<font color=#C04040><b>Basic:Yes</b></font> &nbsp;<font color=#C04040><b>Pro:Yes</b></font> &nbsp;<font color=#C04040><b>Advanced/Enterprise:Yes</b></font> &nbsp;<font color=#40A040><b>DynamicEdit:Yes</b></font>&nbsp;&nbsp; <font size=2 color=#808080>[Version 1.0]</font></p>
+</td></tr></table></font></TD></TR>
+
+</TABLE>
+
+</td>
+
+</tr>
+</table>
+</body>
+<!--
+  (c)2000-2001 Remistech Sdn Bhd. All rights reserved.
+  Generated: 2001-10-16 11:10
+-->

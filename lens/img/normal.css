@@ -1,0 +1,22 @@
+/*--- The following is fully configurable! ---*/
+a:link {text-decoration:none;}
+a:visited {text-decoration:none;}
+TD {text-align:center; vertical-align:middle;}
+
+/* control the layout, font and font-color of the calendar cell */
+.CalHead {font:bold 10pt Arial; color: MintCream;}
+.CalCell {font:9pt Arial; cursor:hand; text-align:center;}
+.CalTitle {font:bold 12pt Courier; color: white;}
+
+/* styles for the "today" part at the bottom */
+.Today {font:bold 10pt Arial; color:white;}
+
+/* styles for the date selectors (buttons and combos) at the top */
+.HeadBtn {vertical-align:middle; height:22; width:18; font:10pt Fixedsys;}
+.HeadBox {vertical-align:middle; font:10pt;}
+
+/* !!! DO NOT use any inline CSS(i.e. style="xxx") after the calendar tags in your page,
+if you want the calendar working under Netscape 4.x!!! Use CSS class instead and
+=== Add all the CSS classes used after the calendar tags to the following section === */
+.toleft {text-align:left;}
+.toright {text-align:right;}

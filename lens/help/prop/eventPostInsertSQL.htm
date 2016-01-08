@@ -1,0 +1,55 @@
+<div align=center><a href=javascript:history.back(1)>Back</a></div>
+<html><head><title> eventPostInsertSQL</title></head>
+<body bgcolor=white>
+
+<table bgcolor=#C0C0C0 align=center border=0 cellspacing=0 cellpadding=1>
+<tr>
+
+
+<td valign=top>
+<TABLE COLS=1 width="100%"  BORDER=1 cellspacing=0 cellpadding=2 >
+<TR><TD colspan=1 bgcolor=black><font color=#F0F0F0 size=2>Editing, Updating and Creating Records</b></font></td></tr><TR bgcolor=white valign=top><TD><font size=2>
+<table border=0 cellspacing=0 width=100%>
+<tr><td bgcolor=papayawhip><font color=black size=+1><b>eventPostInsertSQL</b></font></td></tr>
+<tr><td bgcolor=white>Name of function to call after New Record is created<hr>The function is passed 3 parameters. The first parameter is $key, the primary key. The second is $insertok which is set to true if the record was inserted correctly. The 3rd parameter is the $lens object.<br />
+<br />
+Note that some PHP extensions do not support the insert_id() function such as Oracle/OCI8 and Interbase (we set $key to the OID in PostgreSQL). For those databases, the $key variable will be empty. If you are using sequences to set the default value of the primary key, then you can still obtain the current value of the sequence. For example if you are using oci8 and $seqname holds the name of your sequence:<br />
+<code><font size=2><br />
+$rs = $lens->connection->Execute("SELECT $seqname.currval FROM dual");<br />
+$key = $rs->fields[0];<br />
+</font></code><p><b>Syntax</b><br><code><font size=2>function preinsert($lens)<br />
+{<br />
+GLOBAL $HTTP_POST_VARS;<br />
+<br />
+ $lens->connection->BeginTrans();<br />
+}<br />
+<br />
+<br />
+function postinsert($key, $insertok, $lens)<br />
+{<br />
+ if ($insertok) {<br />
+    $rs = $lens->Execute("insert into childtable (parent) values ($key)");<br />
+    if ($rs) $lens->connection->CommitTrans();<br />
+    else $insertok = false;<br />
+ }<br />
+<br />
+ if (!$insertok) {<br />
+    $lens->connection->RollbackTrans(); <br />
+ }<br />
+}<br />
+<b><br />
+$lens->eventPreInsertSQL = 'preinsert';<br />
+$lens->eventPostInsertSQL = 'postinsert';</b></font></code><P> &nbsp;<font color=#C0C0C0>Free:No </font> &nbsp;<font color=#C0C0C0>Basic:No </font> &nbsp;<font color=#C04040><b>Pro:Yes</b></font> &nbsp;<font color=#C04040><b>Advanced/Enterprise:Yes</b></font> &nbsp;<font color=#C0C0C0>DynamicEdit:No </font>&nbsp;&nbsp; <font size=2 color=#808080>[Version 1.0]</font></p>
+</td></tr></table></font></TD></TR>
+
+</TABLE>
+
+</td>
+
+</tr>
+</table>
+</body>
+<!--
+  (c)2000-2001 Remistech Sdn Bhd. All rights reserved.
+  Generated: 2001-10-16 11:10
+-->
